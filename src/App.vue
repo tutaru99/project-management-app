@@ -1,33 +1,26 @@
 <template>
-
-  <Navigation />
-  <!--  remove eslint-error with comment below -->
-  <!-- eslint-disable-next-line -->
-  <div class="center">
-      <img src="./assets/logo.png" />
-    <p>
-      If Element Plus is successfully added to this project, you'll see an
-      <code v-text="'<el-button>'"></code>
-      below
-    </p>
-    <el-link href="https://element-plus.org/#/en-US" target="_blank">
-      <el-button type="primary"
-        >Element-Plus button with link</el-button
-      ></el-link
-    >
-    || <el-button type="primary">Element-Plus button w/o link</el-button>
-    <HomeComponent />
-  </div>
+  <el-container id="app">
+    <el-aside>
+      <Navigation />
+    </el-aside>
+    <el-main>
+      <el-row type="flex" justify="center">
+        <el-col :span="24">
+          <router-view />
+        </el-col>
+      </el-row>
+    </el-main>
+  </el-container>
 </template>
 
 <script>
-import HomeComponent from "./components/HomeComponent.vue";
+import Dashboard from "./views/Dashboard.vue";
 import Navigation from "./components/Navigation.vue";
 
 export default {
   name: "App",
   components: {
-    HomeComponent,
+    Dashboard,
     Navigation,
   },
 };
@@ -40,12 +33,10 @@ export default {
   font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: $greybg;
 }
-*{
+* {
   margin: 0;
   padding: 0;
-}
-.center {
-  text-align: center;
 }
 </style>

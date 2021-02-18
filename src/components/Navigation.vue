@@ -15,7 +15,11 @@
           ><i class="el-icon-d-arrow-left"></i
         ></el-radio-button>
       </el-radio-group>
-          <el-divider></el-divider>
+      <el-divider></el-divider>
+      <el-menu-item index="2">
+        <i class="el-icon-menu"></i>
+        <template #title>Dashboard</template>
+      </el-menu-item>
       <el-submenu index="1">
         <template #title>
           <i class="el-icon-location"></i>
@@ -34,17 +38,13 @@
           <el-menu-item index="1-4-1">item one</el-menu-item>
         </el-submenu>
       </el-submenu>
-      <el-menu-item index="2">
+      <el-menu-item index="3">
         <i class="el-icon-menu"></i>
         <template #title>Navigator Two</template>
       </el-menu-item>
-      <el-menu-item index="3" disabled>
-        <i class="el-icon-document"></i>
-        <template #title>Navigator Three</template>
-      </el-menu-item>
       <el-menu-item index="4">
         <i class="el-icon-setting"></i>
-        <template #title>Navigator Four</template>
+        <template #title>Navigator Three</template>
       </el-menu-item>
     </el-menu>
   </div>
@@ -75,6 +75,6 @@ export default {
   width: 200px;
 }
 .el-menu {
-    border-bottom: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
 }
 </style>
