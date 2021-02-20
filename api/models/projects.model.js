@@ -3,7 +3,7 @@ module.exports = mongoose => {
       "project",
       mongoose.Schema(
         {
-          name: String,
+          title: String,
           description: String,
           columns: {
               col_name: String,

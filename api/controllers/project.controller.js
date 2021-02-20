@@ -1,5 +1,5 @@
 const db = require("../models");
-const Project = db.projects;
+const project = db.projects;
 
 // Create and Save a new Project
     exports.create = (req, res) => {
@@ -31,10 +31,19 @@ const Project = db.projects;
             });
         };
 
-// Retrieve all Tutorials from the database.
-exports.findAll = (req, res) => {
-
-};
+        // Retrieve all Projects from the database.
+        exports.findAll = (req, res) => {
+            project.find()
+            .then(data => {
+                res.send(data);
+            })
+            .catch(err => {
+                res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving Projects."
+                });
+            });
+        };
 
 // Find a single Project with an id
 exports.findOne = (req, res) => {
