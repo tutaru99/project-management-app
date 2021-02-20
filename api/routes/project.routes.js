@@ -3,27 +3,32 @@ module.exports = app => {
     var jsonParser = bodyParser.json()
     const projects = require("../controllers/project.controller.js");
 
+    app.use(bodyParser.urlencoded({ extended: true }));
+    app.use(bodyParser.json());
+
     var router = require("express").Router();
 
-    // Create a new Tutorial
+    // Create a new Project
     router.post("/", jsonParser , projects.create);
 
-    // Retrieve all Tutorials
+    // Retrieve all Projects by Condition
+    router.get("/completed", projects.findAllCompleted);
+
+    // Retrieve all Project
     router.get("/", projects.findAll);
 
-    // Retrieve all published Tutorials
-    router.get("/published", projects.findAllPublished);
-
-    // Retrieve a single Tutorial with id
+    // Retrieve a single Project by ID
     router.get("/:id", projects.findOne);
 
-    // Update a Tutorial with id
+
+    // Update a Project with ID
     router.put("/:id", projects.update);
 
-    // Delete a Tutorial with id
+    // Delete a Project with ID
     router.delete("/:id", projects.delete);
 
-    // Create a new Tutorial
+
+    // DELETE ALL Projects
     router.delete("/", projects.deleteAll);
 
     app.use('/api/projects', router);
