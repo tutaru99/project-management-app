@@ -1,35 +1,35 @@
 module.exports = app => {
-    var bodyParser = require('body-parser')
-    var jsonParser = bodyParser.json()
-    const projects = require("../controllers/project.controller.js");
+  var bodyParser = require('body-parser')
+  var jsonParser = bodyParser.json()
+  const projects = require("../controllers/project.controller.js");
 
-    app.use(bodyParser.urlencoded({ extended: true }));
-    app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.json());
 
-    var router = require("express").Router();
+  var router = require("express").Router();
 
-    // Create a new Project
-    router.post("/", jsonParser , projects.create);
+  // Create a new Project
+  router.post("/", jsonParser, projects.create);
 
-    // Retrieve all Projects by Condition
-    router.get("/completed", projects.findAllCompleted);
+  // Retrieve all Projects by Condition
+  router.get("/completed", projects.findAllCompleted);
 
-    // Retrieve all Project
-    router.get("/", projects.findAll);
+  // Retrieve all Project
+  router.get("/", projects.findAll);
 
-    // Retrieve a single Project by ID
-    router.get("/:id", projects.findOne);
-
-
-    // Update a Project with ID
-    router.put("/:id", projects.update);
-
-    // Delete a Project with ID
-    router.delete("/:id", projects.delete);
+  // Retrieve a single Project by ID
+  router.get("/:id", projects.findOne);
 
 
-    // DELETE ALL Projects
-    router.delete("/", projects.deleteAll);
+  // Update a Project with ID
+  router.put("/:id", projects.update);
 
-    app.use('/api/projects', router);
-  };
+  // Delete a Project with ID
+  router.delete("/:id", projects.delete);
+
+
+  // DELETE ALL Projects
+  router.delete("/", projects.deleteAll);
+
+  app.use('/api/projects', router);
+};
