@@ -9,7 +9,7 @@ const routes = [
     component: Dashboard
   },
   {
-    path: '/ProjectBoard',
+    path: '/projectboard/:id',
     name: 'ProjectBoard',
     component: ProjectBoard
   },

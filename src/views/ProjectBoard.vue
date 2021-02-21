@@ -2,9 +2,12 @@
   <div>
     <div class="board-layout">
       <div class="left">
-        <div class="board-text"> {{  }} Board</div>
+        <div class="board-text">Board</div>
+          <div v-for="project in projectData"
+            :key="project.key">
+                <p> {{ project.title }} </p>
+        </div>
       </div>
-
       <div id="boardlists" class="board-lists">
         <div
           id="list1"
@@ -14,9 +17,12 @@
         >
           <div class="list-title">To Do</div>
 
-          <div id="card1" class="card" 
+          <div
+            id="card1"
+            class="card"
             draggable="true"
-            @dragstart="dragStart($event)">
+            @dragstart="dragStart($event)"
+          >
             Work on article
           </div>
           <div
@@ -75,8 +81,30 @@
 
 
 <script>
+import axios from "axios";
+
 export default {
+
+  data() {
+    return {
+      projectData: [],
+    };
+  },
+
+  mounted() {
+    this.getProject();
+  },
+
   methods: {
+    async getProject() {
+      await axios
+        .get("http://localhost:3000/api/projects/60324482dcf2951b5cb7f315")
+        .then(
+          (response) => (
+            (this.project = response.data), console.log(response)
+          )
+        );
+    },
     allowDrop(ev) {
       ev.preventDefault(); // default is not to allow drop
     },

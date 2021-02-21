@@ -2,22 +2,25 @@
   <div>
     <el-main>
       <el-row type="flex">
-        <el-col :span="10">
+        <el-col :span="10" :offset="2">
           <div>
             <h1>Projects</h1>
             <br>
             <div v-for="project in projectsData"
-            :key="project.title">
+            :key="project.key">
               <div class="projectsWrapper">
                 <h4>{{ project.title }}</h4>
                 <p>{{ project.description }}</p>
                 <p id="completed" v-if="project.completed == true">Completed</p>
-                <p id="inProgress" v-else>In Progress</p>
-                <el-row type="flex" justify="center">
-                  <span id="dateCreated">Created: {{ project.createdAt.split("T").shift() }}</span>
+                <p id="inProgress" v-else>Ongoing</p>
+                <p>-total hours assigned, total hours spent, total time left</p>
+                <p>-date when the project ends?</p>
+                <p>-group members in this project</p>
+                <el-row type="flex" justify="end">
+                  <router-link :to="{ path: '/projectboard/' + project._id }"><el-button id="linkProject" type="primary" >Open Project</el-button></router-link>
                 </el-row>
                 <el-row type="flex" justify="end">
-                  <el-button id="linkProject" >Open Project</el-button>
+                  <span id="dateCreated">Created: {{ project.createdAt.split("T").shift() }}</span>
                 </el-row>
               </div>
             </div>
@@ -44,7 +47,6 @@ export default {
   data() {
     return {
       projectsData: [],
-      projectStatus: "",
     };
   },
   mounted() {
