@@ -6,6 +6,7 @@
       @open="handleOpen"
       @close="handleClose"
       :collapse="isCollapse"
+      router="true"
     >
       <el-radio-group v-model="isCollapse">
         <el-radio-button circle v-if="isCollapse == true" :label="false"
@@ -16,9 +17,13 @@
         ></el-radio-button>
       </el-radio-group>
       <el-divider></el-divider>
-      <el-menu-item index="2">
+      <el-menu-item index="/">
         <i class="el-icon-menu"></i>
         <template #title>Dashboard</template>
+      </el-menu-item>
+      <el-menu-item index="projectboard">
+        <i class="el-icon-setting"></i>
+        <template #title>Project Board</template>
       </el-menu-item>
       <el-submenu index="1">
         <template #title>

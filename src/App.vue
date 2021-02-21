@@ -1,6 +1,7 @@
 <template>
   <el-container id="app">
-    <el-aside>
+    <!-- undefined width style makes drawer responsive on minimize/maximize -->
+    <el-aside style="width: ">
       <Navigation />
     </el-aside>
     <el-main>
@@ -33,7 +34,6 @@ export default {
   font-family: "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: $greybg;
 }
 * {
   margin: 0;
