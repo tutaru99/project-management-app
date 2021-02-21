@@ -17,7 +17,7 @@
                   <span id="dateCreated">Created: {{ project.createdAt.split("T").shift() }}</span>
                 </el-row>
                 <el-row type="flex" justify="end">
-                  <el-link id="linkProject" href="" type="primary">Open Project</el-link>
+                  <el-button id="linkProject" >Open Project</el-button>
                 </el-row>
               </div>
             </div>

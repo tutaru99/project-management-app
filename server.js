@@ -6,9 +6,6 @@ require('dotenv').config()
 const app = express();
 require("./api/routes/project.routes.js")(app);
 
-var corsOptions = {
-  origin: "http://localhost:8080"
-};
 
 app.use(cors());
 
@@ -28,18 +25,11 @@ const PORT = process.env.API_PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-app.use(function (req, res, next) {
-  // Website we wish to allow to connect, should be changed for production
-  res.setHeader('Access-Control-Allow-Origin', '*')
-
-  // Request methods we wish to allow
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE')
-
-  // Request headers we wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'Authorization,X-Requested-With,content-type,XMLHttpRequest')
-
-  next()
-})
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 const db = require("./api/models");
 db.mongoose

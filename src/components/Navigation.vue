@@ -6,7 +6,7 @@
       @open="handleOpen"
       @close="handleClose"
       :collapse="isCollapse"
-      router="true"
+      router
     >
       <el-radio-group v-model="isCollapse">
         <el-radio-button circle v-if="isCollapse == true" :label="false"
