@@ -1,34 +1,49 @@
 <template>
   <div>
-    <div class="board-layout">
+    <!-- v-if acts as a loader otherwise data doesnt show -->
+    <div class="board-layout" v-if="projectData">
       <div class="left">
-        <div class="board-text" >Board</div>
-        <!-- v-if acts as a loader otherwise data doesnt show -->
-        <div v-if="projectData">
-        <p > {{ projectData.title }} </p>
-        <p > {{ projectData.description }} </p>
-
-               {{ $route.params }}
-        </div>
-
+        <div class="board-text">{{ projectData.title }} </div>
       </div>
-      <div id="boardlists" class="board-lists">
+    {{ projectData.columns }}
+
+    <!-- whole board element -->
+      <div id="boardlists" class="board-lists" >
+        <!-- whole card -->
         <div
+          v-for="column in projectData.columns" :key="column.id"
           id="list1"
           class="board-list"
           @drop="dropIt($event)"
           @dragover="allowDrop($event)"
         >
-          <div class="list-title">To Do</div>
-
+          <div class="list-title"> {{ column.col_name }} </div>
           <div
             id="card1"
             class="card"
             draggable="true"
             @dragstart="dragStart($event)"
+            v-for="task in projectData.columns[0].tasks" :key="task.id"
           >
-            Work on article
+            {{ task.task_name }}
           </div>
+
+        </div>
+        <div
+          id="list2"
+          class="board-list"
+          @drop="dropIt($event)"
+          @dragover="allowDrop($event)"
+        >
+          <div class="list-title">In Progress</div>
+        </div>
+        <div
+          id="list3"
+          class="board-list"
+          @drop="dropIt($event)"
+          @dragover="allowDrop($event)"
+        >
+          <div class="list-title">Done</div>
           <div
             id="card2"
             class="card"
@@ -62,22 +77,6 @@
             Debug SQL code
           </div>
         </div>
-        <div
-          id="list2"
-          class="board-list"
-          @drop="dropIt($event)"
-          @dragover="allowDrop($event)"
-        >
-          <div class="list-title">In Progress</div>
-        </div>
-        <div
-          id="list3"
-          class="board-list"
-          @drop="dropIt($event)"
-          @dragover="allowDrop($event)"
-        >
-          <div class="list-title">Done</div>
-        </div>
       </div>
     </div>
   </div>
@@ -88,7 +87,6 @@
 import axios from "axios";
 
 export default {
-
   data() {
     return {
       projectData: null,
@@ -103,11 +101,9 @@ export default {
     async getProject() {
       await axios
         .get(`http://localhost:3000/api/projects/${this.$route.params.id}`)
-        .then(
-          response => {
-            this.projectData = response.data, console.log(response)
-          }
-        );
+        .then((response) => {
+          this.projectData = response.data, console.log(response);
+        });
     },
     allowDrop(ev) {
       ev.preventDefault(); // default is not to allow drop
