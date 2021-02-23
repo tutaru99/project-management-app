@@ -21,10 +21,6 @@
         <i class="el-icon-menu"></i>
         <template #title>Dashboard</template>
       </el-menu-item>
-      <el-menu-item index="projectboard">
-        <i class="el-icon-setting"></i>
-        <template #title>Project Board</template>
-      </el-menu-item>
       <el-submenu index="1">
         <template #title>
           <i class="el-icon-location"></i>
