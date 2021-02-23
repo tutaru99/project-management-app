@@ -2,11 +2,15 @@
   <div>
     <div class="board-layout">
       <div class="left">
-        <div class="board-text">Board</div>
-          <div v-for="project in projectData"
-            :key="project.key">
-                <p> {{ project.title }} </p>
+        <div class="board-text" >Board</div>
+        <!-- v-if acts as a loader otherwise data doesnt show -->
+        <div v-if="projectData">
+        <p > {{ projectData.title }} </p>
+        <p > {{ projectData.description }} </p>
+
+               {{ $route.params }}
         </div>
+
       </div>
       <div id="boardlists" class="board-lists">
         <div
@@ -87,7 +91,7 @@ export default {
 
   data() {
     return {
-      projectData: [],
+      projectData: null,
     };
   },
 
@@ -98,11 +102,11 @@ export default {
   methods: {
     async getProject() {
       await axios
-        .get("http://localhost:3000/api/projects/60324482dcf2951b5cb7f315")
+        .get(`http://localhost:3000/api/projects/${this.$route.params.id}`)
         .then(
-          (response) => (
-            (this.project = response.data), console.log(response)
-          )
+          response => {
+            this.projectData = response.data, console.log(response)
+          }
         );
     },
     allowDrop(ev) {
