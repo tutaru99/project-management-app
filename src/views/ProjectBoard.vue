@@ -23,7 +23,7 @@
             class="card"
             draggable="true"
             @dragstart="dragStart($event)"
-            v-for="task in projectData.columns[0].tasks" :key="task.id"
+            v-for="task in column.tasks" :key="task.id"
           >
             {{ task.task_name }}
           </div>
