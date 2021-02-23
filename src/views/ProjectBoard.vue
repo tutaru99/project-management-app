@@ -24,7 +24,7 @@
           <div
             v-for="(task, taskNo) in column.tasks"
             :key="task.id"
-            :id="`card${taskNo}${colNo}`"
+            :id="`card${taskNo}${Math.random()}`"
             class="card"
             draggable="true"
             @dragstart="dragStart($event)"
