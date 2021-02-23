@@ -3,78 +3,33 @@
     <!-- v-if acts as a loader otherwise data doesnt show -->
     <div class="board-layout" v-if="projectData">
       <div class="left">
-        <div class="board-text">{{ projectData.title }} </div>
+        <div class="board-text">{{ projectData.title }}</div>
       </div>
-    {{ projectData.columns }}
-
-    <!-- whole board element -->
-      <div id="boardlists" class="board-lists" >
+      <!-- whole board element -->
+      <div id="boardlists" class="board-lists">
         <!-- whole card -->
         <div
-          v-for="column in projectData.columns" :key="column.id"
-          id="list1"
+          v-for="(column, colNo) in projectData.columns"
+          :key="column.id"
+          :id="`list${colNo}`"
           class="board-list"
           @drop="dropIt($event)"
           @dragover="allowDrop($event)"
         >
-          <div class="list-title"> {{ column.col_name }} </div>
+          <div class="list-title">{{ column.col_name }}</div>
+
+          <!-- :id="`card${taskNo}${colNo}`"  == is a stupid solution,
+          ask Nikolai's oppinion how it
+          should be solved  -->
           <div
-            id="card1"
+            v-for="(task, taskNo) in column.tasks"
+            :key="task.id"
+            :id="`card${taskNo}${colNo}`"
             class="card"
             draggable="true"
             @dragstart="dragStart($event)"
-            v-for="task in column.tasks" :key="task.id"
           >
             {{ task.task_name }}
-          </div>
-
-        </div>
-        <div
-          id="list2"
-          class="board-list"
-          @drop="dropIt($event)"
-          @dragover="allowDrop($event)"
-        >
-          <div class="list-title">In Progress</div>
-        </div>
-        <div
-          id="list3"
-          class="board-list"
-          @drop="dropIt($event)"
-          @dragover="allowDrop($event)"
-        >
-          <div class="list-title">Done</div>
-          <div
-            id="card2"
-            class="card"
-            draggable="true"
-            @dragstart="dragStart($event)"
-          >
-            Back up database
-          </div>
-          <div
-            id="card3"
-            class="card"
-            draggable="true"
-            @dragstart="dragStart($event)"
-          >
-            Build Lambda function
-          </div>
-          <div
-            id="card4"
-            class="card"
-            draggable="true"
-            @dragstart="dragStart($event)"
-          >
-            Work on course content
-          </div>
-          <div
-            id="card5"
-            class="card"
-            draggable="true"
-            @dragstart="dragStart($event)"
-          >
-            Debug SQL code
           </div>
         </div>
       </div>
@@ -102,9 +57,10 @@ export default {
       await axios
         .get(`http://localhost:3000/api/projects/${this.$route.params.id}`)
         .then((response) => {
-          this.projectData = response.data, console.log(response);
+          (this.projectData = response.data), console.log(response);
         });
     },
+
     allowDrop(ev) {
       ev.preventDefault(); // default is not to allow drop
     },
