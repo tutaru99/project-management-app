@@ -20,6 +20,11 @@ $draft-bg: #FCE4E4;
 *{
     font-family: "Montserrat", sans-serif;
 }
+.el-main{
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow-x: hidden !important;
+  }
 
 /* Default Style of buttons */
 .btn{
@@ -43,3 +48,6 @@ h1,h2,h3,h4,h5, p {
   font-weight: 700;
   font-size: 2rem;
 }
+ul li{
+    list-style:none;
+ }

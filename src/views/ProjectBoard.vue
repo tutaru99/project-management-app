@@ -3,7 +3,7 @@
     <!-- v-if acts as a loader otherwise data doesnt show -->
     <div class="board-layout" v-if="projectData">
       <div class="left">
-        <div class="board-text">{{ projectData.title }}</div>
+        <div id="boardTitle" class="board-text">{{ projectData.title }}</div>
       </div>
       <!-- whole board element -->
       <div id="boardlists" class="board-lists">
@@ -12,11 +12,61 @@
           v-for="(column, colNo) in projectData.columns"
           :key="column.id"
           :id="`list${colNo}`"
-          class="board-list"
+          class="board-list cardList"
           @drop="dropIt($event)"
           @dragover="allowDrop($event)"
         >
-          <div class="list-title">{{ column.col_name }}</div>
+          <div class="list-title">
+            {{ column.col_name }}
+            <el-popover
+              placement="right"
+              :width="200"
+              v-model:visible="visible.active"
+            >
+              <ul>
+                <li>
+                  <el-button
+                    class="actionButtons"
+                    type="success"
+                    icon="el-icon-plus"
+                    plain
+                    @click="visible = false"
+                    >Add Column</el-button
+                  >
+                </li>
+                <li>
+                  <el-button
+                    class="actionButtons"
+                    type="success"
+                    icon="el-icon-plus"
+                    plain
+                    @click="visible = false"
+                    >Add Task</el-button
+                  >
+                </li>
+                <li>
+                  <el-button
+                    class="actionButtons"
+                    type="danger"
+                    icon="el-icon-delete"
+                    plain
+                    @click="visible = false"
+                    >Delete Column</el-button
+                  >
+                </li>
+              </ul>
+
+              <template #reference>
+                <el-button
+                  class="more-actions"
+                  size="small"
+                  icon="el-icon-more"
+                  circle
+                  @click="visible = true"
+                ></el-button>
+              </template>
+            </el-popover>
+          </div>
 
           <!-- :id="`card${taskNo}${colNo}`"  == is a stupid solution,
           ask Nikolai's oppinion how it
@@ -24,12 +74,18 @@
           <div
             v-for="(task, taskNo) in column.tasks"
             :key="task.id"
-            :id="`card${taskNo}${Math.random()}`"
+            :id="`card${taskNo}-${Math.random()}`"
             class="card"
             draggable="true"
             @dragstart="dragStart($event)"
           >
             {{ task.task_name }}
+            <el-button
+              class="more-actions"
+              size="small"
+              icon="el-icon-delete"
+              circle
+            ></el-button>
           </div>
         </div>
       </div>
@@ -45,6 +101,7 @@ export default {
   data() {
     return {
       projectData: null,
+      visible: false,
     };
   },
 
@@ -116,15 +173,20 @@ export default {
 
 <style lang="scss" scoped>
 @import "src/scss/_variables.scss";
+#boardTitle {
+  color: #fff;
+}
 .board-layout {
-  background-color: rgb(100, 92, 165);
+  background-color: rgb(0, 0, 0);
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   display: grid;
   grid-template-rows: max-content auto;
   grid-gap: 10px;
-  padding: 10px;
-  height: 800px;
+  padding: 10px 10px;
+  height: 85vh;
+  width: 99%;
+  overflow-y: auto !important;
 }
 .list-layout {
   display: grid;
@@ -142,7 +204,9 @@ export default {
   grid-gap: 10px;
   height: 400px;
 }
-
+.board-lists:last-child {
+  margin-right: 10px;
+}
 .board-list {
   background-color: rgb(235, 236, 240);
   border-radius: 3px;
@@ -158,12 +222,51 @@ export default {
 .list-title {
   font-size: 18px;
   font-weight: bold;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
 }
+
 .card {
   background-color: white;
   border-radius: 3px;
   box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
   padding: 10px;
   cursor: pointer;
+}
+
+.cardList {
+  max-height: 500px;
+  overflow: auto;
+}
+/* ScrollBar */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(255, 255, 255) rgb(0, 0, 0);
+}
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+*::-webkit-scrollbar-track {
+  background: rgb(0, 0, 0);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(255, 255, 255);
+  border-radius: 20px;
+  border: 2px solid rgb(0, 0, 0);
+}
+.more-actions {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  left: 100%;
+}
+ul li:nth-child(n + 2) {
+  margin-top: 10px;
 }
 </style>
