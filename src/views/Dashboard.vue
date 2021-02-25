@@ -64,8 +64,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "src/scss/_variables.scss";
-
 
 /* Shitty CSS for now */
 .projectsWrapper{

@@ -80,11 +80,13 @@
             @dragstart="dragStart($event)"
           >
             {{ task.task_name }}
+           task id- {{ task.taskID }}
             <el-button
               class="more-actions"
               size="small"
               icon="el-icon-delete"
               circle
+              @click="removeTask(task)"
             ></el-button>
           </div>
         </div>
@@ -98,7 +100,9 @@
 import axios from "axios";
 
 export default {
+  
   data() {
+   /*  const db = connect("localhost:3000/api/projects"); */
     return {
       projectData: null,
       visible: false,
@@ -117,6 +121,12 @@ export default {
           (this.projectData = response.data), console.log(response);
         });
     },
+    /* Kristian's idea */
+      removeTask(task) {
+       connect("localhost:3000/api/projects").doc(task).delete(),
+       console.log(this.db)
+
+      },
 
     allowDrop(ev) {
       ev.preventDefault(); // default is not to allow drop
@@ -172,7 +182,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "src/scss/_variables.scss";
+
 #boardTitle {
   color: #fff;
 }
