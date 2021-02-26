@@ -109,31 +109,21 @@ const Project = project = db.projects;              /* WORKAROUND FOR NOW  - REA
         });
     };
 
-    //Delete a Single Task by ID
-    // exports.taskdelete = (req, res) => {
-    //     if (!req.body) {
-    //         return res.status(400).send({
-    //         message: "Data to update can not be empty!" + " - " + console.log(req.body),
-    //         });
-    //     }
-    //     const id = req.params.id;
-
-    //     project.findByIdAndUpdate(id, req.body,
-    //         {$pull : {tasks : {_id:"60379897119ca238740b09ae"}}}
-    //         )
-    //     .then(data => {
-    //         if (!data) {
-    //         res.status(404).send({
-    //             message: `Cannot update task with id=${id}. Maybe task was not found!`
-    //         });
-    //         } else res.send({ message: "task was deleted successfully." });
-    //     })
-    //     .catch(err => {
-    //         res.status(500).send({
-    //         message: "Error updating task with id=" + id
-    //         });
-    //     });
-    // };
+   // Delete a Single Task by ID
+   exports.findTasks = (req, res) => {
+    const ObjectId = require('mongodb').ObjectID;
+    project.find({ "columns.tasks._id": { _id: ObjectId("603959a5df5eb96a98eaa745")}},
+    {"columns.tasks.$": true})
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving tasks."
+            });
+        });
+    };
 
     // Delete all Projects at once from the database.
     exports.deleteAll = (req, res) => {

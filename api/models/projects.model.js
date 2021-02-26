@@ -12,8 +12,7 @@ module.exports = mongoose => {
             task_name: String,
             task_description: String
           }]
-        }
-      ]
+        }]
       },
       { timestamps: true }
     )
