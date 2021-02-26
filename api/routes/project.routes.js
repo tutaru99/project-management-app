@@ -27,6 +27,9 @@ module.exports = app => {
   // Delete a Project with ID
   router.delete("/:id", projects.delete);
 
+  // Delete a TASK with ID
+  // router.put("/task/:id", projects.taskdelete);
+
 
   // DELETE ALL Projects
   router.delete("/", projects.deleteAll);

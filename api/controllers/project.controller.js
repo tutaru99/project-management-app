@@ -109,7 +109,33 @@ const Project = project = db.projects;              /* WORKAROUND FOR NOW  - REA
         });
     };
 
-    // Delete all Tutorials at once from the database.
+    //Delete a Single Task by ID
+    // exports.taskdelete = (req, res) => {
+    //     if (!req.body) {
+    //         return res.status(400).send({
+    //         message: "Data to update can not be empty!" + " - " + console.log(req.body),
+    //         });
+    //     }
+    //     const id = req.params.id;
+
+    //     project.findByIdAndUpdate(id, req.body,
+    //         {$pull : {tasks : {_id:"60379897119ca238740b09ae"}}}
+    //         )
+    //     .then(data => {
+    //         if (!data) {
+    //         res.status(404).send({
+    //             message: `Cannot update task with id=${id}. Maybe task was not found!`
+    //         });
+    //         } else res.send({ message: "task was deleted successfully." });
+    //     })
+    //     .catch(err => {
+    //         res.status(500).send({
+    //         message: "Error updating task with id=" + id
+    //         });
+    //     });
+    // };
+
+    // Delete all Projects at once from the database.
     exports.deleteAll = (req, res) => {
         project.deleteMany({})
         .then(data => {
