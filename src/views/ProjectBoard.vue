@@ -100,7 +100,6 @@
 import axios from "axios";
 
 export default {
-  
   data() {
     return {
       projectData: null,
@@ -110,10 +109,11 @@ export default {
   },
 
   mounted() {
-    this.getProject(),
-    this.removeTask()
+    this.getProject()
   },
-
+  watch: {
+    
+  },
   methods: {
     async getProject() {
       await axios
@@ -123,13 +123,13 @@ export default {
         });
     },
 
-      async removeTask(taskid) {
-        await axios
+    removeTask(taskid) {
+      axios
       .put(`http://localhost:3000/api/projects/deletetask/${taskid}`)
       .then((response) => {
           (this.tasks = response.data), window.location.reload();
         });
-      },
+    },
 
     allowDrop(ev) {
       ev.preventDefault(); // default is not to allow drop
