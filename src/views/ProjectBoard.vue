@@ -86,7 +86,7 @@
               size="small"
               icon="el-icon-delete"
               circle
-              @click="removeTask(task)"
+            @click="()=>removeTask(task._id)"
             ></el-button>
           </div>
         </div>
@@ -102,15 +102,16 @@ import axios from "axios";
 export default {
   
   data() {
-   /*  const db = connect("localhost:3000/api/projects"); */
     return {
       projectData: null,
       visible: false,
+      taskid: "",
     };
   },
 
   mounted() {
-    this.getProject();
+    this.getProject(),
+    this.removeTask()
   },
 
   methods: {
@@ -121,11 +122,13 @@ export default {
           (this.projectData = response.data), console.log(response);
         });
     },
-    /* Kristian's idea */
-      removeTask(task) {
-       connect("localhost:3000/api/projects").doc(task).delete(),
-       console.log(this.db)
 
+      async removeTask(taskid) {
+        await axios
+      .put(`http://localhost:3000/api/projects/deletetask/${taskid}`)
+      .then((response) => {
+          (this.tasks = response.data), window.location.reload();
+        });
       },
 
     allowDrop(ev) {
