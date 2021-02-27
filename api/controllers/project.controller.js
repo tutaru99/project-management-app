@@ -111,19 +111,28 @@ const Project = project = db.projects;              /* WORKAROUND FOR NOW  - REA
 
    // Delete a Single Task by ID
    exports.findTasks = (req, res) => {
-    const ObjectId = require('mongodb').ObjectID;
-    project.find({ "columns.tasks._id": { _id: ObjectId("603959a5df5eb96a98eaa745")}},
+   const ObjectId = require('mongodb').ObjectID;
+   const mongoose = require("mongoose");
+   const id = req.params.id;
+
+    project.update( { "columns.tasks._id":  mongoose.Types.ObjectId(id)},
+    {"$pull": {"columns.$[].tasks": {"_id": mongoose.Types.ObjectId(id)}}},
     {"columns.tasks.$": true})
     .then(data => {
-      res.send(data);
+      if (!data) {
+        res.status(404).send({
+            message: `Cannot update task with id=${id}.`
+        });
+        } else res.send({ message: "Task was deleted successfully!" });
     })
     .catch(err => {
       res.status(500).send({
         message:
-          err.message || "Some error occurred while retrieving tasks."
+          err.message || "Some error occurred while retrieving tasks-."
             });
         });
     };
+
 
     // Delete all Projects at once from the database.
     exports.deleteAll = (req, res) => {

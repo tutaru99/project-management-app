@@ -15,7 +15,7 @@ module.exports = app => {
   router.get("/completed", projects.findAllCompleted);
 
   // Delete a TASK with ID
-  router.get("/tasks", projects.findTasks);
+  router.put("/deletetask/:id", projects.findTasks);
 
   // Retrieve all Project
   router.get("/", projects.findAll);
