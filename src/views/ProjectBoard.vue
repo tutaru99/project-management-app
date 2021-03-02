@@ -18,6 +18,11 @@
         >
           <div class="list-title">
             {{ column.col_name }} - {{ column._id }}
+            <el-button
+              icon="el-icon-plus"
+              circle
+              @click="openTaskModalDialog(column)"
+            ></el-button>
             <el-popover
               placement="right"
               :width="200"
@@ -32,16 +37,6 @@
                     plain
                     @click="visible = false"
                     >Add Column</el-button
-                  >
-                </li>
-                <li>
-                  <el-button
-                    class="actionButtons"
-                    type="success"
-                    icon="el-icon-plus"
-                    plain
-                    @click="visible = false"
-                    >Add Task</el-button
                   >
                 </li>
                 <li>
@@ -68,9 +63,6 @@
             </el-popover>
           </div>
 
-          <!-- :id="`card${taskNo}${colNo}`"  == is a stupid solution,
-          ask Nikolai's oppinion how it
-          should be solved  -->
           <div
             v-for="(task, taskNo) in column.tasks"
             :key="task.id"
@@ -80,41 +72,52 @@
             @dragstart="dragStart($event)"
           >
             {{ task.task_name }}
-           task id- {{ task._id }}, description:
+            task id- {{ task._id }}, description:
             {{ task.task_description }}
             <el-button
               class="more-actions"
               size="small"
               icon="el-icon-delete"
               circle
-            @click="()=>removeTask(task._id)"
+              @click="() => removeTask(task._id)"
             ></el-button>
           </div>
         </div>
       </div>
     </div>
+  <NewTaskDialogComponent
+  v-if="taskModalDialog"
+  :taskModalDialog="taskModalDialog"
+  :dialogData="taskDialogData"
+  @close="closeTaskModalDialog"
+  />
   </div>
 </template>
 
 
 <script>
 import axios from "axios";
+import NewTaskDialogComponent from "@/components/NewTaskDialogComponent";
 
 export default {
+  components: {
+    NewTaskDialogComponent,
+  },
   data() {
     return {
       projectData: null,
       visible: false,
       taskid: "",
+      taskModalDialog: false,
+      taskDialogData: {}
+
     };
   },
 
   mounted() {
-    this.getProject()
+    this.getProject();
   },
-  watch: {
-    
-  },
+  watch: {},
   methods: {
     async getProject() {
       await axios
@@ -126,12 +129,20 @@ export default {
 
     removeTask(taskid) {
       axios
-      .put(`http://localhost:3000/api/projects/deletetask/${taskid}`)
-      .then((response) => {
+        .put(`http://localhost:3000/api/projects/deletetask/${taskid}`)
+        .then((response) => {
           (this.tasks = response.data), window.location.reload();
         });
     },
 
+      openTaskModalDialog(column) {
+      this.taskDialogData = column;
+      this.taskModalDialog = true;
+    },
+    closeTaskModalDialog() {
+      this.taskDialogData = {};
+      this.taskModalDialog = false;
+    },
     allowDrop(ev) {
       ev.preventDefault(); // default is not to allow drop
     },
@@ -186,7 +197,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 #boardTitle {
   color: #fff;
 }
