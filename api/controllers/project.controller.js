@@ -116,7 +116,10 @@ exports.deleteTask = (req, res) => {
     const id = req.params.id;
 
     project.update({ "columns.tasks._id": mongoose.Types.ObjectId(id) },
-        { "$pull": { "columns.$[].tasks": { "_id": mongoose.Types.ObjectId(id) } } },
+        {
+            $pull:
+                { "columns.$[].tasks": { "_id": mongoose.Types.ObjectId(id) } }
+        },
         { "columns.tasks.$": true })
         .then(data => {
             if (!data) {
@@ -140,10 +143,10 @@ exports.addTask = (req, res) => {
 
     project.update({ "columns._id": mongoose.Types.ObjectId(id) },
         {
-            "$push": {
+            $push: {
                 "columns.$.tasks": {
-                    "task_name": "New test task api",
-                    "task_description": "New task desc added api"
+                    "task_name": req.body.task_name,
+                    "task_description": req.body.task_description
                 }
             }
         })

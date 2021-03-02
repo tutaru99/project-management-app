@@ -80,7 +80,8 @@
             @dragstart="dragStart($event)"
           >
             {{ task.task_name }}
-           task id- {{ task._id }}
+           task id- {{ task._id }}, description:
+            {{ task.task_description }}
             <el-button
               class="more-actions"
               size="small"
