@@ -17,7 +17,7 @@
           @dragover="allowDrop($event)"
         >
           <div class="list-title">
-            {{ column.col_name }}
+            {{ column.col_name }} - {{ column._id }}
             <el-popover
               placement="right"
               :width="200"

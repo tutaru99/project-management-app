@@ -1,12 +1,13 @@
 const db = require("../models");
 const Project = project = db.projects;              /* WORKAROUND FOR NOW  - READ/WRITE  */
-
+const ObjectId = require('mongodb').ObjectID;
+const mongoose = require("mongoose");
 // Create and Save a new Project
-    exports.create = (req, res) => {
+exports.create = (req, res) => {
     // Validate request
     if (!req.body.title) {
-    res.status(400).send({ message: "Content can not be empty!" });
-    return;
+        res.status(400).send({ message: "Content can not be empty!" });
+        return;
     }
 
     // Create a Project
@@ -22,144 +23,173 @@ const Project = project = db.projects;              /* WORKAROUND FOR NOW  - REA
     project
         .save(project)
         .then(data => {
-        res.send(data);
+            res.send(data);
         })
         .catch(err => {
-        res.status(500).send({
-            message:
-            err.message || "Some error occurred while creating the Project."
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the Project."
             });
         });
-    };
+};
 
-    // Retrieve all Projects from the database.
-    exports.findAll = (req, res) => {
-        project.find()
+// Retrieve all Projects from the database.
+exports.findAll = (req, res) => {
+    project.find()
         .then(data => {
             res.send(data);
         })
         .catch(err => {
             res.status(500).send({
-            message:
-                err.message || "Some error occurred while retrieving Projects."
+                message:
+                    err.message || "Some error occurred while retrieving Projects."
             });
         });
-    };
+};
 
-    // Find a single Project by an ID
-    exports.findOne = (req, res) => {
-        const id = req.params.id;
-        project.findById(id)
+// Find a single Project by an ID
+exports.findOne = (req, res) => {
+    const id = req.params.id;
+    project.findById(id)
         .then(data => {
             if (!data)
-            res.status(404).send({ message: "Project not found with id " + id });
+                res.status(404).send({ message: "Project not found with id " + id });
             else res.send(data);
         })
         .catch(err => {
-        res
-            .status(500)
-            .send({ message: "Error retrieving Project with id=" + id });
+            res
+                .status(500)
+                .send({ message: "Error retrieving Project with id=" + id });
         });
-    };
+};
 
-    // Update a Project by the ID in the request
-    exports.update = (req, res) => {
-        if (!req.body) {
-            return res.status(400).send({
+// Update a Project by the ID in the request
+exports.update = (req, res) => {
+    if (!req.body) {
+        return res.status(400).send({
             message: "Data to update can not be empty!" + " - " + console.log(req.body),
-            });
-        }
-        const id = req.params.id;
+        });
+    }
+    const id = req.params.id;
 
-        project.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+    project.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
         .then(data => {
             if (!data) {
-            res.status(404).send({
-                message: `Cannot update Project with id=${id}. Maybe Project was not found!`
-            });
+                res.status(404).send({
+                    message: `Cannot update Project with id=${id}. Maybe Project was not found!`
+                });
             } else res.send({ message: "Project was updated successfully." });
         })
         .catch(err => {
             res.status(500).send({
-            message: "Error updating Project with id=" + id
+                message: "Error updating Project with id=" + id
             });
         });
-    };
+};
 
-    // Delete a Project with the specified id in the request
-    exports.delete = (req, res) => {
-            const id = req.params.id;
+// Delete a Project with the specified id in the request
+exports.delete = (req, res) => {
+    const id = req.params.id;
 
-            project.findByIdAndRemove(id)
-            .then(data => {
-                if (!data) {
+    project.findByIdAndRemove(id)
+        .then(data => {
+            if (!data) {
                 res.status(404).send({
                     message: `Cannot delete Project with id=${id}. Maybe Project was not found!`
                 });
-                } else {
+            } else {
                 res.send({
                     message: "Project was deleted successfully!"
                 });
-                }
-            })
-            .catch(err => {
-                res.status(500).send({
+            }
+        })
+        .catch(err => {
+            res.status(500).send({
                 message: "Could not delete Project with id=" + id
             });
         });
-    };
+};
 
-   // Delete a Single Task by ID
-   exports.findTasks = (req, res) => {
-   const ObjectId = require('mongodb').ObjectID;
-   const mongoose = require("mongoose");
-   const id = req.params.id;
+// Delete a Single Task by ID
+exports.deleteTask = (req, res) => {
 
-    project.update( { "columns.tasks._id":  mongoose.Types.ObjectId(id)},
-    {"$pull": {"columns.$[].tasks": {"_id": mongoose.Types.ObjectId(id)}}},
-    {"columns.tasks.$": true})
-    .then(data => {
-      if (!data) {
-        res.status(404).send({
-            message: `Cannot update task with id=${id}.`
-        });
-        } else res.send({ message: "Task was deleted successfully!" });
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving tasks-."
-            });
-        });
-    };
+    const id = req.params.id;
 
-
-    // Delete all Projects at once from the database.
-    exports.deleteAll = (req, res) => {
-        project.deleteMany({})
+    project.update({ "columns.tasks._id": mongoose.Types.ObjectId(id) },
+        { "$pull": { "columns.$[].tasks": { "_id": mongoose.Types.ObjectId(id) } } },
+        { "columns.tasks.$": true })
         .then(data => {
-        res.send({
-            message: `${data.deletedCount} Projects were deleted successfully!`
-        });
+            if (!data) {
+                res.status(404).send({
+                    message: `Cannot update task with id=${id}.`
+                });
+            } else res.send({ message: "Task was deleted successfully!" });
         })
         .catch(err => {
-        res.status(500).send({
-            message:
-            err.message || "Some error occurred while removing all projects."
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving tasks-."
             });
         });
-    };
+};
 
-    // Find Projects by set Condition
-    exports.findAllCompleted = (req, res) => {
-    project.find({ completed: true })
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving projects."
+
+// Add a new Task to column
+exports.addTask = (req, res) => {
+    const id = req.params.id;
+
+    project.update({ "columns._id": mongoose.Types.ObjectId(id) },
+        {
+            "$push": {
+                "columns.$.tasks": {
+                    "task_name": "New test task api",
+                    "task_description": "New task desc added api"
+                }
+            }
+        })
+        .then(data => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Cannot add task with id=${id}.`
+                });
+            } else res.send({ message: "Task was ADDED successfully!" });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving tasks-."
             });
         });
-    };
+};
+
+
+
+// Delete all Projects at once from the database.
+exports.deleteAll = (req, res) => {
+    project.deleteMany({})
+        .then(data => {
+            res.send({
+                message: `${data.deletedCount} Projects were deleted successfully!`
+            });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while removing all projects."
+            });
+        });
+};
+
+// Find Projects by set Condition
+exports.findAllCompleted = (req, res) => {
+    project.find({ completed: true })
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving projects."
+            });
+        });
+};
