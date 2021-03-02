@@ -1,12 +1,12 @@
 <template>
   <el-dialog title="New Task" v-model="taskModalDialog">
-              <el-form :model="form">
+              <el-form>
                 <el-form-item label="Task name">
-                  <el-input v-model="form.name" autocomplete="off"></el-input>
+                  <el-input v-model="name" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="Task desription">
                   <el-input
-                    v-model="form.description"
+                    v-model="description"
                     autocomplete="off"
                   ></el-input>
                 </el-form-item>
@@ -16,7 +16,7 @@
                   <el-button @click="close()"
                     >Cancel</el-button
                   >
-                  <el-button type="primary" @click="submitTask()"
+                  <el-button type="primary" @click="submitTask(dialogData._id)"
                     >Add Task</el-button
                   >
                 </span>
@@ -25,18 +25,28 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
     props: ["taskModalDialog", "dialogData"],
     data:() => ({
-        form: {
         name: "",
         description: "",
-      },
+        colid: ""
     }),
     methods: {
     close() {
-      this.$emit("close");
+        this.$emit("close");
     },
+    async submitTask(colid) {
+        await axios
+        .put(`http://localhost:3000/api/projects/addtask/${colid}`, {
+            task_name: this.name,
+            task_description: this.description
+        })
+        .then((response) => {
+          (this.tasks = response.data), this.close(),  this.$emit('created');
+        });
+    }
 }
 }
 </script>

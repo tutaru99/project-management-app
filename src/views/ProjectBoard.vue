@@ -71,8 +71,7 @@
             draggable="true"
             @dragstart="dragStart($event)"
           >
-            {{ task.task_name }}
-            task id- {{ task._id }}, description:
+            {{ task.task_name }} ||
             {{ task.task_description }}
             <el-button
               class="more-actions"
@@ -89,6 +88,7 @@
   v-if="taskModalDialog"
   :taskModalDialog="taskModalDialog"
   :dialogData="taskDialogData"
+  @created="getProject"
   @close="closeTaskModalDialog"
   />
   </div>
@@ -131,7 +131,7 @@ export default {
       axios
         .put(`http://localhost:3000/api/projects/deletetask/${taskid}`)
         .then((response) => {
-          (this.tasks = response.data), window.location.reload();
+          (this.tasks = response.data), this.getProject();
         });
     },
 
