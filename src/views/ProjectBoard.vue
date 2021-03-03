@@ -88,7 +88,7 @@
   v-if="taskModalDialog"
   :taskModalDialog="taskModalDialog"
   :dialogData="taskDialogData"
-  @created="getProject"
+  @create="getProject"
   @close="closeTaskModalDialog"
   />
   </div>
@@ -118,6 +118,7 @@ export default {
     this.getProject();
   },
   watch: {},
+
   methods: {
     async getProject() {
       await axios
@@ -127,8 +128,8 @@ export default {
         });
     },
 
-    removeTask(taskid) {
-      axios
+    async removeTask(taskid) {
+      await axios
         .put(`http://localhost:3000/api/projects/deletetask/${taskid}`)
         .then((response) => {
           (this.tasks = response.data), this.getProject();

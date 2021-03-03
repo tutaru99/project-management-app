@@ -5,14 +5,15 @@
       class="el-menu-vertical-demo"
       @open="handleOpen"
       @close="handleClose"
-      :collapse="isCollapse"
+      :collapse="$store.state.isCollapse"
       router
     >
-      <el-radio-group v-model="isCollapse">
-        <el-radio-button circle v-if="isCollapse == true" :label="false"
+
+      <el-radio-group :collapse="$store.commit('isCollapseState')" v-model="$store.state.isCollapse">
+        <el-radio-button circle v-if="$store.state.isCollapse == true" :label="false"
           ><i class="el-icon-d-arrow-right"></i
         ></el-radio-button>
-        <el-radio-button :label="true" v-if="isCollapse == !true"
+        <el-radio-button :label="true" v-if="$store.state.isCollapse == !true"
           ><i class="el-icon-d-arrow-left"></i
         ></el-radio-button>
       </el-radio-group>
@@ -55,7 +56,7 @@
 export default {
   data() {
     return {
-      isCollapse: false,
+      
     };
   },
   methods: {

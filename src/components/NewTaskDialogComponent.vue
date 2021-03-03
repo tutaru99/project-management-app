@@ -28,6 +28,7 @@
 import axios from "axios";
 export default {
     props: ["taskModalDialog", "dialogData"],
+    emits: ["create", "close"],
     data:() => ({
         name: "",
         description: "",
@@ -44,9 +45,9 @@ export default {
             task_description: this.description
         })
         .then((response) => {
-          (this.tasks = response.data), this.close(),  this.$emit('created');
+          (this.tasks = response.data), this.close(),  this.$emit('create');
         });
-    }
-}
+      }
+  }
 }
 </script>
