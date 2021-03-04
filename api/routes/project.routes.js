@@ -14,8 +14,13 @@ module.exports = app => {
   // Retrieve all Projects by Condition
   router.get("/completed", projects.findAllCompleted);
 
+
+
   // Delete a TASK with ID
   router.put("/deletetask/:id", projects.deleteTask);
+
+  // Update a TASK with ID
+  router.put("/updatetask/:id", projects.updateTask);
 
   // Add a new TASK by Column ID
   router.put("/addtask/:id", projects.addTask);
@@ -25,6 +30,8 @@ module.exports = app => {
 
   // Retrieve a single Project by ID
   router.get("/:id", projects.findOne);
+
+
 
 
   // Update a Project with ID

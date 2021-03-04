@@ -63,7 +63,7 @@ exports.findOne = (req, res) => {
         });
 };
 
-// Update a Project by the ID in the request
+// Update a Project by the ID
 exports.update = (req, res) => {
     if (!req.body) {
         return res.status(400).send({
@@ -165,6 +165,34 @@ exports.addTask = (req, res) => {
         });
 };
 
+// Update a TASK by the ID
+exports.updateTask = (req, res) => {
+
+    const id = req.params.id;
+
+    project.update({ "columns.tasks._id": mongoose.Types.ObjectId(id) },
+        {
+            $set: { "columns.$.tasks": {
+                "_id": mongoose.Types.ObjectId(id),
+                "task_name": req.body.task_name,
+                "task_description": req.body.task_description
+            }}
+        },
+        { "columns.tasks.$": true })
+        .then(data => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Cannot update task with id=${id}.`
+                });
+            } else res.send({ message: "Task was Edited successfully!" });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while Editing task-"
+            });
+        });
+};
 
 
 // Delete all Projects at once from the database.

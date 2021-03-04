@@ -71,37 +71,63 @@
             draggable="true"
             @dragstart="dragStart($event)"
           >
-            {{ task.task_name }} ||
-            {{ task.task_description }}
-            <el-button
-              class="more-actions"
-              size="small"
-              icon="el-icon-delete"
-              circle
-              @click="() => removeTask(task._id)"
-            ></el-button>
+            <div>
+              <p>{{ task.task_name }} ||</p>
+              <p>{{ task.task_description }}</p>
+            </div>
+
+          <div class="inline">
+          <div>
+              <el-button
+                class="details"
+                size="small"
+                icon="el-icon-edit"
+                circle
+                @click="openTaskDetailsModalDialog(task)"
+              ></el-button>
           </div>
+          <div class="delete">
+              <el-button
+                size="small"
+                icon="el-icon-delete"
+                circle
+                @click="removeTask(task._id)"
+              ></el-button>
+           </div>
+          </div>
+
         </div>
       </div>
     </div>
-  <NewTaskDialogComponent
-  v-if="taskModalDialog"
-  :taskModalDialog="taskModalDialog"
-  :dialogData="taskDialogData"
-  @create="getProject"
-  @close="closeTaskModalDialog"
-  />
+  </div>
+    <!-- Dialog Components -->
+    <NewTaskDialogComponent
+      v-if="taskModalDialog"
+      :taskModalDialog="taskModalDialog"
+      :dialogData="taskDialogData"
+      @create="getProject"
+      @close="closeTaskModalDialog"
+    />
+    <TaskDetailsDialog
+      v-if="editTaskModalDialog"
+      :editTaskModalDialog="editTaskModalDialog"
+      :editTaskDialogData="editTaskDialogData"
+       @close="closeEditTaskModalDialog"
+       @edit="getProject"
+    />
   </div>
 </template>
 
 
 <script>
 import axios from "axios";
-import NewTaskDialogComponent from "@/components/NewTaskDialogComponent";
+import NewTaskDialogComponent from "@/components/Task/NewTaskDialog.vue";
+import TaskDetailsDialog from "@/components/Task/EditTaskDialog.vue";
 
 export default {
   components: {
     NewTaskDialogComponent,
+    TaskDetailsDialog,
   },
   data() {
     return {
@@ -109,8 +135,10 @@ export default {
       visible: false,
       taskid: "",
       taskModalDialog: false,
-      taskDialogData: {}
+      taskDialogData: {},
 
+      editTaskModalDialog: false,
+      editTaskDialogData: {},
     };
   },
 
@@ -136,7 +164,7 @@ export default {
         });
     },
 
-      openTaskModalDialog(column) {
+    openTaskModalDialog(column) {
       this.taskDialogData = column;
       this.taskModalDialog = true;
     },
@@ -144,6 +172,21 @@ export default {
       this.taskDialogData = {};
       this.taskModalDialog = false;
     },
+      
+    openTaskDetailsModalDialog(task) {
+      this.editTaskDialogData = task;
+      this.editTaskModalDialog = true;
+    },
+      closeEditTaskModalDialog() {
+        this.editTaskDialogData = {};
+        this.editTaskModalDialog = false;
+      },
+
+
+
+
+
+
     allowDrop(ev) {
       ev.preventDefault(); // default is not to allow drop
     },
@@ -293,5 +336,13 @@ export default {
 }
 ul li:nth-child(n + 2) {
   margin-top: 10px;
+}
+.inline{
+  margin-top: 5px;
+  display: flex;
+}
+.delete{
+  position: sticky;
+  left: 100%;
 }
 </style>
