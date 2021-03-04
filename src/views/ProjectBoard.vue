@@ -62,29 +62,13 @@
               </template>
             </el-popover>
           </div>
-          <el-dialog
-            v-if="selectedTask"
-            :title="selectedTask.task_name"
-            v-model="dialog"
-            width="50%">
-            <span>{{ selectedTask.task_description }}</span>
-              <span class="dialog-footer">
-              </span>
-            <template #footer>
-              <el-button
-                icon="el-icon-more"
-              >
-              Edit
-              </el-button>
-            </template>
-          </el-dialog>
+
           <div
             v-for="(task, taskNo) in column.tasks"
             :key="task.id"
             :id="`card${taskNo}-${Math.random()}`"
             class="card"
             draggable="true"
-            @click.self="openTask(task, $event)"
             @dragstart="dragStart($event)"
           >
             {{ task.task_name }} ||
@@ -94,7 +78,7 @@
               size="small"
               icon="el-icon-delete"
               circle
-              @click="removeTask(task._id)"
+              @click="() => removeTask(task._id)"
             ></el-button>
           </div>
         </div>
@@ -125,10 +109,8 @@ export default {
       visible: false,
       taskid: "",
       taskModalDialog: false,
-      taskDialogData: {},
-      dialog: false,
-      selectedTask: null,
-      isEditingTask: false
+      taskDialogData: {}
+
     };
   },
 
@@ -161,11 +143,6 @@ export default {
     closeTaskModalDialog() {
       this.taskDialogData = {};
       this.taskModalDialog = false;
-    },
-    openTask(task, $event) {
-      $event.stopPropagation();
-      this.dialog = true
-      this.selectedTask = task
     },
     allowDrop(ev) {
       ev.preventDefault(); // default is not to allow drop
