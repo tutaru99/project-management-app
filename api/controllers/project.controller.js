@@ -169,14 +169,16 @@ exports.addTask = (req, res) => {
 exports.updateTask = (req, res) => {
 
     const id = req.params.id;
-
+                            /*  "columns.$.tasks.2" index=2 defines array in the column that is being edited */
     project.update({ "columns.tasks._id": mongoose.Types.ObjectId(id) },
         {
-            $set: { "columns.$.tasks": {
-                "_id": mongoose.Types.ObjectId(id),
-                "task_name": req.body.task_name,
-                "task_description": req.body.task_description
-            }}
+            $set: {
+                "columns.$.tasks.2": {
+                    "_id": mongoose.Types.ObjectId(id),
+                    "task_name": req.body.task_name,
+                    "task_description": req.body.task_description
+                }
+            }
         },
         { "columns.tasks.$": true })
         .then(data => {
@@ -184,7 +186,7 @@ exports.updateTask = (req, res) => {
                 res.status(404).send({
                     message: `Cannot update task with id=${id}.`
                 });
-            } else res.send({ message: "Task was Edited successfully!" });
+            } else res.send({ message: "Task was Edited successfully!" + `${req.params}` });
         })
         .catch(err => {
             res.status(500).send({
