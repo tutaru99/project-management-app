@@ -4,6 +4,29 @@
     <div class="board-layout" v-if="projectData">
       <div class="left">
         <div id="boardTitle" class="board-text">{{ projectData.title }}</div>
+
+        <el-button type="text" @click="colDialogFormVisible = true"
+          >Add New Column</el-button
+        >
+        <el-dialog
+          :before-close="closeColDialog"
+          title="New Column"
+          v-model="colDialogFormVisible"
+        >
+          <el-form>
+            <el-form-item label="Column name">
+              <el-input v-model="col_name" autocomplete="off"></el-input>
+            </el-form-item>
+          </el-form>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button @click="closeColDialog()">Cancel</el-button>
+              <el-button type="primary" @click="addNewColumn(projectData._id)"
+                >Confirm</el-button
+              >
+            </span>
+          </template>
+        </el-dialog>
       </div>
       <!-- whole board element -->
       <div id="boardlists" class="board-lists">
@@ -17,7 +40,7 @@
           @dragover="allowDrop($event)"
         >
           <div class="list-title">
-            {{ column.col_name }} <br>
+            {{ column.col_name }} <br />
             <el-button
               icon="el-icon-plus"
               circle
@@ -44,30 +67,29 @@
               <p>{{ task.task_description }}</p>
             </div>
 
-          <div class="inline">
-          <div>
-              <el-button
-                class="details"
-                size="small"
-                icon="el-icon-edit"
-                circle
-                @click="openTaskDetailsModalDialog(task)"
-              ></el-button>
+            <div class="inline">
+              <div>
+                <el-button
+                  class="details"
+                  size="small"
+                  icon="el-icon-edit"
+                  circle
+                  @click="openTaskDetailsModalDialog(task)"
+                ></el-button>
+              </div>
+              <div class="delete">
+                <el-button
+                  size="small"
+                  icon="el-icon-delete"
+                  circle
+                  @click="removeTask(task._id)"
+                ></el-button>
+              </div>
+            </div>
           </div>
-          <div class="delete">
-              <el-button
-                size="small"
-                icon="el-icon-delete"
-                circle
-                @click="removeTask(task._id)"
-              ></el-button>
-           </div>
-          </div>
-
         </div>
       </div>
     </div>
-  </div>
     <!-- Dialog Components -->
     <NewTaskDialogComponent
       v-if="taskModalDialog"
@@ -80,8 +102,8 @@
       v-if="editTaskModalDialog"
       :editTaskModalDialog="editTaskModalDialog"
       :editTaskDialogData="editTaskDialogData"
-       @close="closeEditTaskModalDialog"
-       @edit="getProject"
+      @close="closeEditTaskModalDialog"
+      @edit="getProject"
     />
   </div>
 </template>
@@ -108,7 +130,10 @@ export default {
       editTaskModalDialog: false,
       editTaskDialogData: {},
 
-      colID: ""
+      colID: "",
+      projectID: "",
+      colDialogFormVisible: false,
+      col_name: "",
     };
   },
 
@@ -153,15 +178,27 @@ export default {
     },
 
     async deleteColumn(colID) {
-     await axios
+      await axios
         .put(`http://localhost:3000/api/projects/deletecolumn/${colID}`)
         .then((response) => {
           (this.tasks = response.data), this.getProject();
         });
     },
-
-
-
+    closeColDialog() {
+      (this.colDialogFormVisible = !this.colDialogFormVisible),
+        (this.col_name = "");
+    },
+    async addNewColumn(projectID) {
+      await axios
+        .put(`http://localhost:3000/api/projects/addcolumn/${projectID}`, {
+          col_name: this.col_name,
+        })
+        .then((response) => {
+          (this.tasks = response.data),
+            this.getProject(),
+            this.closeColDialog();
+        });
+    },
 
     allowDrop(ev) {
       ev.preventDefault(); // default is not to allow drop
@@ -313,11 +350,11 @@ export default {
 ul li:nth-child(n + 2) {
   margin-top: 10px;
 }
-.inline{
+.inline {
   margin-top: 5px;
   display: flex;
 }
-.delete{
+.delete {
   position: sticky;
   left: 100%;
 }

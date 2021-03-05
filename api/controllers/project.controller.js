@@ -110,6 +110,7 @@ exports.delete = (req, res) => {
         });
 };
 
+//TASKS
 // Delete a Single Task by ID
 exports.deleteTask = (req, res) => {
 
@@ -167,7 +168,6 @@ exports.addTask = (req, res) => {
 
 // Update a TASK by the ID
 exports.updateTask = (req, res) => {
-
     const id = req.params.id;
     project.update({ "columns.tasks._id": mongoose.Types.ObjectId(id) },
         {
@@ -193,6 +193,8 @@ exports.updateTask = (req, res) => {
         });
 };
 
+
+//COLUMNS
 // Delete a Column with the specified ID
 exports.deleteColumn = (req, res) => {
     const id = req.params.id;
@@ -216,7 +218,36 @@ exports.deleteColumn = (req, res) => {
             });
         });
 };
+// Add a new Column to project
+exports.addColumn = (req, res) => {
+    const id = req.params.id;
 
+    project.update({ "_id": mongoose.Types.ObjectId(id) },
+        {
+            $push: {
+                "columns": {
+                    "col_name": req.body.col_name
+                }
+            }
+        })
+        .then(data => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Cannot add Column with id=${id}.`
+                });
+            } else res.send({ message: "Column was ADDED successfully!" });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving Column-."
+            });
+        });
+};
+
+
+
+//PROJECT
 // Delete all Projects at once from the database.
 exports.deleteAll = (req, res) => {
     project.deleteMany({})

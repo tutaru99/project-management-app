@@ -27,7 +27,8 @@ module.exports = app => {
   //COLUMNS
   //Delete Column with ID
   router.put("/deletecolumn/:id", projects.deleteColumn);
-
+  // Add a new Column by Project ID
+  router.put("/addcolumn/:id", projects.addColumn);
 
   //PROJECTS
   // Retrieve all Project
