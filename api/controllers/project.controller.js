@@ -193,6 +193,29 @@ exports.updateTask = (req, res) => {
         });
 };
 
+// Delete a Column with the specified ID
+exports.deleteColumn = (req, res) => {
+    const id = req.params.id;
+
+    project.update({ "columns._id": mongoose.Types.ObjectId(id) },
+        {
+            $pull:
+                { "columns": { "_id": mongoose.Types.ObjectId(id) } }
+        })
+        .then(data => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Cannot delete column with id=${id}.`
+                });
+            } else res.send({ message: "column was deleted successfully!" + `${id}` });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving column-."
+            });
+        });
+};
 
 // Delete all Projects at once from the database.
 exports.deleteAll = (req, res) => {

@@ -17,50 +17,18 @@
           @dragover="allowDrop($event)"
         >
           <div class="list-title">
-            {{ column.col_name }} - {{ column._id }}
+            {{ column.col_name }} <br>
             <el-button
               icon="el-icon-plus"
               circle
               @click="openTaskModalDialog(column)"
             ></el-button>
-            <el-popover
-              placement="right"
-              :width="200"
-              v-model:visible="visible.active"
-            >
-              <ul>
-                <li>
-                  <el-button
-                    class="actionButtons"
-                    type="success"
-                    icon="el-icon-plus"
-                    plain
-                    @click="visible = false"
-                    >Add Column</el-button
-                  >
-                </li>
-                <li>
-                  <el-button
-                    class="actionButtons"
-                    type="danger"
-                    icon="el-icon-delete"
-                    plain
-                    @click="visible = false"
-                    >Delete Column</el-button
-                  >
-                </li>
-              </ul>
-
-              <template #reference>
-                <el-button
-                  class="more-actions"
-                  size="small"
-                  icon="el-icon-more"
-                  circle
-                  @click="visible = true"
-                ></el-button>
-              </template>
-            </el-popover>
+            <el-button
+              class="more-actions"
+              icon="el-icon-delete"
+              @click="deleteColumn(column._id)"
+              circle
+            ></el-button>
           </div>
 
           <div
@@ -139,6 +107,8 @@ export default {
 
       editTaskModalDialog: false,
       editTaskDialogData: {},
+
+      colID: ""
     };
   },
 
@@ -172,17 +142,23 @@ export default {
       this.taskDialogData = {};
       this.taskModalDialog = false;
     },
-      
+
     openTaskDetailsModalDialog(task) {
       this.editTaskDialogData = task;
       this.editTaskModalDialog = true;
     },
-      closeEditTaskModalDialog() {
-        this.editTaskDialogData = {};
-        this.editTaskModalDialog = false;
-      },
+    closeEditTaskModalDialog() {
+      this.editTaskDialogData = {};
+      this.editTaskModalDialog = false;
+    },
 
-
+    async deleteColumn(colID) {
+     await axios
+        .put(`http://localhost:3000/api/projects/deletecolumn/${colID}`)
+        .then((response) => {
+          (this.tasks = response.data), this.getProject();
+        });
+    },
 
 
 

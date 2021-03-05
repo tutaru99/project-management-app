@@ -24,6 +24,10 @@ module.exports = app => {
   router.put("/addtask/:id", projects.addTask);
 
 
+  //COLUMNS
+  //Delete Column with ID
+  router.put("/deletecolumn/:id", projects.deleteColumn);
+
 
   //PROJECTS
   // Retrieve all Project
