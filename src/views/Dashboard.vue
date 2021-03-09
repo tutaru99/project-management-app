@@ -4,7 +4,7 @@
       <el-row type="flex">
         <el-col :span="10" :offset="2">
           <div>
-            <h1>Projects</h1>
+            <h1>Projects git test</h1>
             <br>
             <div v-for="project in projectsData"
             :key="project.key">
