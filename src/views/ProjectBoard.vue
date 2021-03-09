@@ -38,13 +38,14 @@
             class="card"
             draggable="true"
             @dragstart="dragStart($event)"
+            @click.self="openDetailsTaskDialog(task)"
           >
-            <div>
+            <div @click="openDetailsTaskDialog(task)">
               <p>{{ task.task_name }} ||</p>
               <p>{{ task.task_description }}</p>
             </div>
 
-            <div class="inline">
+            <div class="inline" @click.self="openDetailsTaskDialog(task)">
               <div>
                 <el-button
                   class="details"
@@ -77,7 +78,7 @@
           :before-close="closeColDialog"
           title="New Column"
           v-model="colDialogFormVisible"
-           width="30%"
+          width="30%"
         >
           <el-form>
             <el-form-item label="Column name">
@@ -110,6 +111,14 @@
       @close="closeEditTaskModalDialog"
       @edit="getProject"
     />
+
+    <DetailsTaskDialog
+      v-if="detailsTaskDialog"
+      :detailsTaskDialog="detailsTaskDialog"
+      :detailsTaskDialogData="detailsTaskDialogData"
+      @submit="getProject"
+      @close="closeDetailsTaskDialog"
+    />
   </div>
 </template>
 
@@ -118,11 +127,13 @@
 import axios from "axios";
 import NewTaskDialogComponent from "@/components/Task/NewTaskDialog.vue";
 import TaskDetailsDialog from "@/components/Task/EditTaskDialog.vue";
+import DetailsTaskDialog from "@/components/Task/DetailsTaskDialog.vue";
 
 export default {
   components: {
     NewTaskDialogComponent,
     TaskDetailsDialog,
+    DetailsTaskDialog,
   },
   data() {
     return {
@@ -139,6 +150,9 @@ export default {
       projectID: "",
       colDialogFormVisible: false,
       col_name: "",
+
+      detailsTaskDialogData: {},
+      detailsTaskDialog: false,
     };
   },
 
@@ -164,6 +178,7 @@ export default {
         });
     },
 
+    //Opening and closing component dialogs
     openTaskModalDialog(column) {
       this.taskDialogData = column;
       this.taskModalDialog = true;
@@ -180,6 +195,15 @@ export default {
     closeEditTaskModalDialog() {
       this.editTaskDialogData = {};
       this.editTaskModalDialog = false;
+    },
+
+    openDetailsTaskDialog(task) {
+      this.detailsTaskDialogData = task;
+      this.detailsTaskDialog = true;
+    },
+    closeDetailsTaskDialog() {
+      this.detailsTaskDialogData = {};
+      this.detailsTaskDialog = false;
     },
 
     async deleteColumn(colID) {
@@ -243,7 +267,10 @@ export default {
           // Append to the list
           targetEl.appendChild(sourceIdEl);
         }
-      } else {
+      }
+      /* Temporary fix to remove bug when dropping cards on each other */
+
+      /* else {
         // Same list. Swap the text of the two cards
         // Just like swapping the values in two variables
         // Temporary holder of the destination Object
@@ -256,7 +283,7 @@ export default {
         // Replace the sources text with the original destinations
         sourceIdEl.textContent = holderText;
         holderText = "";
-      }
+      } */
     },
   },
 };

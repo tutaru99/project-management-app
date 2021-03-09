@@ -5,9 +5,8 @@
         <el-col :span="10" :offset="2">
           <div>
             <h1>Projects</h1>
-            <br>
-            <div v-for="project in projectsData"
-            :key="project.key">
+            <br />
+            <div v-for="project in projectsData" :key="project.key">
               <div class="projectsWrapper">
                 <h4>{{ project.title }}</h4>
                 <p>{{ project.description }}</p>
@@ -17,18 +16,24 @@
                 <p>-date when the project ends mb?</p>
                 <p>-group members belonging/added in this project</p>
                 <el-row type="flex" justify="end">
-                  <router-link :to="{ path: '/projectboard/' + project._id }"><el-button id="linkProject" type="primary" >Open Project</el-button></router-link>
+                  <router-link :to="{ path: '/projectboard/' + project._id }"
+                    ><el-button id="linkProject" type="primary"
+                      >Open Project</el-button
+                    ></router-link
+                  >
                 </el-row>
                 <el-row type="flex" justify="end">
-                  <span id="dateCreated">Created: {{ project.createdAt.split("T").shift() }}</span>
+                  <span id="dateCreated"
+                    >Created: {{ project.createdAt.split("T").shift() }}</span
+                  >
                 </el-row>
               </div>
             </div>
           </div>
         </el-col>
-                <el-col :span="11" :offset="1">
+        <el-col :span="11" :offset="1">
           <DashboardComponent />
-                </el-col>
+        </el-col>
       </el-row>
     </el-main>
   </div>
@@ -56,33 +61,35 @@ export default {
     async getProjectsData() {
       await axios
         .get("http://localhost:3000/api/projects")
-        .then((response) => (this.projectsData = response.data, console.log(response))
-      )
+        .then(
+          (response) => (
+            (this.projectsData = response.data), console.log(response)
+          )
+        );
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-
 /* Shitty CSS for now */
-.projectsWrapper{
+.projectsWrapper {
   border: 1px solid rgb(0, 0, 0);
   padding: 10px;
   margin: 10px;
 }
-#completed{
+#completed {
   color: lightgreen;
   font-weight: 700;
 }
-#inProgress{
+#inProgress {
   color: gold;
   font-weight: 700;
 }
 #dateCreated {
   font-size: 13px;
 }
-#linkProject{
+#linkProject {
   font-size: 16px;
 }
 </style>
