@@ -2,6 +2,7 @@ const db = require("../models");
 const Project = project = db.projects;              /* WORKAROUND FOR NOW  - READ/WRITE  */
 const ObjectId = require('mongodb').ObjectID;
 const mongoose = require("mongoose");
+
 // Create and Save a new Project
 exports.create = (req, res) => {
     // Validate request
@@ -35,6 +36,7 @@ exports.create = (req, res) => {
 
 // Retrieve all Projects from the database.
 exports.findAll = (req, res) => {
+
     project.find()
         .then(data => {
             res.send(data);
@@ -50,6 +52,7 @@ exports.findAll = (req, res) => {
 // Find a single Project by an ID
 exports.findOne = (req, res) => {
     const id = req.params.id;
+
     project.findById(id)
         .then(data => {
             if (!data)
@@ -65,26 +68,27 @@ exports.findOne = (req, res) => {
 
 // Update a Project by the ID
 exports.update = (req, res) => {
+    const id = req.params.id;
+
     if (!req.body) {
         return res.status(400).send({
             message: "Data to update can not be empty!" + " - " + console.log(req.body),
         });
     }
-    const id = req.params.id;
 
-    project.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
-        .then(data => {
-            if (!data) {
-                res.status(404).send({
-                    message: `Cannot update Project with id=${id}. Maybe Project was not found!`
-                });
-            } else res.send({ message: "Project was updated successfully." });
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: "Error updating Project with id=" + id
+project.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+    .then(data => {
+        if (!data) {
+            res.status(404).send({
+                message: `Cannot update Project with id=${id}. Maybe Project was not found!`
             });
+        } else res.send({ message: "Project was updated successfully." });
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: "Error updating Project with id=" + id
         });
+    });
 };
 
 // Delete a Project with the specified id in the request
@@ -113,7 +117,6 @@ exports.delete = (req, res) => {
 //TASKS
 // Delete a Single Task by ID
 exports.deleteTask = (req, res) => {
-
     const id = req.params.id;
 
     project.update({ "columns.tasks._id": mongoose.Types.ObjectId(id) },
@@ -136,7 +139,6 @@ exports.deleteTask = (req, res) => {
             });
         });
 };
-
 
 // Add a new Task to column
 exports.addTask = (req, res) => {
@@ -169,6 +171,7 @@ exports.addTask = (req, res) => {
 // Update a TASK by the ID
 exports.updateTask = (req, res) => {
     const id = req.params.id;
+
     project.update({ "columns.tasks._id": mongoose.Types.ObjectId(id) },
         {
             $set: {
@@ -218,6 +221,7 @@ exports.deleteColumn = (req, res) => {
             });
         });
 };
+
 // Add a new Column to project
 exports.addColumn = (req, res) => {
     const id = req.params.id;
@@ -242,14 +246,14 @@ exports.addColumn = (req, res) => {
                 message:
                     err.message || "Some error occurred while retrieving Column-."
             });
-        });
+    });
 };
-
 
 
 //PROJECT
 // Delete all Projects at once from the database.
 exports.deleteAll = (req, res) => {
+
     project.deleteMany({})
         .then(data => {
             res.send({
@@ -261,11 +265,12 @@ exports.deleteAll = (req, res) => {
                 message:
                     err.message || "Some error occurred while removing all projects."
             });
-        });
+    });
 };
 
 // Find Projects by set Condition
 exports.findAllCompleted = (req, res) => {
+
     project.find({ completed: true })
         .then(data => {
             res.send(data);
@@ -275,5 +280,5 @@ exports.findAllCompleted = (req, res) => {
                 message:
                     err.message || "Some error occurred while retrieving projects."
             });
-        });
+    });
 };

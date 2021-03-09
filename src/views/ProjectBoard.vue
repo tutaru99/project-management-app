@@ -5,28 +5,7 @@
       <div class="left">
         <div id="boardTitle" class="board-text">{{ projectData.title }}</div>
 
-        <el-button type="text" @click="colDialogFormVisible = true"
-          >Add New Column</el-button
-        >
-        <el-dialog
-          :before-close="closeColDialog"
-          title="New Column"
-          v-model="colDialogFormVisible"
-        >
-          <el-form>
-            <el-form-item label="Column name">
-              <el-input v-model="col_name" autocomplete="off"></el-input>
-            </el-form-item>
-          </el-form>
-          <template #footer>
-            <span class="dialog-footer">
-              <el-button @click="closeColDialog()">Cancel</el-button>
-              <el-button type="primary" @click="addNewColumn(projectData._id)"
-                >Confirm</el-button
-              >
-            </span>
-          </template>
-        </el-dialog>
+
       </div>
       <!-- whole board element -->
       <div id="boardlists" class="board-lists">
@@ -88,6 +67,28 @@
             </div>
           </div>
         </div>
+                <el-button class="colButton" icon="el-icon-plus" type="primary" outlined @click="colDialogFormVisible = true"
+          >NEW COLUMN</el-button
+        >
+        <el-dialog
+          :before-close="closeColDialog"
+          title="New Column"
+          v-model="colDialogFormVisible"
+        >
+          <el-form>
+            <el-form-item label="Column name">
+              <el-input v-model="col_name" autocomplete="off"></el-input>
+            </el-form-item>
+          </el-form>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button @click="closeColDialog()">Cancel</el-button>
+              <el-button type="primary" @click="addNewColumn(projectData._id)"
+                >Confirm</el-button
+              >
+            </span>
+          </template>
+        </el-dialog>
       </div>
     </div>
     <!-- Dialog Components -->
@@ -220,7 +221,8 @@ export default {
 
       // Compare List names to see if we are going between lists
       // or within the same list
-      if (targetParentEl.id !== sourceIdParentEl.id) {
+      console.log(ev.target.id.substring(0, 4))
+      if (targetParentEl.id !== sourceIdParentEl.id && ev.target.id.substring(0, 4) != 'card') {
         // If the source and destination have the same
         // className (card), then we risk dropping a Card in to a Card
         // That may be a cool feature, but not for us!
@@ -229,7 +231,7 @@ export default {
           // Card in the list
           // This is in case you drag and drop a Card on top
           // of a Card in a different list
-          targetParentEl.appendChild(sourceIdEl);
+          // targetParentEl.appendChild(sourceIdEl);
         } else {
           // Append to the list
           targetEl.appendChild(sourceIdEl);
@@ -357,5 +359,8 @@ ul li:nth-child(n + 2) {
 .delete {
   position: sticky;
   left: 100%;
+}
+.colButton {
+  max-height: 40px;
 }
 </style>
