@@ -4,7 +4,7 @@
       <el-row type="flex">
         <el-col :span="10" :offset="2">
           <div>
-            <h1>Projects git test</h1>
+            <h1>Projects</h1>
             <br>
             <div v-for="project in projectsData"
             :key="project.key">
@@ -14,8 +14,8 @@
                 <p id="completed" v-if="project.completed == true">Completed</p>
                 <p id="inProgress" v-else>Ongoing</p>
                 <p>-total hours assigned, total hours spent, total time left</p>
-                <p>-date when the project ends?</p>
-                <p>-group members in this project</p>
+                <p>-date when the project ends mb?</p>
+                <p>-group members belonging/added in this project</p>
                 <el-row type="flex" justify="end">
                   <router-link :to="{ path: '/projectboard/' + project._id }"><el-button id="linkProject" type="primary" >Open Project</el-button></router-link>
                 </el-row>
