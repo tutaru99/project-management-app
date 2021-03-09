@@ -5,7 +5,6 @@
         <el-col :span="24">
           <h1>Dashboard Component</h1>
           <p>The quick brown fox jumped over the lazy dog</p>
-          <p>text styling is fucked with the components, need to investigate further</p>
         </el-col>
       </el-row>
     </el-main>

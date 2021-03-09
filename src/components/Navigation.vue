@@ -6,7 +6,6 @@
       :collapse="$store.state.isCollapse"
       router
     >
-
       <el-radio-group :collapse="$store.commit('isCollapseState')" v-model="$store.state.isCollapse">
         <el-radio-button circle v-if="$store.state.isCollapse == true" :label="false"
           ><i class="el-icon-d-arrow-right"></i
@@ -22,27 +21,19 @@
       </el-menu-item>
       <el-submenu index="1">
         <template #title>
-          <i class="el-icon-location"></i>
-          <span>Navigator One</span>
+          <i class="el-icon-folder-opened"></i>
+          <span>Projects</span>
         </template>
         <el-menu-item-group>
-          <template #title><span>Group One</span></template>
-          <el-menu-item index="1-1">item one</el-menu-item>
-          <el-menu-item index="1-2">item two</el-menu-item>
+          <el-menu-item v-for="project in projectsData"
+            :key="project.key">{{ project.title }}</el-menu-item>
         </el-menu-item-group>
-        <el-menu-item-group title="Group Two">
-          <el-menu-item index="1-3">item three</el-menu-item>
-        </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template #title><span>item four</span></template>
-          <el-menu-item index="1-4-1">item one</el-menu-item>
-        </el-submenu>
       </el-submenu>
-      <el-menu-item index="3">
+      <el-menu-item index="5">
         <i class="el-icon-menu"></i>
         <template #title>Navigator Two</template>
       </el-menu-item>
-      <el-menu-item index="4">
+      <el-menu-item index="5">
         <i class="el-icon-setting"></i>
         <template #title>Navigator Three</template>
       </el-menu-item>
@@ -51,13 +42,25 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  data() {
+ data() {
     return {
-      
+      projectsData: [],
     };
   },
-  methods: {}
+  mounted() {
+    this.getProjectsData();
+  },
+  methods: {
+    async getProjectsData() {
+      await axios
+        .get("http://localhost:3000/api/projects")
+        .then((response) => (this.projectsData = response.data)
+      )
+    },
+  },
 };
 </script>
 

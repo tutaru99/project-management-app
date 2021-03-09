@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :before-close="close" title="New Task" v-model="taskModalDialog">
+  <el-dialog :before-close="close" title="New Task" v-model="taskModalDialog" width="30%">
     <el-form>
       <el-form-item label="Task name">
         <el-input
@@ -10,6 +10,7 @@
       </el-form-item>
       <el-form-item label="Task desription">
         <el-input
+          type="textarea"
           placeholder="Enter task description"
           v-model="description"
           autocomplete="off"

@@ -4,8 +4,6 @@
     <div class="board-layout" v-if="projectData">
       <div class="left">
         <div id="boardTitle" class="board-text">{{ projectData.title }}</div>
-
-
       </div>
       <!-- whole board element -->
       <div id="boardlists" class="board-lists">
@@ -67,13 +65,19 @@
             </div>
           </div>
         </div>
-                <el-button class="colButton" icon="el-icon-plus" type="primary" outlined @click="colDialogFormVisible = true"
+        <el-button
+          class="colButton"
+          icon="el-icon-plus"
+          type="primary"
+          outlined
+          @click="colDialogFormVisible = true"
           >NEW COLUMN</el-button
         >
         <el-dialog
           :before-close="closeColDialog"
           title="New Column"
           v-model="colDialogFormVisible"
+           width="30%"
         >
           <el-form>
             <el-form-item label="Column name">
@@ -221,8 +225,11 @@ export default {
 
       // Compare List names to see if we are going between lists
       // or within the same list
-      console.log(ev.target.id.substring(0, 4))
-      if (targetParentEl.id !== sourceIdParentEl.id && ev.target.id.substring(0, 4) != 'card') {
+      console.log(ev.target.id.substring(0, 4));
+      if (
+        targetParentEl.id !== sourceIdParentEl.id &&
+        ev.target.id.substring(0, 4) != "card"
+      ) {
         // If the source and destination have the same
         // className (card), then we risk dropping a Card in to a Card
         // That may be a cool feature, but not for us!
@@ -310,8 +317,7 @@ export default {
   -khtml-user-select: none; /* Konqueror HTML */
   -moz-user-select: none; /* Old versions of Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                                  supported by Chrome, Edge, Opera and Firefox */
+  user-select: none; /* Non-prefixed version, currently */
 }
 
 .card {
