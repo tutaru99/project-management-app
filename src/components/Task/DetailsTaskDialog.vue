@@ -36,18 +36,24 @@
         </el-col>
         <el-col :span="8" :offset="1">
           <h1>Actions</h1>
-       Assign members to task
-          <br><br>
+          Assign members to task
+          <br /><br />
           <p>Task State</p>
-    <el-radio-group v-model="taskProgress" size="medium">
-      <el-radio-button label="In Progress"></el-radio-button>
-      <el-radio-button label="Completed"></el-radio-button>
-    </el-radio-group>
+          <el-radio-group v-model="taskProgress" size="small">
+            <el-radio-button label="In Progress"></el-radio-button>
+            <el-radio-button label="On Hold"></el-radio-button>
+            <el-radio-button label="Completed"></el-radio-button>
+          </el-radio-group>
 
-    <br><br>
-          <p>hrs:</p>
-            <el-input-number v-model="timeSelect" :precision="2" :step="0.1" :max="24"></el-input-number>
-    <br><br>
+          <br /><br />
+          <p>Time to complete</p>
+          <el-input-number
+            v-model="timeSelect"
+            :precision="2"
+            :step="0.1"
+            :max="24"
+          ></el-input-number>
+          <br /><br />
           <el-button type="" icon="el-icon-delete">Delete Task</el-button>
         </el-col>
       </el-row>
@@ -77,24 +83,24 @@ export default {
     priorities: [
       {
         value: "Option1",
-        label: "Not Important",
+        label: "Low",
       },
       {
         value: "Option2",
-        label: "Ongoing",
+        label: "Medium",
       },
       {
         value: "Option3",
-        label: "Important",
+        label: "High",
       },
       {
         value: "Option4",
-        label: "Very Important",
+        label: "Very High",
       },
     ],
-    taskProgress: 'In Progress',
+    taskProgress: "In Progress",
     value: "",
-      timeSelect: 0,
+    timeSelect: 0,
   }),
   mounted() {
     this.editName = this.detailsTaskDialogData.task_name;

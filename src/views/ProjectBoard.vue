@@ -89,7 +89,7 @@
             <span class="dialog-footer">
               <el-button @click="closeColDialog()">Cancel</el-button>
               <el-button type="primary" @click="addNewColumn(projectData._id)"
-                >Confirm</el-button
+                >Add List</el-button
               >
             </span>
           </template>
