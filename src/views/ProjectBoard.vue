@@ -72,16 +72,16 @@
           type="primary"
           outlined
           @click="colDialogFormVisible = true"
-          >NEW COLUMN</el-button
+          >NEW LIST</el-button
         >
         <el-dialog
           :before-close="closeColDialog"
-          title="New Column"
+          title="New List"
           v-model="colDialogFormVisible"
           width="30%"
         >
           <el-form>
-            <el-form-item label="Column name">
+            <el-form-item label="List name">
               <el-input v-model="col_name" autocomplete="off"></el-input>
             </el-form-item>
           </el-form>

@@ -3,14 +3,12 @@
     :before-close="close"
     title="DETAILS"
     v-model="detailsTaskDialog"
-    width="80%"
+    width="50%"
   >
     <el-main>
       <el-row type="flex">
-        <el-col :span="24" :offset="0">
+        <el-col :span="7" :offset="1">
           <h1>Task Details</h1>
-        </el-col>
-        <el-col :span="6">
           <el-form>
             <el-form-item label="Name">
               <el-input v-model="editName" autocomplete="off"></el-input>
@@ -23,6 +21,34 @@
               ></el-input>
             </el-form-item>
           </el-form>
+        </el-col>
+        <el-col :span="6" :offset="1">
+          <h1>Priority</h1>
+          <el-select v-model="value" placeholder="Choose Priority">
+            <el-option
+              v-for="priority in priorities"
+              :key="priority.value"
+              :label="priority.label"
+              :value="priority.value"
+            >
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="8" :offset="1">
+          <h1>Actions</h1>
+       Assign members to task
+          <br><br>
+          <p>Task State</p>
+    <el-radio-group v-model="taskProgress" size="medium">
+      <el-radio-button label="In Progress"></el-radio-button>
+      <el-radio-button label="Completed"></el-radio-button>
+    </el-radio-group>
+
+    <br><br>
+          <p>hrs:</p>
+            <el-input-number v-model="timeSelect" :precision="2" :step="0.1" :max="24"></el-input-number>
+    <br><br>
+          <el-button type="" icon="el-icon-delete">Delete Task</el-button>
         </el-col>
       </el-row>
     </el-main>
@@ -47,6 +73,28 @@ export default {
     editName: "",
     editDescription: "",
     taskId: "",
+
+    priorities: [
+      {
+        value: "Option1",
+        label: "Not Important",
+      },
+      {
+        value: "Option2",
+        label: "Ongoing",
+      },
+      {
+        value: "Option3",
+        label: "Important",
+      },
+      {
+        value: "Option4",
+        label: "Very Important",
+      },
+    ],
+    taskProgress: 'In Progress',
+    value: "",
+      timeSelect: 0,
   }),
   mounted() {
     this.editName = this.detailsTaskDialogData.task_name;
