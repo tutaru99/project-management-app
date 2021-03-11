@@ -104,8 +104,8 @@ export default {
         .then(
           (response) => (
             (this.projectsData = response.data),
-            console.log(response),
-            (this.fullscreenLoading = false)
+            (this.fullscreenLoading = false),
+            console.log(response) /* remove once done with projeect */
           )
         );
     },
@@ -121,6 +121,7 @@ export default {
           )
         );
     },
+
     async deleteProject(projectID) {
       await axios
         .delete(`http://localhost:3000/api/projects/${projectID}`)
