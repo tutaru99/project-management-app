@@ -52,6 +52,7 @@ export default {
   data() {
     return {
       projectsData: [],
+      fullscreenLoading: true,
     };
   },
   mounted() {
@@ -63,11 +64,18 @@ export default {
         .get("http://localhost:3000/api/projects")
         .then(
           (response) => (
-            (this.projectsData = response.data), console.log(response)
+            (this.projectsData = response.data), console.log(response), this.fullscreenLoading = false
           )
         );
     },
+    openFullScreen1() {
+        this.fullscreenLoading = true;
+        setTimeout(() => {
+          this.fullscreenLoading = false;
+        }, 2000);
+      },
   },
+  
 };
 </script>
 

@@ -159,7 +159,11 @@ export default {
   mounted() {
     this.getProject();
   },
-  watch: {},
+  watch: {
+    $route() {
+      this.getProject()
+    }
+  },
 
   methods: {
     async getProject() {

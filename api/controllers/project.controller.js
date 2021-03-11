@@ -37,7 +37,7 @@ exports.create = (req, res) => {
 // Retrieve all Projects from the database.
 exports.findAll = (req, res) => {
 
-    project.find()
+   project.find()
         .then(data => {
             res.send(data);
         })
@@ -47,6 +47,7 @@ exports.findAll = (req, res) => {
                     err.message || "Some error occurred while retrieving Projects."
             });
         });
+
 };
 
 // Find a single Project by an ID

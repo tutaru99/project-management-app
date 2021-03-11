@@ -12,7 +12,11 @@ module.exports = mongoose => {
             task_name: String,
             task_description: String
           }]
-        }]
+        }],
+        users: [{
+          type: [mongoose.Schema.Types.ObjectId],
+          ref: "users"
+        }],
       },
       { timestamps: true }
     )

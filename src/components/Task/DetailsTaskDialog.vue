@@ -37,6 +37,7 @@
         <el-col :span="8" :offset="1">
           <h1>Actions</h1>
           Assign members to task
+          <AddMembers />
           <br /><br />
           <p>Task State</p>
           <el-radio-group v-model="taskProgress" size="small">
@@ -46,12 +47,13 @@
           </el-radio-group>
 
           <br /><br />
-          <p>Time to complete</p>
+          <p>Estimate time to complete</p>
           <el-input-number
             v-model="timeSelect"
             :precision="2"
             :step="0.1"
             :max="24"
+            :min="0"
           ></el-input-number>
           <br /><br />
           <el-button type="" icon="el-icon-delete">Delete Task</el-button>
@@ -71,8 +73,12 @@
 </template>
 
 <script>
+import AddMembers from "./AddMembers.vue"
 import axios from "axios";
 export default {
+  components: {
+    AddMembers
+  },
   props: ["detailsTaskDialog", "detailsTaskDialogData"],
   emits: ["submit", "close"],
   data: () => ({

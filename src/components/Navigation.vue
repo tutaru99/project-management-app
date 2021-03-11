@@ -25,8 +25,10 @@
           <span>Projects</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item v-for="project in projectsData"
-            :key="project.key">{{ project.title }}</el-menu-item>
+          <router-link v-for="project in projectsData"
+            :key="project.key" :to="{ path: '/projectboard/' + project._id }">
+            <el-menu-item >{{ project.title }}</el-menu-item>
+            </router-link>
         </el-menu-item-group>
       </el-submenu>
       <el-menu-item index="5">
@@ -72,5 +74,8 @@ export default {
 }
 .el-menu {
   border-bottom: 1px solid #e6e6e6;
+}
+a {
+  text-decoration: none;
 }
 </style>
