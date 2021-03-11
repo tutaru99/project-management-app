@@ -23,6 +23,9 @@
                 <el-form-item label="Project Name">
                   <el-input v-model="title" autocomplete="off"></el-input>
                 </el-form-item>
+                <el-form-item label="Short Description">
+                  <el-input type="textarea" v-model="description" autocomplete="off"></el-input>
+                </el-form-item>
               </el-form>
               <template #footer>
                 <span class="dialog-footer">
@@ -92,6 +95,7 @@ export default {
       isNewProjectDialog: false,
 
       title: "",
+      description: "",
     };
   },
   mounted() {
@@ -112,7 +116,9 @@ export default {
 
     async createProject() {
       await axios
-        .post("http://localhost:3000/api/projects", { title: this.title })
+        .post("http://localhost:3000/api/projects",
+        { title: this.title,
+          description: this.description })
         .then(
           (response) => (
             (this.projects = response.data),
