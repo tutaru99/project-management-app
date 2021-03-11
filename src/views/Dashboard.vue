@@ -6,6 +6,36 @@
           <div>
             <h1>Projects</h1>
             <br />
+            <!-- New Project Dialog -->
+            <el-button
+              type="primary"
+              icon="el-icon-plus"
+              @click="isNewProjectDialog = true"
+            >
+              New Project
+            </el-button>
+            <el-dialog
+              title="Create New Project"
+              v-model="isNewProjectDialog"
+              width="30%"
+            >
+              <el-form>
+                <el-form-item label="Project Name">
+                  <el-input v-model="title" autocomplete="off"></el-input>
+                </el-form-item>
+              </el-form>
+              <template #footer>
+                <span class="dialog-footer">
+                  <el-button @click="isNewProjectDialog = false"
+                    >Cancel</el-button
+                  >
+                  <el-button type="primary" @click="createProject()"
+                    >Create</el-button
+                  >
+                </span>
+              </template>
+            </el-dialog>
+            <!-- Project Loop -->
             <div v-for="project in projectsData" :key="project.key">
               <div class="projectsWrapper">
                 <h4>{{ project.title }}</h4>
@@ -16,6 +46,12 @@
                 <p>-date when the project ends mb?</p>
                 <p>-group members belonging/added in this project</p>
                 <el-row type="flex" justify="end">
+                  <el-button
+                    class="more"
+                    icon="el-icon-delete"
+                    @click="deleteProject(project._id)"
+                    circle
+                  ></el-button>
                   <router-link :to="{ path: '/projectboard/' + project._id }"
                     ><el-button id="linkProject" type="primary"
                       >Open Project</el-button
@@ -53,6 +89,9 @@ export default {
     return {
       projectsData: [],
       fullscreenLoading: true,
+      isNewProjectDialog: false,
+
+      title: "",
     };
   },
   mounted() {
@@ -64,18 +103,45 @@ export default {
         .get("http://localhost:3000/api/projects")
         .then(
           (response) => (
-            (this.projectsData = response.data), console.log(response), this.fullscreenLoading = false
+            (this.projectsData = response.data),
+            console.log(response),
+            (this.fullscreenLoading = false)
           )
         );
     },
+
+    async createProject() {
+      await axios
+        .post("http://localhost:3000/api/projects", { title: this.title })
+        .then(
+          (response) => (
+            (this.projects = response.data),
+            console.log(response),
+            this.closeProjDialog()
+          )
+        );
+    },
+    async deleteProject(projectID) {
+      await axios
+        .delete(`http://localhost:3000/api/projects/${projectID}`)
+        .then((response) => {
+          (this.projects = response.data), this.getProjectsData();
+        });
+    },
+
     openFullScreen1() {
-        this.fullscreenLoading = true;
-        setTimeout(() => {
-          this.fullscreenLoading = false;
-        }, 2000);
-      },
+      this.fullscreenLoading = true;
+      setTimeout(() => {
+        this.fullscreenLoading = false;
+      }, 2000);
+    },
+
+    closeProjDialog() {
+      (this.isNewProjectDialog = !this.isNewProjectDialog),
+      (this.title = ""),
+      this.getProjectsData()
+    },
   },
-  
 };
 </script>
 

@@ -219,7 +219,7 @@ export default {
     },
     closeColDialog() {
       (this.colDialogFormVisible = !this.colDialogFormVisible),
-        (this.col_name = "");
+      (this.col_name = "");
     },
     async addNewColumn(projectID) {
       await axios

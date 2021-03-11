@@ -1,5 +1,4 @@
 <template>
-  <div>
     <el-menu
       default-active="2"
       class="el-menu-vertical-demo"
@@ -40,7 +39,6 @@
         <template #title>Navigator Three</template>
       </el-menu-item>
     </el-menu>
-  </div>
 </template>
 
 <script>

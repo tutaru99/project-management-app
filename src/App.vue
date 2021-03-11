@@ -1,9 +1,7 @@
 <template>
   <el-container id="app">
     <!-- undefined width style makes drawer responsive on minimize/maximize -->
-    <el-aside style="width: ">
       <Navigation />
-    </el-aside>
     <el-main>
       <el-row type="flex" justify="center">
         <el-col :span="24">

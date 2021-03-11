@@ -47,7 +47,7 @@
           </el-radio-group>
 
           <br /><br />
-          <p>Estimate time to complete</p>
+          <p>Estimate ime to complete</p>
           <el-input-number
             v-model="timeSelect"
             :precision="2"
