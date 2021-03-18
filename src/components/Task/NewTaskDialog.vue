@@ -1,5 +1,10 @@
 <template>
-  <el-dialog :before-close="close" title="New Task" v-model="taskModalDialog" width="30%">
+  <el-dialog
+    :before-close="close"
+    title="New Task"
+    v-model="taskModalDialog"
+    width="30%"
+  >
     <el-form>
       <el-form-item label="Task name">
         <el-input

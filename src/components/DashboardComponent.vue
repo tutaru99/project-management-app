@@ -19,7 +19,7 @@ export default {};
 <style lang="scss" scoped>
 @import "src/scss/_variables.scss";
 /* removing default padding/margin coming from the framework */
-#wrapper{
+#wrapper {
   padding: 0;
   margin: 0;
 }

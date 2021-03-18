@@ -4,6 +4,33 @@
     <div class="board-layout" v-if="projectData">
       <div class="left">
         <div id="boardTitle" class="board-text">{{ projectData.title }}</div>
+        <div>
+          <!-- Invite User to project -->
+          <el-button
+            icon="el-icon-plus"
+            type="primary"
+            @click="inviteUserDialog = true"
+            >Invite People to the Project</el-button
+          >
+          <el-dialog
+            :before-close="closeInviteUserDialog"
+            title="Invite User"
+            v-model="inviteUserDialog"
+            width="30%"
+          >
+            <el-form>
+              <el-form-item label="Username">
+                <el-input v-model="username" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-form>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="closeInviteUserDialog()">Cancel</el-button>
+                <el-button type="primary">Invite</el-button>
+              </span>
+            </template>
+          </el-dialog>
+        </div>
       </div>
       <!-- whole board element -->
       <div id="boardlists" class="board-lists">
@@ -137,6 +164,9 @@ export default {
   },
   data() {
     return {
+      inviteUserDialog: false,
+      username: "",
+
       projectData: null,
       visible: false,
       taskid: "",
@@ -154,7 +184,7 @@ export default {
       detailsTaskDialogData: {},
       detailsTaskDialog: false,
 
-      routeID: this.$route.params.id
+      routeID: this.$route.params.id,
     };
   },
 
@@ -162,9 +192,9 @@ export default {
     this.getProject();
   },
   watch: {
-    $route() {
-      this.getProject()
-    }
+    $routeID() {
+      this.getProject();
+    },
   },
 
   methods: {
@@ -212,16 +242,22 @@ export default {
       this.detailsTaskDialog = false;
     },
 
+    closeColDialog() {
+      (this.colDialogFormVisible = !this.colDialogFormVisible),
+        (this.col_name = "");
+    },
+
+    closeInviteUserDialog() {
+      (this.inviteUserDialog = !this.inviteUserDialog),
+        (this.username = "");
+    },
+
     async deleteColumn(colID) {
       await axios
         .put(`http://localhost:3000/api/projects/deletecolumn/${colID}`)
         .then((response) => {
           (this.tasks = response.data), this.getProject();
         });
-    },
-    closeColDialog() {
-      (this.colDialogFormVisible = !this.colDialogFormVisible),
-      (this.col_name = "");
     },
     async addNewColumn(projectID) {
       await axios

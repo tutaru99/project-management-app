@@ -1,51 +1,60 @@
 <template>
-    <el-menu
-      default-active="2"
-      class="el-menu-vertical-demo"
-      :collapse="$store.state.isCollapse"
-      router
+  <el-menu
+    default-active="2"
+    class="el-menu-vertical-demo"
+    :collapse="$store.state.isCollapse"
+    router
+  >
+    <el-radio-group id="stuff"
+      :collapse="$store.commit('isCollapseState')"
+      v-model="$store.state.isCollapse"
     >
-      <el-radio-group :collapse="$store.commit('isCollapseState')" v-model="$store.state.isCollapse">
-        <el-radio-button circle v-if="$store.state.isCollapse == true" :label="false"
-          ><i class="el-icon-d-arrow-right"></i
-        ></el-radio-button>
-        <el-radio-button :label="true" v-if="$store.state.isCollapse == !true"
-          ><i class="el-icon-d-arrow-left"></i
-        ></el-radio-button>
-      </el-radio-group>
-      <el-divider></el-divider>
-      <el-menu-item index="/">
-        <i class="el-icon-menu"></i>
-        <template #title>Dashboard</template>
-      </el-menu-item>
-      <el-submenu index="1">
-        <template #title>
-          <i class="el-icon-folder-opened"></i>
-          <span>Projects</span>
-        </template>
-        <el-menu-item-group>
-          <router-link v-for="project in projectsData.slice().reverse()"
-            :key="project.key" :to="{ path: '/projectboard/' + project._id }">
-            <el-menu-item >{{ project.title }}</el-menu-item>
-            </router-link>
-        </el-menu-item-group>
-      </el-submenu>
-      <el-menu-item index="5">
-        <i class="el-icon-menu"></i>
-        <template #title>Navigator Two</template>
-      </el-menu-item>
-      <el-menu-item index="5">
-        <i class="el-icon-setting"></i>
-        <template #title>Navigator Three</template>
-      </el-menu-item>
-    </el-menu>
+      <el-radio-button
+        circle
+        v-if="$store.state.isCollapse == true"
+        :label="false"
+        ><i class="el-icon-d-arrow-right"></i
+      ></el-radio-button>
+      <el-radio-button :label="true" v-if="$store.state.isCollapse == !true"
+        ><i class="el-icon-d-arrow-left"></i
+      ></el-radio-button>
+    </el-radio-group>
+
+    <el-menu-item index="/">
+      <i class="el-icon-menu"></i>
+      <template #title>Dashboard</template>
+    </el-menu-item>
+    <el-submenu index="1">
+      <template #title>
+        <i class="el-icon-folder-opened"></i>
+        <span>Projects</span>
+      </template>
+      <el-menu-item-group >
+        <router-link
+          v-for="project in projectsData.slice().reverse()"
+          :key="project.key"
+          :to="{ path: '/projectboard/' + project._id }"
+        >
+          <el-menu-item>{{ project.title }}</el-menu-item>
+        </router-link>
+      </el-menu-item-group>
+    </el-submenu>
+    <el-menu-item index="5">
+      <i class="el-icon-menu"></i>
+      <template #title>Navigator Two</template>
+    </el-menu-item>
+    <el-menu-item index="5">
+      <i class="el-icon-setting"></i>
+      <template #title>Navigator Three</template>
+    </el-menu-item>
+  </el-menu>
 </template>
 
 <script>
 import axios from "axios";
 
 export default {
- data() {
+  data() {
     return {
       projectsData: [],
     };
@@ -57,8 +66,7 @@ export default {
     async getProjectsData() {
       await axios
         .get("http://localhost:3000/api/projects")
-        .then((response) => (this.projectsData = response.data)
-      )
+        .then((response) => (this.projectsData = response.data));
     },
   },
 };
@@ -75,5 +83,9 @@ export default {
 }
 a {
   text-decoration: none;
+}
+#stuff{
+  margin-top: 10px;
+  margin-left: 7%;
 }
 </style>

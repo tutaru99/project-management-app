@@ -1,24 +1,23 @@
 
 <template>
-<el-autocomplete
-  popper-class="my-autocomplete"
-  v-model="state"
-  :fetch-suggestions="querySearch"
-  placeholder="Find Member"
-  @select="handleSelect"
->
-  <template #suffix>
-    <i class="el-icon-plus el-input__icon" @click="handleIconClick"></i>
-  </template>
-  <template #default="{ item }">
-    <div class="value">{{ item.value }}</div>
-    <span class="link">{{ item.link }}</span>
-  </template>
-</el-autocomplete>
+  <el-autocomplete
+    popper-class="my-autocomplete"
+    v-model="state"
+    :fetch-suggestions="querySearch"
+    placeholder="Find Member"
+    @select="handleSelect"
+  >
+    <template #suffix>
+      <i class="el-icon-plus el-input__icon" @click="handleIconClick"></i>
+    </template>
+    <template #default="{ item }">
+      <div class="value">{{ item.value }}</div>
+    </template>
+  </el-autocomplete>
 </template>
 
 <script>
-  import { defineComponent, ref, onMounted } from 'vue'
+import { defineComponent, ref, onMounted } from "vue";
 export default defineComponent({
   setup() {
     const links = ref([]);
@@ -40,14 +39,14 @@ export default defineComponent({
     };
     const loadAll = () => {
       return [
-        { "value": "vue", "link": "https://github.com/vuejs/vue" },
-        { "value": "element", "link": "https://github.com/ElemeFE/element" },
-        { "value": "cooking", "link": "https://github.com/ElemeFE/cooking" },
-        { "value": "mint-ui", "link": "https://github.com/ElemeFE/mint-ui" },
-        { "value": "vuex", "link": "https://github.com/vuejs/vuex" },
-        { "value": "vue-router", "link": "https://github.com/vuejs/vue-router" },
-        { "value": "babel", "link": "https://github.com/babel/babel" }
-        ];
+        { value: "Username?"},
+        { value: "Choose"},
+        { value: "from"},
+        { value: "added"},
+        { value: "Users"},
+        { value: "to this"},
+        { value: "project"},
+      ];
     };
     const handleSelect = (item) => {
       console.log(item);
@@ -62,8 +61,7 @@ export default defineComponent({
     });
 
     return {
-      links,
-      state: ref(''),
+      state: ref(""),
       querySearch,
       createFilter,
       loadAll,
@@ -76,18 +74,18 @@ export default defineComponent({
 
 <style>
 .my-autocomplete li {
-    line-height: normal;
-    padding: 7px;
-  }
-  .my-autocomplete li .name {
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-  .my-autocomplete li .addr {
-    font-size: 12px;
-    color: #b4b4b4;
-  }
-  .my-autocomplete li .highlighted .addr {
-    color: #ddd;
-  }
+  line-height: normal;
+  padding: 7px;
+}
+.my-autocomplete li .name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.my-autocomplete li .addr {
+  font-size: 12px;
+  color: #b4b4b4;
+}
+.my-autocomplete li .highlighted .addr {
+  color: #ddd;
+}
 </style>

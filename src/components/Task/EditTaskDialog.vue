@@ -1,13 +1,20 @@
 <template>
-  <el-dialog :before-close="close" title="Edit Task" v-model="editTaskModalDialog" width="30%">
+  <el-dialog
+    :before-close="close"
+    title="Edit Task"
+    v-model="editTaskModalDialog"
+    width="30%"
+  >
     <el-form>
       <el-form-item label="Name">
         <el-input v-model="editName" autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="Desription">
-        <el-input type="textarea" v-model="editDescription" autocomplete="off"
-          ></el-input
-        >
+        <el-input
+          type="textarea"
+          v-model="editDescription"
+          autocomplete="off"
+        ></el-input>
       </el-form-item>
     </el-form>
     <template #footer>
