@@ -39,7 +39,7 @@
               </template>
             </el-dialog>
             <!-- Project Loop -->
-            <div v-for="project in projectsData" :key="project.key">
+            <div v-for="project in projectsData.slice().reverse()" :key="project.key">
               <div class="projectsWrapper">
                 <h4>{{ project.title }}</h4>
                 <p>{{ project.description }}</p>
@@ -144,8 +144,9 @@ export default {
     },
 
     closeProjDialog() {
-      (this.isNewProjectDialog = !this.isNewProjectDialog),
-      (this.title = ""),
+      this.isNewProjectDialog = !this.isNewProjectDialog,
+      this.title = "",
+      this.description = "",
       this.getProjectsData()
     },
   },
