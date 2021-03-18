@@ -9,11 +9,13 @@
       <el-row type="flex">
         <el-col :span="7" :offset="1">
           <h1>Task Details</h1>
+          <p class="bold mt-2">Task name</p>
           <el-form>
-            <el-form-item label="Name">
+            <el-form-item>
               <el-input v-model="editName" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="Desription">
+            <p class="bold mt-2">Task Description</p>
+            <el-form-item>
               <el-input
                 type="textarea"
                 v-model="editDescription"
@@ -24,6 +26,7 @@
         </el-col>
         <el-col :span="6" :offset="1">
           <h1>Priority</h1>
+          <p class="bold mt-2">Priority of the task</p>
           <el-select v-model="value" placeholder="Choose Priority">
             <el-option
               v-for="priority in priorities"
@@ -36,18 +39,17 @@
         </el-col>
         <el-col :span="8" :offset="1">
           <h1>Actions</h1>
-          Assign members to task
+          <p class="bold mt-2">Assign members to task</p>
           <AddMembers />
           <br /><br />
-          <p>Task State</p>
+          <p class="bold mt-2">Task State</p>
           <el-radio-group v-model="taskProgress" size="small">
             <el-radio-button label="In Progress"></el-radio-button>
             <el-radio-button label="On Hold"></el-radio-button>
             <el-radio-button label="Completed"></el-radio-button>
           </el-radio-group>
 
-          <br /><br />
-          <p>Estimate ime to complete</p>
+          <p class="bold mt-3">Estimate time to complete</p>
           <el-input-number
             v-model="timeSelect"
             :precision="2"
@@ -55,8 +57,13 @@
             :max="24"
             :min="0"
           ></el-input-number>
-          <br /><br />
-          <el-button type="" icon="el-icon-delete">Delete Task</el-button>
+          <el-button
+            id="mt-3"
+            class="mt-3"
+            icon="el-icon-delete"
+            @click="removeTask(detailsTaskDialogData._id)"
+            >Delete Task</el-button
+          >
         </el-col>
       </el-row>
     </el-main>
@@ -73,11 +80,11 @@
 </template>
 
 <script>
-import AddMembers from "./AddMembers.vue"
+import AddMembers from "./AddMembers.vue";
 import axios from "axios";
 export default {
   components: {
-    AddMembers
+    AddMembers,
   },
   props: ["detailsTaskDialog", "detailsTaskDialogData"],
   emits: ["submit", "close"],
@@ -124,9 +131,30 @@ export default {
           (this.tasks = response.data), this.close(), this.$emit("submit");
         });
     },
+
+    async removeTask(taskid) {
+      await axios
+        .put(`http://localhost:3000/api/projects/deletetask/${taskid}`)
+        .then((response) => {
+          (this.tasks = response.data), this.close(), this.$emit("submit");
+        });
+    },
+
     close() {
       this.$emit("close");
     },
   },
 };
 </script>
+
+<style scoped>
+#mt-3 {
+  margin-top: 30px;
+}
+.bold {
+  font-weight: bold;
+}
+.mt-2{
+  margin-top: 10px
+}
+</style>

@@ -24,7 +24,11 @@
                   <el-input v-model="title" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="Short Description">
-                  <el-input type="textarea" v-model="description" autocomplete="off"></el-input>
+                  <el-input
+                    type="textarea"
+                    v-model="description"
+                    autocomplete="off"
+                  ></el-input>
                 </el-form-item>
               </el-form>
               <template #footer>
@@ -39,7 +43,10 @@
               </template>
             </el-dialog>
             <!-- Project Loop -->
-            <div v-for="project in projectsData.slice().reverse()" :key="project.key">
+            <div
+              v-for="project in projectsData.slice().reverse()"
+              :key="project.key"
+            >
               <div class="projectsWrapper">
                 <h4>{{ project.title }}</h4>
                 <p>{{ project.description }}</p>
@@ -48,7 +55,7 @@
                 <p>-total hours assigned, total hours spent, total time left</p>
                 <p>-date when the project ends mb?</p>
                 <p>-group members belonging/added in this project</p>
-                <el-row type="flex" justify="end">
+                <el-row type="flex" justify="space-between">
                   <el-button
                     class="more"
                     icon="el-icon-delete"
@@ -108,17 +115,17 @@ export default {
         .then(
           (response) => (
             (this.projectsData = response.data),
-            (this.fullscreenLoading = false),
-            console.log(response) /* remove once done with projeect */
+            (this.fullscreenLoading = false)
           )
         );
     },
 
     async createProject() {
       await axios
-        .post("http://localhost:3000/api/projects",
-        { title: this.title,
-          description: this.description })
+        .post("http://localhost:3000/api/projects", {
+          title: this.title,
+          description: this.description,
+        })
         .then(
           (response) => (
             (this.projects = response.data),
@@ -144,10 +151,10 @@ export default {
     },
 
     closeProjDialog() {
-      this.isNewProjectDialog = !this.isNewProjectDialog,
-      this.title = "",
-      this.description = "",
-      this.getProjectsData()
+      (this.isNewProjectDialog = !this.isNewProjectDialog),
+        (this.title = ""),
+        (this.description = ""),
+        this.getProjectsData();
     },
   },
 };

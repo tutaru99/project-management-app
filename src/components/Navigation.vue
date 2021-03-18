@@ -24,7 +24,7 @@
           <span>Projects</span>
         </template>
         <el-menu-item-group>
-          <router-link v-for="project in projectsData"
+          <router-link v-for="project in projectsData.slice().reverse()"
             :key="project.key" :to="{ path: '/projectboard/' + project._id }">
             <el-menu-item >{{ project.title }}</el-menu-item>
             </router-link>

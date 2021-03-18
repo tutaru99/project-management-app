@@ -153,6 +153,8 @@ export default {
 
       detailsTaskDialogData: {},
       detailsTaskDialog: false,
+
+      routeID: this.$route.params.id
     };
   },
 
@@ -168,7 +170,7 @@ export default {
   methods: {
     async getProject() {
       await axios
-        .get(`http://localhost:3000/api/projects/${this.$route.params.id}`)
+        .get(`http://localhost:3000/api/projects/${this.routeID}`)
         .then((response) => {
           (this.projectData = response.data), console.log(response);
         });
