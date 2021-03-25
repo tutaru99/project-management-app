@@ -27,7 +27,7 @@
         <el-col :span="6" :offset="1">
           <h1>Priority</h1>
           <p class="bold mt-2">Priority of the task</p>
-          <el-select v-model="value" placeholder="Choose Priority">
+          <el-select v-model="priorityValue" placeholder="Choose Priority">
             <el-option
               v-for="priority in priorities"
               :key="priority.value"
@@ -112,8 +112,8 @@ export default {
       },
     ],
     taskProgress: "In Progress",
-    value: "",
     timeSelect: null,
+    priorityValue: "",
   }),
   mounted() {
     this.editName = this.detailsTaskDialogData.task_name;
@@ -121,6 +121,8 @@ export default {
     this.taskId = this.detailsTaskDialogData._id;
     this.timeSelect = this.detailsTaskDialogData.task_time;
     this.taskProgress = this.detailsTaskDialogData.task_state;
+    
+    this.priorityValue = this.detailsTaskDialogData.task_priority;
   },
   methods: {
     async submitTask(taskId) {
@@ -129,7 +131,9 @@ export default {
           task_name: this.editName,
           task_description: this.editDescription,
           task_time: this.timeSelect,
-          task_state: this.taskProgress
+          task_state: this.taskProgress,
+          task_priority: this.priorityValue,
+
         })
         .then((response) => {
           (this.tasks = response.data), this.close(), this.$emit("submit");

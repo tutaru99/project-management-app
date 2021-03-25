@@ -12,7 +12,9 @@ module.exports = mongoose => {
             task_name: String,
             task_description: String,
             task_time: Number,
-            task_state: String
+            task_state: String,
+            task_priority: String
+
           }]
         }],
         users: [{

@@ -180,6 +180,7 @@ exports.updateTask = (req, res) => {
                 "columns.$[].tasks.$[taskfield].task_description": req.body.task_description,
                 "columns.$[].tasks.$[taskfield].task_time": req.body.task_time,
                 "columns.$[].tasks.$[taskfield].task_state": req.body.task_state,
+                "columns.$[].tasks.$[taskfield].task_priority": req.body.task_priority,
             }
         },
         { arrayFilters: [{ "taskfield._id": mongoose.Types.ObjectId(id) }] }
