@@ -113,12 +113,14 @@ export default {
     ],
     taskProgress: "In Progress",
     value: "",
-    timeSelect: 0,
+    timeSelect: null,
   }),
   mounted() {
     this.editName = this.detailsTaskDialogData.task_name;
     this.editDescription = this.detailsTaskDialogData.task_description;
     this.taskId = this.detailsTaskDialogData._id;
+    this.timeSelect = this.detailsTaskDialogData.task_time;
+    this.taskProgress = this.detailsTaskDialogData.task_state;
   },
   methods: {
     async submitTask(taskId) {
@@ -126,6 +128,8 @@ export default {
         .put(`http://localhost:3000/api/projects/updatetask/${taskId}`, {
           task_name: this.editName,
           task_description: this.editDescription,
+          task_time: this.timeSelect,
+          task_state: this.taskProgress
         })
         .then((response) => {
           (this.tasks = response.data), this.close(), this.$emit("submit");
@@ -139,6 +143,7 @@ export default {
           (this.tasks = response.data), this.close(), this.$emit("submit");
         });
     },
+
 
     close() {
       this.$emit("close");
