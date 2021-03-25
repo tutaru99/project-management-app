@@ -12,9 +12,21 @@
             @click="inviteUserDialog = true"
             >Invite People to the Project</el-button
           >
+
+          <!-- sum of time from all tasks -->
+<!--           <p v-for="time in projectData.columns" :key="time">
+            <span v-for="timeTask in time" :key="timeTask">
+              <span v-for="stuff in timeTask" :key="stuff">
+                {{ stuff }}
+                
+              </span>
+            </span>
+
+          </p> -->
+      <p> TEST {{ addTime }}</p>
           <el-dialog
             :before-close="closeInviteUserDialog"
-            title="Invite User"
+            title="Invite User to Join the Project"
             v-model="inviteUserDialog"
             width="30%"
           >
@@ -68,8 +80,8 @@
             @click.self="openDetailsTaskDialog(task)"
           >
             <div @click="openDetailsTaskDialog(task)">
-              <p>{{ task.task_name }} ||</p>
-              <p>{{ task.task_description }}</p>
+              <p>{{ task.task_name }}</p>
+             
             </div>
 
             <div class="inline" @click.self="openDetailsTaskDialog(task)">
@@ -196,6 +208,25 @@ export default {
       this.getProject();
     },
   },
+  computed: {
+    addTime() {
+
+        let totalTime = null;
+        for(var items in this.projectData[0]) {
+          let individualItem = this.columns[items];
+          console.log("someText", this.individualItem)
+        for(let item in individualItem) {
+          let stuffItem = this.tasks[item]
+          console.log("someText", this.stuffItem)
+        }
+          
+          totalTime += individualItem.task_time + individualItem.task_time
+        }
+        return totalTime
+
+
+    }
+  },
 
   methods: {
     async getProject() {
@@ -204,6 +235,7 @@ export default {
         .then((response) => {
           (this.projectData = response.data), console.log(response);
         });
+       /*  console.log("dataStuff" , this.projectData.columns[0].tasks[0].task_time) */
     },
 
     async removeTask(taskid) {
@@ -437,5 +469,9 @@ ul li:nth-child(n + 2) {
 }
 .colButton {
   max-height: 40px;
+}
+
+p{
+  background-color: white
 }
 </style>
