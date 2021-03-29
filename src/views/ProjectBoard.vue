@@ -14,16 +14,15 @@
           >
 
           <!-- sum of time from all tasks -->
-<!--           <p v-for="time in projectData.columns" :key="time">
+          <p v-for="time in projectData.columns" :key="time">
             <span v-for="timeTask in time" :key="timeTask">
               <span v-for="stuff in timeTask" :key="stuff">
-                {{ stuff }}
-                
+                {{ stuff.task_time }} |
               </span>
             </span>
+          </p>
 
-          </p> -->
-      <p> TEST {{ addTime }}</p>
+  <p>stuff:  {{addTime}}</p>
           <el-dialog
             :before-close="closeInviteUserDialog"
             title="Invite User to Join the Project"
@@ -208,9 +207,15 @@ export default {
       this.getProject();
     },
   },
-  computed: {
-    addTime() {
 
+
+      /*           v-for="time in projectData.columns" :key="time">
+                  v-for="timeTask in time" :key="timeTask">
+                      v-for="stuff in timeTask" :key="stuff">
+                      {{ stuff.task_time }}
+      */
+/*    computed: {
+    addTime() {
         let totalTime = null;
         for(var items in this.projectData[0]) {
           let individualItem = this.columns[items];
@@ -223,10 +228,8 @@ export default {
           totalTime += individualItem.task_time + individualItem.task_time
         }
         return totalTime
-
-
     }
-  },
+  }, */
 
   methods: {
     async getProject() {
