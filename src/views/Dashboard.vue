@@ -21,11 +21,20 @@
             >
               <el-form>
                 <el-form-item label="Project Name">
-                  <el-input v-model="title" autocomplete="off"></el-input>
+                  <el-input
+                    maxlength="40"
+                    minlength="1"
+                    show-word-limit
+                    v-model="title"
+                    autocomplete="off"
+                  ></el-input>
                 </el-form-item>
                 <el-form-item label="Short Description">
                   <el-input
                     type="textarea"
+                    maxlength="200"
+                    minlength="1"
+                    show-word-limit
                     v-model="description"
                     autocomplete="off"
                   ></el-input>
@@ -48,22 +57,37 @@
               :key="project.key"
             >
               <div class="projectsWrapper">
-                <h4>{{ project.title }}</h4>
-                <p>{{ project.description }}</p>
-                <p id="completed" v-if="project.completed == true">Completed</p>
-                <p id="inProgress" v-else>Ongoing</p>
-                <p>-Total Hours of all tasks combined (time spent?)</p>
-                <p>-Group members belonging/added in this project</p>
-                <p>-Ability to set project as completed/ongoing (probably in the dropdown</p>
                 <el-row type="flex" justify="space-between">
+                  <h2>{{ project.title }}</h2>
                   <el-button
                     class="more"
                     icon="el-icon-delete"
                     @click="deleteProject(project._id)"
                     circle
                   ></el-button>
+                </el-row>
+                <p id="completed" v-if="project.completed == true">Completed</p>
+                <p id="inProgress" v-else>Ongoing</p>
+
+                <el-row>
+                  <el-col :span="24">
+                    <el-collapse>
+                      <el-collapse-item title="About Project">
+                        <h4>{{ project.description }}</h4>
+                        <p>Total time assigned to tasks:</p>
+                        <p>Users part of this project:</p>
+                        <p>Project Status</p>
+                        <el-radio-group v-model="projectStatus" size="medium">
+                          <el-radio-button label="Ongoing"></el-radio-button>
+                          <el-radio-button label="Completed"></el-radio-button>
+                        </el-radio-group>
+                      </el-collapse-item>
+                    </el-collapse>
+                  </el-col>
+                </el-row>
+                <el-row type="flex" justify="end">
                   <router-link :to="{ path: '/projectboard/' + project._id }"
-                    ><el-button id="linkProject" type="primary"
+                    ><el-button class="mt-1" id="linkProject" type="primary"
                       >Open Project</el-button
                     ></router-link
                   >
@@ -73,6 +97,7 @@
                     >Created: {{ project.createdAt.split("T").shift() }}</span
                   >
                 </el-row>
+                <el-row> </el-row>
               </div>
             </div>
           </div>
@@ -103,6 +128,8 @@ export default {
 
       title: "",
       description: "",
+
+      projectStatus: "Ongoing",
     };
   },
   mounted() {
@@ -114,11 +141,11 @@ export default {
         .get("http://localhost:3000/api/projects")
         .then(
           (response) => (
-
             (this.projectsData = response.data),
             (this.fullscreenLoading = false)
           )
-        ).then(this.$emit('refreshData'))
+        )
+        .then(this.$emit("refreshData"));
     },
 
     async createProject() {
@@ -134,7 +161,7 @@ export default {
             this.closeProjDialog()
           )
         )
-        .then(this.$emit('refreshData'))
+        .then(this.$emit("refreshData"));
     },
 
     async deleteProject(projectID) {
@@ -143,7 +170,7 @@ export default {
         .then((response) => {
           (this.projects = response.data), this.getProjectsData();
         })
-        .then(this.$emit('refreshData'))
+        .then(this.$emit("refreshData"));
     },
 
     openFullScreen1() {
@@ -183,5 +210,8 @@ export default {
 }
 #linkProject {
   font-size: 16px;
+}
+.mt-1 {
+  margin-top: 10px;
 }
 </style>

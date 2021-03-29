@@ -12,11 +12,9 @@
             @click="inviteUserDialog = true"
             >Invite People to the Project</el-button
           >
-          <p>
-            Total time assigned to tasks:
-            {{ (Math.round(addTime * 100) / 100).toFixed(2) }} hours
-          </p>
-
+           <span id="totalTaskTime"> Total time assigned to tasks:
+            {{ (Math.round(addTime * 100) / 100).toFixed(2) }} minutes
+            </span>
           <el-dialog
             :before-close="closeInviteUserDialog"
             title="Invite User to Join the Project"
@@ -463,7 +461,8 @@ ul li:nth-child(n + 2) {
   max-height: 40px;
 }
 
-p {
-  background-color: white;
+#totalTaskTime {
+  color: white;
+  font-weight: 600;
 }
 </style>
