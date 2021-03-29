@@ -216,21 +216,19 @@ export default {
       */
    computed: {
     addTime() {
-        let data = this.projectData.columns.map(function(d) {
-        return d.tasks; });
+        let data = this.projectData.columns.map(function(d) { return d.tasks; });
 
         /* recursion fnction */
         function parseObjectProperties (obj, parse) {
         for (var k in obj) {
           if (typeof obj[k] === 'object' && obj[k] !== null) {
-            parseObjectProperties(obj[k], parse)
-            console.log("TEST:" , obj[k].task_time)
+          parseObjectProperties(obj[k], parse)
           } else if (obj.hasOwnProperty(k)) {
             parse(k, obj[k])
           }
         }
       }
-
+          /* displaying result of the recursion fnction */
           parseObjectProperties(data, function(k, prop) {
             console.log(k + ': ' + prop)
           })
