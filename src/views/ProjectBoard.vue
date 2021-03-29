@@ -22,7 +22,7 @@
             </span>
           </p>
 
-  <p>computed addtime:  {{addTime}}</p>
+    <p>computed addtime:  {{(Math.round(addTime * 100) / 100).toFixed(2)}}</p>
           <el-dialog
             :before-close="closeInviteUserDialog"
             title="Invite User to Join the Project"
@@ -207,34 +207,17 @@ export default {
       this.getProject();
     },
   },
-
-
-      /*           v-for="time in projectData.columns" :key="time">
-                  v-for="timeTask in time" :key="timeTask">
-                      v-for="stuff in timeTask" :key="stuff">
-                      {{ stuff.task_time }}
-      */
    computed: {
     addTime() {
-        let data = this.projectData.columns.map(function(d) { return d.tasks; });
-
-        /* recursion fnction */
-        function parseObjectProperties (obj, parse) {
-        for (var k in obj) {
-          if (typeof obj[k] === 'object' && obj[k] !== null) {
-          parseObjectProperties(obj[k], parse)
-          } else if (obj.hasOwnProperty(k)) {
-            parse(k, obj[k])
+      var total = 0;
+      this.projectData.columns.forEach(column => {
+        column.tasks.forEach(task => {
+          if(task.task_time != null) {
+            total += task.task_time;
           }
-        }
-      }
-          /* displaying result of the recursion fnction */
-          parseObjectProperties(data, function(k, prop) {
-            console.log(k + ': ' + prop)
-          })
-
-
-       /*  console.log("RESULT", data); */
+        });
+      });
+      return total;
     }
   },
 
