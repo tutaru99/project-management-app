@@ -206,6 +206,11 @@ export default {
     $routeID() {
       this.getProject();
     },
+    '$route' (to, from) {
+      if (to.path != from.path && to.path.includes('projectboard')){
+        this.getProject();
+      }
+    }
   },
    computed: {
     addTime() {
@@ -224,9 +229,9 @@ export default {
   methods: {
     async getProject() {
       await axios
-        .get(`http://localhost:3000/api/projects/${this.routeID}`)
+        .get(`http://localhost:3000/api/projects/${this.$route.params.id}`)
         .then((response) => {
-          (this.projectData = response.data), console.log(response);
+          (this.projectData = response.data);
         });
        /*  console.log("dataStuff" , this.projectData.columns[0].tasks[0].task_time) */
     },
@@ -245,7 +250,7 @@ export default {
       this.taskModalDialog = true;
     },
     closeTaskModalDialog() {
-      this.taskDialogData = {};
+      this.taskDialogData = false;
       this.taskModalDialog = false;
     },
 
@@ -254,7 +259,7 @@ export default {
       this.editTaskModalDialog = true;
     },
     closeEditTaskModalDialog() {
-      this.editTaskDialogData = {};
+      this.editTaskDialogData = false;
       this.editTaskModalDialog = false;
     },
 
@@ -263,7 +268,7 @@ export default {
       this.detailsTaskDialog = true;
     },
     closeDetailsTaskDialog() {
-      this.detailsTaskDialogData = {};
+      this.detailsTaskDialogData = false;
       this.detailsTaskDialog = false;
     },
 
