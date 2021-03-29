@@ -12,19 +12,11 @@
             @click="inviteUserDialog = true"
             >Invite People to the Project</el-button
           >
-
-          <!-- sum of time from all tasks -->
-          <p v-for="time in projectData.columns" :key="time">
-            <span v-for="timeTask in time" :key="timeTask">
-              <span v-for="stuff in timeTask" :key="stuff">
-                {{ stuff.task_time }},
-              </span>
-            </span>
-          </p>
-
           <p>
-            computed addtime: {{ (Math.round(addTime * 100) / 100).toFixed(2) }}
+            Total time assigned to tasks:
+            {{ (Math.round(addTime * 100) / 100).toFixed(2) }} hours
           </p>
+
           <el-dialog
             :before-close="closeInviteUserDialog"
             title="Invite User to Join the Project"
@@ -281,8 +273,7 @@ export default {
     },
 
     closeInviteUserDialog() {
-      (this.inviteUserDialog = !this.inviteUserDialog),
-      (this.username = "");
+      (this.inviteUserDialog = !this.inviteUserDialog), (this.username = "");
     },
 
     async deleteColumn(colID) {

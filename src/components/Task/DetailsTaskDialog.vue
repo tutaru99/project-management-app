@@ -53,7 +53,7 @@
           <el-input-number
             v-model="timeSelect"
             :precision="2"
-            :model-value="1"
+            :model-value="timeSelect"
             :step="0.1"
             :max="24"
             :min="0"
@@ -122,7 +122,7 @@ export default {
     this.taskId = this.detailsTaskDialogData._id;
     this.timeSelect = this.detailsTaskDialogData.task_time;
     this.taskProgress = this.detailsTaskDialogData.task_state;
-    
+
     this.priorityValue = this.detailsTaskDialogData.task_priority;
   },
   methods: {
