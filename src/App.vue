@@ -27,13 +27,6 @@ export default {
       await this.$refs.nav.getProjectsData()
     }
   },
-  watch: {
-    '$route' (to, from) {
-      if (from.path.includes('projectboard') && to.path === '/'){
-        this.$router.go()
-      }
-    }
-  },
 };
 </script>
 

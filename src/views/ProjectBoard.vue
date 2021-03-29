@@ -22,7 +22,9 @@
             </span>
           </p>
 
-    <p>computed addtime:  {{(Math.round(addTime * 100) / 100).toFixed(2)}}</p>
+          <p>
+            computed addtime: {{ (Math.round(addTime * 100) / 100).toFixed(2) }}
+          </p>
           <el-dialog
             :before-close="closeInviteUserDialog"
             title="Invite User to Join the Project"
@@ -80,7 +82,6 @@
           >
             <div @click="openDetailsTaskDialog(task)">
               <p>{{ task.task_name }}</p>
-             
             </div>
 
             <div class="inline" @click.self="openDetailsTaskDialog(task)">
@@ -206,24 +207,24 @@ export default {
     $routeID() {
       this.getProject();
     },
-    '$route' (to, from) {
-      if (to.path != from.path && to.path.includes('projectboard')){
+    $route(to, from) {
+      if (to.path != from.path && to.path.includes("projectboard")) {
         this.getProject();
       }
-    }
+    },
   },
-   computed: {
+  computed: {
     addTime() {
       var total = 0;
-      this.projectData.columns.forEach(column => {
-        column.tasks.forEach(task => {
-          if(task.task_time != null) {
+      this.projectData.columns.forEach((column) => {
+        column.tasks.forEach((task) => {
+          if (task.task_time != null) {
             total += task.task_time;
           }
         });
       });
       return total;
-    }
+    },
   },
 
   methods: {
@@ -231,9 +232,8 @@ export default {
       await axios
         .get(`http://localhost:3000/api/projects/${this.$route.params.id}`)
         .then((response) => {
-          (this.projectData = response.data);
+          this.projectData = response.data;
         });
-       /*  console.log("dataStuff" , this.projectData.columns[0].tasks[0].task_time) */
     },
 
     async removeTask(taskid) {
@@ -252,6 +252,7 @@ export default {
     closeTaskModalDialog() {
       this.taskDialogData = false;
       this.taskModalDialog = false;
+      document.body.classList.remove("el-popup-parent--hidden");
     },
 
     openTaskDetailsModalDialog(task) {
@@ -261,6 +262,7 @@ export default {
     closeEditTaskModalDialog() {
       this.editTaskDialogData = false;
       this.editTaskModalDialog = false;
+      document.body.classList.remove("el-popup-parent--hidden");
     },
 
     openDetailsTaskDialog(task) {
@@ -270,6 +272,7 @@ export default {
     closeDetailsTaskDialog() {
       this.detailsTaskDialogData = false;
       this.detailsTaskDialog = false;
+      document.body.classList.remove("el-popup-parent--hidden");
     },
 
     closeColDialog() {
@@ -279,7 +282,7 @@ export default {
 
     closeInviteUserDialog() {
       (this.inviteUserDialog = !this.inviteUserDialog),
-        (this.username = "");
+      (this.username = "");
     },
 
     async deleteColumn(colID) {
@@ -469,7 +472,7 @@ ul li:nth-child(n + 2) {
   max-height: 40px;
 }
 
-p{
-  background-color: white
+p {
+  background-color: white;
 }
 </style>
