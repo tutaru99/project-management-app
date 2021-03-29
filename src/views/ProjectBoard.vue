@@ -17,12 +17,12 @@
           <p v-for="time in projectData.columns" :key="time">
             <span v-for="timeTask in time" :key="timeTask">
               <span v-for="stuff in timeTask" :key="stuff">
-                {{ stuff.task_time }} |
+                {{ stuff.task_time }},
               </span>
             </span>
           </p>
 
-  <p>stuff:  {{addTime}}</p>
+  <p>computed addtime:  {{addTime}}</p>
           <el-dialog
             :before-close="closeInviteUserDialog"
             title="Invite User to Join the Project"
@@ -214,22 +214,31 @@ export default {
                       v-for="stuff in timeTask" :key="stuff">
                       {{ stuff.task_time }}
       */
-/*    computed: {
+   computed: {
     addTime() {
-        let totalTime = null;
-        for(var items in this.projectData[0]) {
-          let individualItem = this.columns[items];
-          console.log("someText", this.individualItem)
-        for(let item in individualItem) {
-          let stuffItem = this.tasks[item]
-          console.log("someText", this.stuffItem)
+        let data = this.projectData.columns.map(function(d) {
+        return d.tasks; });
+
+        /* recursion fnction */
+        function parseObjectProperties (obj, parse) {
+        for (var k in obj) {
+          if (typeof obj[k] === 'object' && obj[k] !== null) {
+            parseObjectProperties(obj[k], parse)
+            console.log("TEST:" , obj[k].task_time)
+          } else if (obj.hasOwnProperty(k)) {
+            parse(k, obj[k])
+          }
         }
-          
-          totalTime += individualItem.task_time + individualItem.task_time
-        }
-        return totalTime
+      }
+
+          parseObjectProperties(data, function(k, prop) {
+            console.log(k + ': ' + prop)
+          })
+
+
+       /*  console.log("RESULT", data); */
     }
-  }, */
+  },
 
   methods: {
     async getProject() {
