@@ -1,11 +1,11 @@
 <template>
   <el-container id="app">
     <!-- undefined width style makes drawer responsive on minimize/maximize -->
-      <Navigation />
+      <Navigation ref="nav"/>
     <el-main>
       <el-row type="flex" justify="center">
         <el-col :span="24">
-          <router-view />
+          <router-view @refreshData="refresh" />
         </el-col>
       </el-row>
     </el-main>
@@ -22,6 +22,11 @@ export default {
     Dashboard,
     Navigation,
   },
+  methods: {
+    async refresh() {
+      await this.$refs.nav.getProjectsData()
+    }
+  }
 };
 </script>
 

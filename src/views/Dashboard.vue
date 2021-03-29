@@ -114,10 +114,11 @@ export default {
         .get("http://localhost:3000/api/projects")
         .then(
           (response) => (
+
             (this.projectsData = response.data),
             (this.fullscreenLoading = false)
           )
-        );
+        ).then(this.$emit('refreshData'))
     },
 
     async createProject() {
@@ -132,7 +133,8 @@ export default {
             console.log(response),
             this.closeProjDialog()
           )
-        );
+        )
+        .then(this.$emit('refreshData'))
     },
 
     async deleteProject(projectID) {
@@ -140,7 +142,8 @@ export default {
         .delete(`http://localhost:3000/api/projects/${projectID}`)
         .then((response) => {
           (this.projects = response.data), this.getProjectsData();
-        });
+        })
+        .then(this.$emit('refreshData'))
     },
 
     openFullScreen1() {
