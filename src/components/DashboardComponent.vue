@@ -5,6 +5,7 @@
         <el-col :span="24">
           <h1>Dashboard Component</h1>
           <p>The quick brown fox jumped over the lazy dog</p>
+          <p>User Profile Information + extra +grahp/-s?</p>
         </el-col>
       </el-row>
     </el-main>

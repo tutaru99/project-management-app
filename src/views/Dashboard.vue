@@ -52,9 +52,9 @@
                 <p>{{ project.description }}</p>
                 <p id="completed" v-if="project.completed == true">Completed</p>
                 <p id="inProgress" v-else>Ongoing</p>
-                <p>-total hours assigned, total hours spent, total time left</p>
-                <p>-date when the project ends mb?</p>
-                <p>-group members belonging/added in this project</p>
+                <p>-Total Hours of all tasks combined (time spent?)</p>
+                <p>-Group members belonging/added in this project</p>
+                <p>-Ability to set project as completed/ongoing (probably in the dropdown</p>
                 <el-row type="flex" justify="space-between">
                   <el-button
                     class="more"
