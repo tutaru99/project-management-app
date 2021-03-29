@@ -250,7 +250,7 @@ export default {
       this.taskModalDialog = true;
     },
     closeTaskModalDialog() {
-      this.taskDialogData = {};
+      this.taskDialogData = false;
       this.taskModalDialog = false;
     },
 
@@ -259,7 +259,7 @@ export default {
       this.editTaskModalDialog = true;
     },
     closeEditTaskModalDialog() {
-      this.editTaskDialogData = {};
+      this.editTaskDialogData = false;
       this.editTaskModalDialog = false;
     },
 
@@ -268,7 +268,7 @@ export default {
       this.detailsTaskDialog = true;
     },
     closeDetailsTaskDialog() {
-      this.detailsTaskDialogData = {};
+      this.detailsTaskDialogData = false;
       this.detailsTaskDialog = false;
     },
 

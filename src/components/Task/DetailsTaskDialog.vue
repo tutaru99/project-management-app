@@ -53,6 +53,7 @@
           <el-input-number
             v-model="timeSelect"
             :precision="2"
+            :model-value="1"
             :step="0.1"
             :max="24"
             :min="0"

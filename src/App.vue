@@ -5,7 +5,7 @@
     <el-main>
       <el-row type="flex" justify="center">
         <el-col :span="24">
-          <router-view @refreshData="refresh" />
+          <router-view :key="$route.fullPath" @refreshData="refresh" />
         </el-col>
       </el-row>
     </el-main>
@@ -26,7 +26,14 @@ export default {
     async refresh() {
       await this.$refs.nav.getProjectsData()
     }
-  }
+  },
+  watch: {
+    '$route' (to, from) {
+      if (from.path.includes('projectboard') && to.path === '/'){
+        this.$router.go()
+      }
+    }
+  },
 };
 </script>
 
