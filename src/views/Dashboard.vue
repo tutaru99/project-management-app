@@ -58,7 +58,7 @@
             >
               <div class="projectsWrapper">
                 <el-row type="flex" justify="space-between">
-                  <h2>{{ project.title }}</h2> {{project._id}}  
+                  <h2>{{ project.title }}</h2>
                   <el-button
                     class="more"
                     icon="el-icon-delete"
@@ -130,7 +130,7 @@ export default {
       title: "",
       description: "",
 
-      projectStatus: true
+      projectStatus: null,
     };
   },
   mounted() {
@@ -174,7 +174,7 @@ export default {
           completed: this.projectStatus
         })
         .then((response) => {
-          (this.projects = response.data), this.getProjectsData();;
+          (this.projects = response.data), this.getProjectsData();
         });
     },
 
