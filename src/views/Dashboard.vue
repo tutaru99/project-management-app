@@ -58,7 +58,7 @@
             >
               <div class="projectsWrapper">
                 <el-row type="flex" justify="space-between">
-                  <h2>{{ project.title }}</h2>
+                  <h2>{{ project.title }}</h2> {{project._id}}  
                   <el-button
                     class="more"
                     icon="el-icon-delete"
@@ -75,8 +75,8 @@
                       <el-collapse-item title="About Project">
                         <h4>{{ project.description }}</h4>
                         <p>Total time assigned to tasks:</p>
-                        <p>Users part of this project:</p>
-                        <p>Project Status</p>
+                        <p>Users part of the project:</p>
+                        <p>Project Status </p>
                         <el-radio-group v-model="projectStatus" size="medium">
                           <el-radio-button label="Ongoing"></el-radio-button>
                           <el-radio-button label="Completed"></el-radio-button>

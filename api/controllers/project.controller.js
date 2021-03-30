@@ -83,7 +83,7 @@ project.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
             res.status(404).send({
                 message: `Cannot update Project with id=${id}. Maybe Project was not found!`
             });
-        } else res.send({ message: "Project was updated successfully." });
+        } else res.send({ message: "Project was updated successfully." + " With id: " + id + " consolelog: " + console.log(req.body) });
     })
     .catch(err => {
         res.status(500).send({
