@@ -78,9 +78,10 @@
                         <p>Users part of the project:</p>
                         <p>Project Status </p>
                         <el-radio-group v-model="projectStatus" size="medium">
-                          <el-radio-button label="Ongoing"></el-radio-button>
-                          <el-radio-button label="Completed"></el-radio-button>
+                          <el-radio-button @click="projectState(project._id)" label="true"></el-radio-button>
+                          <el-radio-button  @click="projectState(project._id)" label="false"></el-radio-button>
                         </el-radio-group>
+                        {{ projectStatus }}
                       </el-collapse-item>
                     </el-collapse>
                   </el-col>
@@ -129,11 +130,13 @@ export default {
       title: "",
       description: "",
 
-      projectStatus: "Ongoing",
+      projectStatus: true
     };
   },
   mounted() {
     this.getProjectsData();
+
+    this.projectStatus = this.projectsData.completed;
   },
   methods: {
     async getProjectsData() {
@@ -163,6 +166,18 @@ export default {
         )
         .then(this.$emit("refreshData"));
     },
+
+
+     async projectState(projectID) {
+      await axios
+        .put(`http://localhost:3000/api/projects/${projectID}`, {
+          completed: this.projectStatus
+        })
+        .then((response) => {
+          (this.projects = response.data), this.getProjectsData();;
+        });
+    },
+
 
     async deleteProject(projectID) {
       await axios
