@@ -76,12 +76,14 @@
                         <h4>{{ project.description }}</h4>
                         <p>Total time assigned to tasks:</p>
                         <p>Users part of the project:</p>
-                        <p>Project Status </p>
-                        <el-radio-group v-model="projectStatus" size="medium">
-                          <el-radio-button @click="projectState(project._id)" label="true"></el-radio-button>
-                          <el-radio-button  @click="projectState(project._id)" label="false"></el-radio-button>
-                        </el-radio-group>
-                        {{ projectStatus }}
+                        <p class="mt-1">Project Status</p>
+                        <el-switch
+                          v-model="projectStatus"
+                          active-text="Completed"
+                          inactive-text="Ongoing"
+                          @click="projectState(project._id)"
+                        >
+                        </el-switch>
                       </el-collapse-item>
                     </el-collapse>
                   </el-col>
@@ -130,7 +132,7 @@ export default {
       title: "",
       description: "",
 
-      projectStatus: null,
+      projectStatus: true,
     };
   },
   mounted() {
@@ -167,17 +169,15 @@ export default {
         .then(this.$emit("refreshData"));
     },
 
-
-     async projectState(projectID) {
+    async projectState(projectID) {
       await axios
         .put(`http://localhost:3000/api/projects/${projectID}`, {
-          completed: this.projectStatus
+          completed: this.projectStatus,
         })
         .then((response) => {
           (this.projects = response.data), this.getProjectsData();
         });
     },
-
 
     async deleteProject(projectID) {
       await axios
