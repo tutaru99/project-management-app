@@ -146,7 +146,7 @@ export default {
   computed: {
     addTime() {
       let total = 0;
-      this.projectsData.forEach((project) => {
+      this.projectsData.every((project) => {
         project.columns.forEach((column) => {
           column.tasks.forEach((task) => {
             if (task.task_time != null) {
@@ -158,7 +158,7 @@ export default {
       return total;
     },
   },
-
+  
   methods: {
     async getProjectsData() {
       await axios
