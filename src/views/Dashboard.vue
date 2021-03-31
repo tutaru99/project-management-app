@@ -78,7 +78,7 @@
                         <p>Users part of the project:</p>
                         <p class="mt-1">Project Status</p>
                         <el-switch
-                          v-model="projectStatus"
+                          v-model="project.completed"
                           active-text="Completed"
                           inactive-text="Ongoing"
                           @click="projectState(project._id)"
@@ -132,7 +132,7 @@ export default {
       title: "",
       description: "",
 
-      projectStatus: true,
+      projectStatus: null,
     };
   },
   mounted() {
@@ -172,7 +172,7 @@ export default {
     async projectState(projectID) {
       await axios
         .put(`http://localhost:3000/api/projects/${projectID}`, {
-          completed: this.projectStatus,
+          completed: this.projectStatus = !this.projectStatus,
         })
         .then((response) => {
           (this.projects = response.data), this.getProjectsData();
