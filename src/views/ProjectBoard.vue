@@ -205,7 +205,7 @@ export default {
   },
   computed: {
     addTime() {
-      var total = 0;
+      let total = 0;
       this.projectData.columns.forEach((column) => {
         column.tasks.forEach((task) => {
           if (task.task_time != null) {

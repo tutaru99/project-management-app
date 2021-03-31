@@ -68,7 +68,8 @@
                 </el-row>
                 <p id="completed" v-if="project.completed == true">Completed</p>
                 <p id="inProgress" v-else>Ongoing</p>
-
+                total tasks time
+                {{ (Math.round(addTime * 100) / 100).toFixed(2) }} minutes
                 <el-row>
                   <el-col :span="24">
                     <el-collapse>
@@ -140,6 +141,24 @@ export default {
 
     this.projectStatus = this.projectsData.completed;
   },
+
+  /* looping through all projects(task_time) to get total time from tasks */
+  computed: {
+    addTime() {
+      let total = 0;
+      this.projectsData.forEach((project) => {
+        project.columns.forEach((column) => {
+          column.tasks.forEach((task) => {
+            if (task.task_time != null) {
+              total += task.task_time;
+            }
+          });
+        });
+      });
+      return total;
+    },
+  },
+
   methods: {
     async getProjectsData() {
       await axios
@@ -147,7 +166,8 @@ export default {
         .then(
           (response) => (
             (this.projectsData = response.data),
-            (this.fullscreenLoading = false)
+            (this.fullscreenLoading = false),
+            console.log(this.projectsData)
           )
         )
         .then(this.$emit("refreshData"));
@@ -172,7 +192,7 @@ export default {
     async projectState(projectID) {
       await axios
         .put(`http://localhost:3000/api/projects/${projectID}`, {
-          completed: this.projectStatus = !this.projectStatus,
+          completed: (this.projectStatus = !this.projectStatus),
         })
         .then((response) => {
           (this.projects = response.data), this.getProjectsData();
