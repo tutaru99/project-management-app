@@ -17,6 +17,7 @@
     "element-plus": "^1.0.2-beta.32",
     "express": "^4.17.1",
     "joi": "^17.4.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.17",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
