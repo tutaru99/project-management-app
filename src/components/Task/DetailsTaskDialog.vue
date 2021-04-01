@@ -28,7 +28,7 @@
                 type="textarea"
                 v-model="detailsEdit.editDescription"
                 autocomplete="off"
-                :rows="5"
+                :rows="8"
                 maxlength="200"
                 show-word-limit
               ></el-input>

@@ -388,7 +388,7 @@ export default {
   grid-template-rows: max-content auto;
   grid-gap: 10px;
   padding: 10px 10px;
-  height: 85vh;
+  height: 97vh;
   width: 99%;
   overflow-y: auto !important;
 }
