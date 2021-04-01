@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const authRoutes = require("./api/routes/auth.js");
 require('dotenv').config()
 
 const app = express();
@@ -14,6 +15,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
+
+app.use('/api/user', authRoutes)
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to the Project Management Application" });
@@ -40,5 +43,3 @@ db.mongoose
   });
     
 require("./api/routes/project.routes.js")(app);
-const authRoutes = require("./api/routes/auth.js");
-app.use('/api/user', authRoutes)

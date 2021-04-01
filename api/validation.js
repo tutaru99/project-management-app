@@ -1,8 +1,9 @@
+const { locale } = require('element-plus');
 const Joi = require('joi');
 
 const registerValidation = (data) => {
     const schema = Joi.object({
-        usernname: Joi.string().min(6).max(255).required(),
+        username: Joi.string().min(6).max(255).required(),
         email: Joi.string().min(6).max(255).required(),
         password: Joi.string().min(6).max(255).required()
     });
@@ -19,4 +20,20 @@ const loginValidation = (data) => {
     return schema.validate(data);
 }
 
-module.exports = { registerValidation, loginValidation };
+const verifyToken = (req, res, next) => {
+    const token = req.header('auth-token');
+
+    if (!token) {
+        return res.status(401).json({ error: 'Access denied!' });
+    }
+
+    try {
+        const verified = jwt.verify(token, process.env.TOKEN_SECRET);
+        req.user = verified;
+        next();
+    } catch (error) {
+        res.status(400).json({ error: 'Token is not valid!'} );
+    }
+}
+
+module.exports = { registerValidation, loginValidation, verifyToken };
