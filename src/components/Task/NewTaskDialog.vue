@@ -5,11 +5,15 @@
     v-model="taskModalDialog"
     width="30%"
   >
-    <el-form>
-      <el-form-item label="Task name">
+    <el-form :model="newTask" ref="newTask">
+      <el-form-item
+        label="Task name"
+        prop="name"
+        :rules="[{ required: true, message: 'Task name is required' }]"
+      >
         <el-input
           placeholder="Enter task name"
-          v-model="name"
+          v-model="newTask.name"
           autocomplete="off"
           maxlength="100"
           show-word-limit
@@ -19,7 +23,7 @@
         <el-input
           type="textarea"
           placeholder="Enter task description"
-          v-model="description"
+          v-model="newTask.description"
           autocomplete="off"
           maxlength="200"
           show-word-limit
@@ -29,7 +33,9 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="close()">Cancel</el-button>
-        <el-button type="primary" @click="submitTask(dialogData._id)"
+        <el-button
+          type="primary"
+          @click="validateSubmitTask('newTask', dialogData._id)"
           >Add Task</el-button
         >
       </span>
@@ -42,11 +48,16 @@ import axios from "axios";
 export default {
   props: ["taskModalDialog", "dialogData"],
   emits: ["create", "close"],
+
   data: () => ({
-    name: "",
-    description: "",
+    newTask: {
+      name: "",
+      description: "",
+    },
+
     colid: "",
   }),
+
   methods: {
     close() {
       this.$emit("close");
@@ -54,12 +65,22 @@ export default {
     async submitTask(colid) {
       await axios
         .put(`http://localhost:3000/api/projects/addtask/${colid}`, {
-          task_name: this.name,
-          task_description: this.description,
+          task_name: this.newTask.name,
+          task_description: this.newTask.description,
         })
         .then((response) => {
           (this.tasks = response.data), this.close(), this.$emit("create");
         });
+    },
+
+    validateSubmitTask(formName, colid) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.submitTask(colid);
+        } else {
+          return false;
+        }
+      });
     },
   },
 };
