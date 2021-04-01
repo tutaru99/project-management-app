@@ -10,10 +10,13 @@
         <el-col :span="7" :offset="1">
           <h1>Task Details</h1>
           <p class="bold mt-2">Task name</p>
-          <el-form>
-            <el-form-item>
+          <el-form :model="detailsEdit" ref="detailsEdit">
+            <el-form-item
+              prop="editName"
+              :rules="[{ required: true, message: 'Task name is required' }]"
+            >
               <el-input
-                v-model="editName"
+                v-model="detailsEdit.editName"
                 maxlength="100"
                 show-word-limit
                 autocomplete="off"
@@ -23,7 +26,7 @@
             <el-form-item>
               <el-input
                 type="textarea"
-                v-model="editDescription"
+                v-model="detailsEdit.editDescription"
                 autocomplete="off"
                 :rows="5"
                 maxlength="200"
@@ -80,7 +83,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="close()">Cancel</el-button>
-        <el-button type="primary" @click="submitTask(detailsTaskDialogData._id)"
+        <el-button type="primary" @click="validateSubmitTask('detailsEdit', detailsTaskDialogData._id)"
           >Submit</el-button
         >
       </span>
@@ -97,9 +100,14 @@ export default {
   },
   props: ["detailsTaskDialog", "detailsTaskDialogData"],
   emits: ["submit", "close"],
+
   data: () => ({
-    editName: "",
-    editDescription: "",
+
+    detailsEdit: {
+      editName: "",
+      editDescription: "",
+    },
+
     taskId: "",
 
     priorities: [
@@ -124,21 +132,24 @@ export default {
     timeSelect: null,
     priorityValue: "",
   }),
+
   mounted() {
-    this.editName = this.detailsTaskDialogData.task_name;
-    this.editDescription = this.detailsTaskDialogData.task_description;
+    this.detailsEdit.editName = this.detailsTaskDialogData.task_name;
+    this.detailsEdit.editDescription = this.detailsTaskDialogData.task_description;
+
     this.taskId = this.detailsTaskDialogData._id;
     this.timeSelect = this.detailsTaskDialogData.task_time;
     this.taskProgress = this.detailsTaskDialogData.task_state;
 
     this.priorityValue = this.detailsTaskDialogData.task_priority;
   },
+
   methods: {
     async submitTask(taskId) {
       await axios
         .put(`http://localhost:3000/api/projects/updatetask/${taskId}`, {
-          task_name: this.editName,
-          task_description: this.editDescription,
+          task_name: this.detailsEdit.editName,
+          task_description: this.detailsEdit.editDescription,
           task_time: this.timeSelect,
           task_state: this.taskProgress,
           task_priority: this.priorityValue,
@@ -147,6 +158,18 @@ export default {
           (this.tasks = response.data), this.close(), this.$emit("submit");
         });
     },
+
+     validateSubmitTask(formName, taskId) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.submitTask(taskId)
+          } else {
+            return false;
+          }
+        });
+      },
+
+
 
     async removeTask(taskid) {
       await axios
