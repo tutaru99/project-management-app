@@ -38,4 +38,7 @@ db.mongoose
     console.log("Cannot connect to the database!", err);
     process.exit();
   });
+    
 require("./api/routes/project.routes.js")(app);
+const authRoutes = require("./api/routes/auth.js");
+app.use('/api/user', authRoutes)
