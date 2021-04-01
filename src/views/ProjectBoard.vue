@@ -127,7 +127,7 @@
           <template #footer>
             <span class="dialog-footer">
               <el-button @click="closeColDialog()">Cancel</el-button>
-              <el-button type="primary" @click="submitForm('col_nameValidateForm', projectData._id)"
+              <el-button type="primary" @click="validateColSubmit('col_nameValidateForm', projectData._id)"
                 >Add List</el-button
               >
             </span>
@@ -294,7 +294,7 @@ export default {
         });
     },
 
-    submitForm(formName, projectID) {
+    validateColSubmit(formName, projectID) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.addNewColumn(projectID);
