@@ -7,13 +7,16 @@
   >
     <el-form>
       <el-form-item label="Name">
-        <el-input v-model="editName" autocomplete="off"></el-input>
+        <el-input v-model="editName"  maxlength="100"
+                show-word-limit autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="Desription">
         <el-input
           type="textarea"
           v-model="editDescription"
           autocomplete="off"
+           maxlength="200"
+                show-word-limit
         ></el-input>
       </el-form-item>
     </el-form>

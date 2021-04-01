@@ -12,9 +12,10 @@
             @click="inviteUserDialog = true"
             >Invite People to the Project</el-button
           >
-           <span id="totalTaskTime"> Total time assigned to tasks:
+          <span id="totalTaskTime">
+            Total time assigned to tasks:
             {{ (Math.round(addTime * 100) / 100).toFixed(2) }} minutes
-            </span>
+          </span>
           <el-dialog
             :before-close="closeInviteUserDialog"
             title="Invite User to Join the Project"
@@ -109,15 +110,24 @@
           v-model="colDialogFormVisible"
           width="30%"
         >
-          <el-form>
-            <el-form-item label="List name">
-              <el-input v-model="col_name" autocomplete="off"></el-input>
+          <el-form :model="col_nameValidateForm" ref="col_nameValidateForm" >
+            <el-form-item
+              label="List name"
+               prop="col_name"
+              :rules="[{ required: true, message: 'List name is required' }]"
+            >
+              <el-input
+                v-model="col_nameValidateForm.col_name"
+                maxlength="70"
+                show-word-limit
+                autocomplete="off"
+              ></el-input>
             </el-form-item>
           </el-form>
           <template #footer>
             <span class="dialog-footer">
               <el-button @click="closeColDialog()">Cancel</el-button>
-              <el-button type="primary" @click="addNewColumn(projectData._id)"
+              <el-button type="primary" @click="submitForm('col_nameValidateForm', projectData._id)"
                 >Add List</el-button
               >
             </span>
@@ -181,7 +191,9 @@ export default {
       colID: "",
       projectID: "",
       colDialogFormVisible: false,
-      col_name: "",
+        col_nameValidateForm: {
+            col_name: "",
+          },
 
       detailsTaskDialogData: {},
       detailsTaskDialog: false,
@@ -267,7 +279,7 @@ export default {
 
     closeColDialog() {
       (this.colDialogFormVisible = !this.colDialogFormVisible),
-        (this.col_name = "");
+        (this.col_nameValidateForm.col_name = "");
     },
 
     closeInviteUserDialog() {
@@ -281,10 +293,21 @@ export default {
           (this.tasks = response.data), this.getProject();
         });
     },
+
+    submitForm(formName, projectID) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.addNewColumn(projectID);
+        } else {
+          return false;
+        }
+      });
+    },
+
     async addNewColumn(projectID) {
       await axios
         .put(`http://localhost:3000/api/projects/addcolumn/${projectID}`, {
-          col_name: this.col_name,
+          col_name: this.col_nameValidateForm.col_name,
         })
         .then((response) => {
           (this.tasks = response.data),

@@ -19,13 +19,18 @@
               v-model="isNewProjectDialog"
               width="30%"
             >
-              <el-form>
-                <el-form-item label="Project Name">
+              <el-form :model="newProjectValidate" ref="newProjectValidate">
+                <el-form-item
+                  label="Project Name"
+                  prop="title"
+                  :rules="[
+                    { required: true, message: 'Project name is required' },
+                  ]"
+                >
                   <el-input
                     maxlength="40"
-                    minlength="1"
                     show-word-limit
-                    v-model="title"
+                    v-model="newProjectValidate.title"
                     autocomplete="off"
                   ></el-input>
                 </el-form-item>
@@ -35,7 +40,7 @@
                     maxlength="200"
                     minlength="1"
                     show-word-limit
-                    v-model="description"
+                    v-model="newProjectValidate.description"
                     autocomplete="off"
                   ></el-input>
                 </el-form-item>
@@ -45,7 +50,7 @@
                   <el-button @click="isNewProjectDialog = false"
                     >Cancel</el-button
                   >
-                  <el-button type="primary" @click="createProject()"
+                  <el-button type="primary" @click="validateProjectSubmit('newProjectValidate')"
                     >Create</el-button
                   >
                 </span>
@@ -130,8 +135,10 @@ export default {
       fullscreenLoading: true,
       isNewProjectDialog: false,
 
-      title: "",
-      description: "",
+      newProjectValidate: {
+        title: "",
+        description: "",
+      },
 
       projectStatus: null,
     };
@@ -158,7 +165,7 @@ export default {
       return total;
     },
   },
-  
+
   methods: {
     async getProjectsData() {
       await axios
@@ -173,11 +180,12 @@ export default {
         .then(this.$emit("refreshData"));
     },
 
+
     async createProject() {
       await axios
         .post("http://localhost:3000/api/projects", {
-          title: this.title,
-          description: this.description,
+          title: this.newProjectValidate.title,
+          description: this.newProjectValidate.description,
         })
         .then(
           (response) => (
@@ -188,6 +196,17 @@ export default {
         )
         .then(this.$emit("refreshData"));
     },
+
+      validateProjectSubmit(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.createProject()
+          } else {
+            return false;
+          }
+        });
+      },
+
 
     async projectState(projectID) {
       await axios
@@ -217,8 +236,8 @@ export default {
 
     closeProjDialog() {
       (this.isNewProjectDialog = !this.isNewProjectDialog),
-        (this.title = ""),
-        (this.description = ""),
+        (this.newProjectValidate.title = ""),
+        (this.newProjectValidate.description = ""),
         this.getProjectsData();
     },
   },

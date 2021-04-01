@@ -11,6 +11,8 @@
           placeholder="Enter task name"
           v-model="name"
           autocomplete="off"
+          maxlength="100"
+          show-word-limit
         ></el-input>
       </el-form-item>
       <el-form-item label="Task desription">
@@ -19,6 +21,8 @@
           placeholder="Enter task description"
           v-model="description"
           autocomplete="off"
+          maxlength="200"
+          show-word-limit
         ></el-input>
       </el-form-item>
     </el-form>

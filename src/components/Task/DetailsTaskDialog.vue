@@ -12,7 +12,12 @@
           <p class="bold mt-2">Task name</p>
           <el-form>
             <el-form-item>
-              <el-input v-model="editName" autocomplete="off"></el-input>
+              <el-input
+                v-model="editName"
+                maxlength="100"
+                show-word-limit
+                autocomplete="off"
+              ></el-input>
             </el-form-item>
             <p class="bold mt-2">Task Description</p>
             <el-form-item>
@@ -20,6 +25,9 @@
                 type="textarea"
                 v-model="editDescription"
                 autocomplete="off"
+                :rows="5"
+                maxlength="200"
+                show-word-limit
               ></el-input>
             </el-form-item>
           </el-form>
@@ -134,7 +142,6 @@ export default {
           task_time: this.timeSelect,
           task_state: this.taskProgress,
           task_priority: this.priorityValue,
-
         })
         .then((response) => {
           (this.tasks = response.data), this.close(), this.$emit("submit");
@@ -148,7 +155,6 @@ export default {
           (this.tasks = response.data), this.close(), this.$emit("submit");
         });
     },
-
 
     close() {
       this.$emit("close");
