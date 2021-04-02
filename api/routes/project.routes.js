@@ -33,7 +33,9 @@ module.exports = app => {
 
   //PROJECTS
   // Retrieve all Project
-  router.get("/", verifyToken, projects.findAll);
+  router.get("/", projects.findAll);
+  /*   router.get("/", verifyToken, projects.findAll); */
+
   // Retrieve a single Project by ID
   router.get("/:id", projects.findOne);
   // Update a Project with ID
