@@ -12,9 +12,9 @@
             @click="inviteUserDialog = true"
             >Invite People to the Project</el-button
           >
-          <span id="totalTaskTime">
+          <span class="ml-3" id="totalTaskTime">
             Total Time: {{ addTime }}
-            <el-tag closable >add people part of project here</el-tag>
+            <el-tag class="ml-5" closable >add people part of project here</el-tag>
           </span>
           <el-dialog
             :before-close="closeInviteUserDialog"
@@ -382,6 +382,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "src/scss/_variables.scss";
 #boardTitle {
   color: #fff;
 }
@@ -411,7 +412,6 @@ export default {
   grid-auto-columns: 275px;
   grid-auto-flow: column;
   grid-gap: 10px;
-  height: 400px;
 }
 .board-lists:last-child {
   margin-right: 15px;
@@ -424,7 +424,7 @@ export default {
   grid-gap: 10px;
   /* Chrome use a fixed height */
   height: max-content;
-  min-height: 150px;
+  min-height: 140px;
   padding: 10px;
 }
 
@@ -453,7 +453,7 @@ export default {
   margin-bottom: 7px;
 }
 .cardList {
-  max-height: 500px;
+  max-height: 700px;
   overflow: auto;
 }
 /* ScrollBar */
