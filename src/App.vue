@@ -25,19 +25,12 @@ export default {
   },
   data() {
     return {
-      isAuth: this.$cookies.get('jwt')
     }
   },
   watch: {
-    isAuth: function (val) {
-      this.isAuthSetHeaders()
-    },
     '$route' (to, from) {
       this.$refs.nav.getProjectsData()
     }
-  },
-  created() {  
-    this.isAuthSetHeaders()
   },
 
   methods: {
@@ -45,13 +38,6 @@ export default {
       await this.$refs.nav.getProjectsData()
     },
 
-    async isAuthSetHeaders() {
-      if(!this.isAuth) {
-        this.$router.push('/login')
-      } else {
-        axios.defaults.headers.common['Authorization'] = `bearer ${ this.$cookies.get('jwt') }`;
-      }
-    }
   },
 };
 </script>

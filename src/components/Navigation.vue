@@ -69,8 +69,12 @@ export default {
   },
   methods: {
     async getProjectsData() {
-      if(!this.$cookies.get('jwt')) {
+
+      console.log(location.href.substring(location.href.lastIndexOf('/') + 1) )
+      if(!this.$cookies.get('jwt') && location.href.substring(location.href.lastIndexOf('/') + 1) !== 'register') {
         this.$router.push('/login')
+        axios.defaults.headers.common['Authorization'] = null;
+      } else if (!this.$cookies.get('jwt') && location.href.substring(location.href.lastIndexOf('/') + 1) === 'register') {
         axios.defaults.headers.common['Authorization'] = null;
       } else {
         axios.defaults.headers.common['Authorization'] = `bearer ${ this.$cookies.get('jwt') }`;

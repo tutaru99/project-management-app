@@ -21,6 +21,7 @@
           <el-form-item>
             <el-button type="primary" @click="login">Login</el-button>
           </el-form-item>
+          <a href="/register">Click here to register</a>
         </el-form>
       </el-col>
     </el-row>
