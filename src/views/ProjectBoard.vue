@@ -13,8 +13,7 @@
             >Invite People to the Project</el-button
           >
           <span id="totalTaskTime">
-            Total time assigned to tasks:
-            {{ (Math.round(addTime * 100) / 100).toFixed(1) }} minutes
+            Total Time Assigned to Tasks: {{ addTime }}
           </span>
           <el-dialog
             :before-close="closeInviteUserDialog"
@@ -225,7 +224,11 @@ export default {
           }
         });
       });
-      return total;
+      let hours = (total / 60);
+      let rhours = Math.floor(hours);
+      let minutes = (hours - rhours) * 60;
+      let rminutes = Math.round(minutes);
+      return rhours + " hour(s) " + rminutes + " minute(s)";
     },
   },
 

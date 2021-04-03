@@ -73,12 +73,13 @@
                 </el-row>
                 <p id="completed" v-if="project.completed == true">Completed</p>
                 <p id="inProgress" v-else>Ongoing</p>
+                
                 <el-row>
                   <el-col :span="24">
                     <el-collapse>
                       <el-collapse-item title="About Project">
                         <h4>{{ project.description }}</h4>
-                        <p>Total time assigned to tasks: <span class="bold"> {{ (Math.round(addTime(project) * 100) / 100).toFixed(2) }} minutes</span> </p>
+                        <p>Total time assigned to tasks: <span class="bold"> {{ addTime(project) }} </span> </p>
                         <p>Users part of the project:</p>
                         <p class="bold mt-1">Project Status</p>
                         <el-switch
@@ -159,7 +160,11 @@ export default {
           });
         });
      
-      return total;
+      let hours = (total / 60);
+      let rhours = Math.floor(hours);
+      let minutes = (hours - rhours) * 60;
+      let rminutes = Math.round(minutes);
+      return rhours + " hour(s) " + rminutes + " minute(s)";
     },
 
     async getProjectsData() {
