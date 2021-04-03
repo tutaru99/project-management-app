@@ -17,6 +17,7 @@ exports.create = (req, res) => {
         description: req.body.description,
         completed: req.body.completed,
         columns: req.body.columns,
+        owner: req.body.user,
         published: req.body.published ? req.body.published : false
     });
 
@@ -48,6 +49,65 @@ exports.findAll = (req, res) => {
         });
 
 };
+// Retrieve all Projects that are owned by a user.
+exports.findAll = (req, res) => {
+    project.find({
+        'owner.0': ObjectId(req.user._id)
+    })
+         .then(data => {
+             res.send(data);
+         })
+         .catch(err => {
+             res.status(500).send({
+                 message:
+                     err.message || "Some error occurred while retrieving Projects."
+             });
+         });
+ 
+ };
+
+// Retrieve all Projects that a user is invited to.
+exports.findAllInvited = (req, res) => {
+    project.find({
+        'users': ObjectId(req.user._id)
+    })
+         .then(data => {
+             res.send(data);
+         })
+         .catch(err => {
+             res.status(500).send({
+                 message:
+                     err.message || "Some error occurred while retrieving Projects."
+             });
+         });
+ 
+ };
+
+ exports.addUser = async (req, res) => {
+    const foundUser = await db.users.findOne({ email: req.body.userEmail })
+    .catch(err => {
+        res.status(500).send({
+            message:
+            err.message || "Some error occurred while retrieving Projects."
+        });
+    });
+    project.updateOne(
+        { '_id' : ObjectId(req.body.projectId) },
+        {
+          $push: { 'users': ObjectId(foundUser._id) },
+        }
+     ).then(result => {
+         if(result.ok) {
+            res.status(200).json(result.ok)
+         }
+     })
+     .catch(err => {
+         res.status(500).send({
+             message:
+                 err.message || "Some error occurred while retrieving Projects."
+         });
+     });
+ };
 
 // Find a single Project by an ID
 exports.findOne = (req, res) => {

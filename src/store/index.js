@@ -8,11 +8,20 @@ const vuexLocal = new VuexPersistence({
 export default createStore({
   state: {
     isCollapse: false,
+    auth: {
+      id: null
+    },
   },
   mutations: {
     isCollapseState() {
       this.isCollapse = !this.isCollapse
     },
+    logIn(state, payload){
+      state.auth.id = payload
+    },
+    logOut(state){
+      state.auth.id = null
+    }
   },
   actions: {
 

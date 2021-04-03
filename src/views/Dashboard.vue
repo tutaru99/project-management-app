@@ -61,6 +61,7 @@
               v-for="project in projectsData.slice().reverse()"
               :key="project.key"
             >
+            <h1>My projects</h1>
               <div class="projectsWrapper">
                 <el-row type="flex" justify="space-between">
                   <h2>{{ project.title }}</h2>
@@ -111,7 +112,61 @@
           </div>
         </el-col>
         <el-col :span="11" :offset="1">
-          <DashboardComponent />
+          <h1>
+            Projects I am a part of
+          </h1>
+          <div
+              v-for="project in invitedProjectsData.slice().reverse()"
+              :key="project.key"
+            >
+              <div class="projectsWrapper">
+                <el-row type="flex" justify="space-between">
+                  <h2>{{ project.title }}</h2>
+                  <el-button
+                    class="more"
+                    icon="el-icon-delete"
+                    @click="deleteProject(project._id)"
+                    circle
+                  ></el-button>
+                </el-row>
+                <p id="completed" v-if="project.completed == true">Completed</p>
+                <p id="inProgress" v-else>Ongoing</p>
+                
+                <el-row>
+                  <el-col :span="24">
+                    <el-collapse>
+                      <el-collapse-item title="About Project">
+                        <h4>{{ project.description }}</h4>
+                        <p class="mt-1">Total time assigned to tasks: <span class="bold"> {{ addTime(project) }} </span> </p>
+                        <p>Users part of the project:</p>
+                        <p class="bold mt-1">Project Status</p>
+                        <el-switch
+                          v-model="project.completed"
+                          active-text="Completed"
+                          inactive-text="Ongoing"
+                          @click="projectState(project._id)"
+                        >
+                        </el-switch>
+                      </el-collapse-item>
+                    </el-collapse>
+                  </el-col>
+                </el-row>
+                <el-row type="flex" justify="end">
+                  <router-link :to="{ path: '/projectboard/' + project._id }"
+                    ><el-button class="mt-1" id="linkProject" type="primary"
+                      >Open Project</el-button
+                    ></router-link
+                  >
+                </el-row>
+                <el-row type="flex" justify="end">
+                  <span id="dateCreated"
+                    >Created: {{ project.createdAt.split("T").shift() }}</span
+                  >
+                </el-row>
+                <el-row> </el-row>
+              </div>
+            </div>
+          <!-- <DashboardComponent /> -->
         </el-col>
       </el-row>
     </el-main>
@@ -131,9 +186,9 @@ export default {
   data() {
     return {
       projectsData: [],
+      invitedProjectsData: [],
       fullscreenLoading: true,
       isNewProjectDialog: false,
-
       newProjectValidate: {
         title: "",
         description: "",
@@ -144,7 +199,7 @@ export default {
   },
   mounted() {
     this.getProjectsData();
-
+    this.getInvitedProjectsData();
     this.projectStatus = this.projectsData.completed;
   },
 
@@ -180,12 +235,25 @@ export default {
         .then(this.$emit("refreshData"));
     },
 
+    async getInvitedProjectsData() {
+      await axios
+        .get("http://localhost:3000/api/projects/invited")
+        .then(
+          (response) => (
+            (this.invitedProjectsData = response.data),
+            (this.fullscreenLoading = false),
+            console.log(response)
+          )
+        )
+    },
+
 
     async createProject() {
       await axios
         .post("http://localhost:3000/api/projects", {
           title: this.newProjectValidate.title,
           description: this.newProjectValidate.description,
+          user: this.$store.state.auth.id
         })
         .then(
           (response) => (

@@ -75,11 +75,12 @@ export default {
       } else {
         axios.defaults.headers.common['Authorization'] = `bearer ${ this.$cookies.get('jwt') }`;
         await axios
-          .get("http://localhost:3000/api/projects")
+          .get(`http://localhost:3000/api/projects`)
           .then((response) => (this.projectsData = response.data));
       }
     },
     logout() {
+      this.$store.commit('logOut')
       this.$cookies.remove('jwt');
       axios.defaults.headers.common['Authorization'] = null;
       this.$router.push('/login');

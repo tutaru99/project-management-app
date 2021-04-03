@@ -23,14 +23,14 @@
             width="30%"
           >
             <el-form>
-              <el-form-item label="Username">
-                <el-input v-model="username" autocomplete="off"></el-input>
+              <el-form-item label="Email">
+                <el-input v-model="email" autocomplete="off"></el-input>
               </el-form-item>
             </el-form>
             <template #footer>
               <span class="dialog-footer">
                 <el-button @click="closeInviteUserDialog()">Cancel</el-button>
-                <el-button type="primary">Invite</el-button>
+                <el-button @click="addUserToProject()" type="primary">Add user</el-button>
               </span>
             </template>
           </el-dialog>
@@ -178,7 +178,7 @@ export default {
   data() {
     return {
       inviteUserDialog: false,
-      username: "",
+      email: "",
 
       projectData: null,
       visible: false,
@@ -319,6 +319,13 @@ export default {
             this.getProject(),
             this.closeColDialog();
         });
+    },
+
+    async addUserToProject (){
+      await axios.post('http://localhost:3000/api/projects/add-user', {
+        projectId: this.projectData._id,
+        userEmail: this.email
+      })
     },
 
     allowDrop(ev) {

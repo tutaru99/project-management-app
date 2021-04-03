@@ -55,5 +55,4 @@ db.mongoose
     process.exit();
   });
     
-// require("./api/routes/auth.js")(app, passport);
 require("./api/routes/project.routes.js")(app, passport);

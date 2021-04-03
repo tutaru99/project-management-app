@@ -15,7 +15,7 @@ module.exports = (app, passport) => {
   var router = require("express").Router();
 
   // Create a new Project
-  router.post("/", jsonParser, projects.create);
+  router.post("/", jsonParser, projects.create);  
 
   // Retrieve all Projects by Condition
   router.get("/completed",  projects.findAllCompleted);
@@ -37,8 +37,12 @@ module.exports = (app, passport) => {
   router.put("/addcolumn/:id", projects.addColumn);
 
   //PROJECTS
-  // Retrieve all Project
+  // Add user to project
+  router.post("/add-user", passport.authenticate('jwt', {session: false}), projects.addUser);
+  // Retrieve all Project owned by user
   router.get("/", passport.authenticate('jwt', {session: false}), projects.findAll);
+  // Retrieve all Projects a user is invited to
+  router.get("/invited", passport.authenticate('jwt', {session: false}), projects.findAllInvited);
   // Retrieve a single Project by ID
   router.get("/:id", projects.findOne);
   // Update a Project with ID

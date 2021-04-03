@@ -51,6 +51,7 @@ export default {
         })
         .then((response) => {
           this.$cookies.set("jwt", response.data.token);
+          this.$store.commit('logIn', response.data.id)
           this.$router.push("/");
         });
     },
