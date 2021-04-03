@@ -57,11 +57,11 @@
               </template>
             </el-dialog>
             <!-- Project Loop -->
+            <h1>My projects</h1>
             <div
               v-for="project in projectsData.slice().reverse()"
               :key="project.key"
             >
-            <h1>My projects</h1>
               <div class="projectsWrapper">
                 <el-row type="flex" justify="space-between">
                   <h2>{{ project.title }}</h2>
