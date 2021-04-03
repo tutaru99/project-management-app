@@ -19,6 +19,10 @@
             />
           </el-form-item>
           <el-form-item>
+          <p>
+            &nbsp;
+            {{errors}}
+          </p>
             <el-button type="primary" @click="login">Login</el-button>
           </el-form-item>
           <a href="/register">Click here to register</a>
@@ -38,6 +42,7 @@ export default {
     return {
       email: null,
       password: null,
+      errors: null
     };
   },
   methods: {
@@ -54,7 +59,14 @@ export default {
           this.$cookies.set("jwt", response.data.token);
           this.$store.commit('logIn', response.data.id)
           this.$router.push("/");
-        });
+        })
+        .catch(err => {
+          if (err.response.status === 400) {
+            this.errors = err.response.data.message
+          } else {
+            this.errors = "Something went wrong..."
+          }
+        }) 
     },
   },
 };

@@ -70,7 +70,6 @@ export default {
   methods: {
     async getProjectsData() {
 
-      console.log(location.href.substring(location.href.lastIndexOf('/') + 1) )
       if(!this.$cookies.get('jwt') && location.href.substring(location.href.lastIndexOf('/') + 1) !== 'register') {
         this.$router.push('/login')
         axios.defaults.headers.common['Authorization'] = null;

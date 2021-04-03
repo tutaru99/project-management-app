@@ -26,6 +26,10 @@
             placeholder="Password"
           />
         </el-form-item>
+          <p>
+            &nbsp;
+            {{errors}}
+          </p>
         <el-form-item>
           <el-button type="primary" @click="register">Register</el-button>
         </el-form-item>
@@ -44,6 +48,7 @@ export default {
       username: null,
       email: null,
       password: null,
+      errors: null
     };
   },
   methods: {
@@ -53,11 +58,10 @@ export default {
         email: this.email,
         password: this.password,
       };
-      await axios
-        .post("http://localhost:3000/api/user/register", user)
-        .then((response) => {
-            // console.log(response)
-        });
+      await axios.post("http://localhost:3000/api/user/register", user)
+        .catch(err => {
+            this.errors = err.response.data.error
+        })
     },
   },
 };

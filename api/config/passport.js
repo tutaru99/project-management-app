@@ -31,14 +31,14 @@ passport.use(new LocalStrategy({
         await user.findOne({ email })
            .then(async user => {
                if (!user) {
-                   return cb('Incorrect email!');
+                   return cb('Incorrect E-mail');
                }
                 const validPassword = await bcrypt.compare(
                     password,
                     user.password
                 );
                 if (!validPassword) {
-                    return cb('Incorrect Username / Password');
+                    return cb('Incorrect Password');
                 }
 
                return cb(null, user, {message: 'Logged In Successfully'});
