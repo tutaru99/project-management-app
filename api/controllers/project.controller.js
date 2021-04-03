@@ -36,19 +36,19 @@ exports.create = (req, res) => {
 };
 
 // Retrieve all Projects from the database.
-exports.findAll = (req, res) => {
-   project.find()
-        .then(data => {
-            res.send(data);
-        })
-        .catch(err => {
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while retrieving Projects."
-            });
-        });
+// exports.findAll = (req, res) => {
+//    project.find()
+//         .then(data => {
+//             res.send(data);
+//         })
+//         .catch(err => {
+//             res.status(500).send({
+//                 message:
+//                     err.message || "Some error occurred while retrieving Projects."
+//             });
+//         });
 
-};
+// };
 // Retrieve all Projects that are owned by a user.
 exports.findAll = (req, res) => {
     project.find({
@@ -83,6 +83,7 @@ exports.findAllInvited = (req, res) => {
  
  };
 
+ // Add a user to a project
  exports.addUser = async (req, res) => {
     const foundUser = await db.users.findOne({ email: req.body.userEmail })
     .catch(err => {
@@ -95,6 +96,34 @@ exports.findAllInvited = (req, res) => {
         { '_id' : ObjectId(req.body.projectId) },
         {
           $push: { 'users': ObjectId(foundUser._id) },
+        }
+     ).then(result => {
+         if(result.ok) {
+            res.status(200).json(result.ok)
+         }
+     })
+     .catch(err => {
+         res.status(500).send({
+             message:
+                 err.message || "Some error occurred while retrieving Projects."
+         });
+     });
+ };
+
+//remove a user from a project
+ exports.removeUser = async (req, res) => {
+     
+    const foundUser = await db.users.findOne({ email: req.body.userEmail })
+    .catch(err => {
+        res.status(500).send({
+            message:
+            err.message || "Some error occurred while retrieving Projects."
+        });
+    });
+    project.updateOne(
+        { '_id' : ObjectId(req.body.projectId) },
+        {
+          $pull: { 'users': ObjectId(foundUser._id) },
         }
      ).then(result => {
          if(result.ok) {

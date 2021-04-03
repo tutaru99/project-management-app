@@ -10,11 +10,11 @@
             icon="el-icon-plus"
             type="primary"
             @click="inviteUserDialog = true"
-            >Invite People to the Project</el-button
+            > Add people to the project </el-button
           >
           <span class="ml-3" id="totalTaskTime">
             Total Time: {{ addTime }}
-            <el-tag class="ml-5" closable >add people part of project here</el-tag>
+            <el-button @click="viewPeopleDialog = true" type="primary" class="ml-5" closable >People</el-button>
           </span>
           <el-dialog
             :before-close="closeInviteUserDialog"
@@ -159,6 +159,19 @@
       @submit="getProject"
       @close="closeDetailsTaskDialog"
     />
+    <el-dialog
+      title="People in project"
+      v-model="viewPeopleDialog"
+      width="50%"
+    >
+      <PeopleInProjectDialog
+        v-if="viewPeopleDialog"
+        :users="projectData.users"
+        :projectId="projectData._id"
+        @removed="getProject"
+        @close="viewPeopleDialog = false"
+      />
+    </el-dialog>
   </div>
 </template>
 
@@ -168,12 +181,14 @@ import axios from "axios";
 import NewTaskDialogComponent from "@/components/Task/NewTaskDialog.vue";
 import TaskDetailsDialog from "@/components/Task/EditTaskDialog.vue";
 import DetailsTaskDialog from "@/components/Task/DetailsTaskDialog.vue";
+import PeopleInProjectDialog from "@/components/Task/PeopleInProjectDialog.vue";
 
 export default {
   components: {
     NewTaskDialogComponent,
     TaskDetailsDialog,
     DetailsTaskDialog,
+    PeopleInProjectDialog
   },
   data() {
     return {
@@ -198,6 +213,7 @@ export default {
 
       detailsTaskDialogData: {},
       detailsTaskDialog: false,
+      viewPeopleDialog: false,
 
       routeID: this.$route.params.id,
     };
@@ -325,6 +341,10 @@ export default {
       await axios.post('http://localhost:3000/api/projects/add-user', {
         projectId: this.projectData._id,
         userEmail: this.email
+      }).then(async () => {
+        this.inviteUserDialog = false
+        this.email = null
+        await this.getProject()
       })
     },
 

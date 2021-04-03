@@ -66,3 +66,24 @@ exports.login = async (req, res) => {
     }
   )(req, res);
 };
+
+exports.getUsersData = async (req, res) => {
+  var usersDetails = [];
+
+  for (let index = 0; index < req.body.length; index++){
+    await db.users.findById(req.body[index]).then(result => {
+      const data = {
+        username: result.username,
+        email: result.email,
+      }
+      usersDetails.push(data)
+    }).catch (error => {
+      res.status(400).json({ error });
+    })
+  }
+  if (usersDetails) {
+    res.status(200).json(usersDetails)
+  } else {
+    res.status(404)
+  }
+}

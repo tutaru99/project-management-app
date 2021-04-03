@@ -5,8 +5,6 @@ const passport = require('passport');
 require('dotenv').config();
 require('./api/config/passport.js');
 const authRoutes = require("./api/routes/auth.js");
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
 
 const app = express();
 
@@ -15,16 +13,8 @@ app.use(cors({
   origin: 'http://localhost:8080',
   credentials: true
 }));
-app.use(cookieParser());
-app.use(session({
-  secret: 'keyboard cat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}))
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(cookieParser());
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());

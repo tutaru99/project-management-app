@@ -1,0 +1,53 @@
+<template>
+    <el-main>
+      <el-row type="flex">
+        <el-table :data="usersDetails" style="width: 100%">
+          <el-table-column prop="username" label="Name">
+          </el-table-column>
+          <el-table-column prop="email" label="E-mail">
+          </el-table-column>
+          <el-table-column fixed="right" label="Operations" width="120">
+            <template #default="scope">
+              <el-button @click="removeUser(scope.row)" type="text" size="small">Remove</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-row>
+    </el-main>
+</template>
+
+<script>
+import axios from "axios";
+export default {
+  props: [ "users", "projectId"],
+  emits: [ "removed", "close" ],
+
+  data: () => ({
+    usersDetails: null,
+    dialog: true
+  }),
+
+  mounted() {
+      this.getUsersData()
+  },
+
+  methods: {
+    async getUsersData() {
+      await axios.post(`http://localhost:3000/api/user/info`, this.users)
+        .then((response) => {
+          this.usersDetails = response.data
+        });
+    },
+    async removeUser(user) {
+      await axios.post('http://localhost:3000/api/projects/remove-user', {
+        userEmail: user.email,
+        projectId: this.projectId
+      }).then(() => {
+        this.$emit('removed')
+        this.$emit('close')
+      }
+      )
+    }
+  },
+};
+</script>
