@@ -60,14 +60,14 @@
             <el-radio-button label="Completed"></el-radio-button>
           </el-radio-group>
 
-          <p class="bold mt-3">Estimate time to complete</p>
+          <p class="bold mt-3">Estimate time to complete (minutes)</p>
           <el-input-number
             v-model="timeSelect"
-            :precision="2"
             :model-value="timeSelect"
-            :step="0.1"
-            :max="24"
+            :precision="0"
+            :step="5"
             :min="0"
+            :max="1000"
           ></el-input-number>
           <el-button
             id="mt-3"

@@ -14,7 +14,7 @@
           >
           <span id="totalTaskTime">
             Total time assigned to tasks:
-            {{ (Math.round(addTime * 100) / 100).toFixed(2) }} minutes
+            {{ (Math.round(addTime * 100) / 100).toFixed(1) }} minutes
           </span>
           <el-dialog
             :before-close="closeInviteUserDialog"
