@@ -14,6 +14,7 @@
           >
           <span id="totalTaskTime">
             Total Time: {{ addTime }}
+            <el-tag closable >add people part of project here</el-tag>
           </span>
           <el-dialog
             :before-close="closeInviteUserDialog"
@@ -46,16 +47,19 @@
           @drop="dropIt($event)"
           @dragover="allowDrop($event)"
         >
-          <div class="list-title">
-            {{ column.col_name }} <br />
-
+        <div id="show" class="list-title" >
+          <el-row type="flex" justify="space-between" align="middle">
+            <h4>{{ column.col_name }}</h4>
             <el-button
-              class="more-actions"
+              class="delete hide"
+              type="danger"
+              plain
               icon="el-icon-delete"
               @click="deleteColumn(column._id)"
               circle
             ></el-button>
-          </div>
+          </el-row>
+        </div>
         <!-- Card element -->
           <div
             v-for="(task, taskNo) in column.tasks"
@@ -80,14 +84,7 @@
                   @click="openTaskDetailsModalDialog(task)"
                 ></el-button>
               </div>
-              <div class="delete">
-                <el-button
-                  size="small"
-                  icon="el-icon-delete"
-                  circle
-                  @click="removeTask(task._id)"
-                ></el-button>
-              </div>
+
             </div>
           </div>
           <div>
@@ -417,7 +414,7 @@ export default {
   height: 400px;
 }
 .board-lists:last-child {
-  margin-right: 10px;
+  margin-right: 15px;
 }
 .board-list {
   background-color: rgb(235, 236, 240);
@@ -440,6 +437,7 @@ export default {
   -moz-user-select: none; /* Old versions of Firefox */
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently */
+  padding: 5px 0 5px 0;
 }
 
 .card {
@@ -449,7 +447,6 @@ export default {
   padding: 10px;
   cursor: pointer;
 }
-
 
 .addNewTask{
   width: 100%;
@@ -477,21 +474,25 @@ export default {
   border-radius: 20px;
   border: 2px solid rgb(0, 0, 0);
 }
-.more-actions {
+.delete {
   position: -webkit-sticky; /* Safari */
   position: sticky;
-  left: 100%;
+  left: 84%;
+  position: absolute;
 }
+.hide {
+  display: none;
+}
+.cardList:hover .hide {
+     display: block;
+}
+
 ul li:nth-child(n + 2) {
   margin-top: 10px;
 }
 .inline {
   margin-top: 5px;
   display: flex;
-}
-.delete {
-  position: sticky;
-  left: 100%;
 }
 .colButton {
   max-height: 40px;
@@ -501,4 +502,7 @@ ul li:nth-child(n + 2) {
   color: white;
   font-weight: 600;
 }
+
+
+
 </style>

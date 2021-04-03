@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     :before-close="close"
-    title="Edit Task"
+    title="Quick Edit Task"
     v-model="editTaskModalDialog"
     width="30%"
   >

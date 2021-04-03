@@ -19,6 +19,19 @@ $draft-bg: #FCE4E4;
 /* We have 2 main font families to use from: Rajdhani and Montserrat */
 *{
     font-family: "Montserrat", sans-serif;
+
+      /* text styling */
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      /* word-breaking does the same but one or the other might not for some browsers*/
+      word-break: break-all;
+      word-break: break-word;
+      /* Adds a hyphen where the word breaks if supported */
+      -ms-hyphens: auto;
+      -moz-hyphens: auto;
+      -webkit-hyphens: auto;
+      hyphens: auto;
+      text-justify: inter-word;
 }
 .el-main{
     padding: 0 !important;
