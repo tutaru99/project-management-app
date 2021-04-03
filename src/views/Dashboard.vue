@@ -79,7 +79,7 @@
                     <el-collapse>
                       <el-collapse-item title="About Project">
                         <h4>{{ project.description }}</h4>
-                        <p>Total time assigned to tasks: <span class="bold"> {{ addTime(project) }} </span> </p>
+                        <p class="mt-1">Total time assigned to tasks: <span class="bold"> {{ addTime(project) }} </span> </p>
                         <p>Users part of the project:</p>
                         <p class="bold mt-1">Project Status</p>
                         <el-switch
@@ -159,7 +159,7 @@ export default {
             }
           });
         });
-     
+
       let hours = (total / 60);
       let rhours = Math.floor(hours);
       let minutes = (hours - rhours) * 60;

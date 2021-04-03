@@ -13,7 +13,7 @@
             >Invite People to the Project</el-button
           >
           <span id="totalTaskTime">
-            Total Time Assigned to Tasks: {{ addTime }}
+            Total Time: {{ addTime }}
           </span>
           <el-dialog
             :before-close="closeInviteUserDialog"
@@ -48,11 +48,7 @@
         >
           <div class="list-title">
             {{ column.col_name }} <br />
-            <el-button
-              icon="el-icon-plus"
-              circle
-              @click="openTaskModalDialog(column)"
-            ></el-button>
+
             <el-button
               class="more-actions"
               icon="el-icon-delete"
@@ -60,7 +56,7 @@
               circle
             ></el-button>
           </div>
-
+        <!-- Card element -->
           <div
             v-for="(task, taskNo) in column.tasks"
             :key="task.id"
@@ -93,6 +89,15 @@
                 ></el-button>
               </div>
             </div>
+          </div>
+          <div>
+            <el-button
+              icon="el-icon-plus"
+              type="primary" plain
+              class="addNewTask"
+              @click="openTaskModalDialog(column)">
+                New Task
+            </el-button>
           </div>
         </div>
         <el-button
@@ -445,6 +450,11 @@ export default {
   cursor: pointer;
 }
 
+
+.addNewTask{
+  width: 100%;
+  margin-bottom: 7px;
+}
 .cardList {
   max-height: 500px;
   overflow: auto;
