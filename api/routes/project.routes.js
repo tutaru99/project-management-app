@@ -1,8 +1,13 @@
-module.exports = app => {
+module.exports = (app, passport) => {
   var bodyParser = require('body-parser')
   var jsonParser = bodyParser.json()
   const projects = require("../controllers/project.controller.js");
-  const { verifyToken } = require("../validation")
+  const { verifyToken } = require("../validation");
+  
+  function ensureAuthenticated(req,res,next) {
+    if(req.isAuthenticated()) {return next();}
+        res.redirect('/'); // if failed...
+    }
 
   app.use(bodyParser.urlencoded({ extended: true }));
   app.use(bodyParser.json());
@@ -33,9 +38,7 @@ module.exports = app => {
 
   //PROJECTS
   // Retrieve all Project
-  router.get("/", projects.findAll);
-  /*   router.get("/", verifyToken, projects.findAll); */
-
+  router.get("/", passport.authenticate('jwt', {session: false}), projects.findAll);
   // Retrieve a single Project by ID
   router.get("/:id", projects.findOne);
   // Update a Project with ID

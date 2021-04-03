@@ -15,6 +15,7 @@
 <script>
 import Dashboard from "./views/Dashboard.vue";
 import Navigation from "./components/Navigation.vue";
+import axios from "axios";
 
 export default {
   name: "App",
@@ -22,9 +23,34 @@ export default {
     Dashboard,
     Navigation,
   },
+  data() {
+    return {
+      isAuth: this.$cookies.get('jwt')
+    }
+  },
+  watch: {
+    isAuth: function (val) {
+      this.isAuthSetHeaders()
+    },
+    '$route' (to, from) {
+      this.$refs.nav.getProjectsData()
+    }
+  },
+  created() {  
+    this.isAuthSetHeaders()
+  },
+
   methods: {
     async refresh() {
       await this.$refs.nav.getProjectsData()
+    },
+
+    async isAuthSetHeaders() {
+      if(!this.isAuth) {
+        this.$router.push('/login')
+      } else {
+        axios.defaults.headers.common['Authorization'] = `bearer ${ this.$cookies.get('jwt') }`;
+      }
     }
   },
 };

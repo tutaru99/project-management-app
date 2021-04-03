@@ -47,6 +47,11 @@
       <i class="el-icon-setting"></i>
       <template #title>Navigator Three</template>
     </el-menu-item>
+    <el-row justify="center" type="flex">
+      <el-button @click="logout">
+        Logout
+      </el-button>
+    </el-row>
   </el-menu>
 </template>
 
@@ -64,10 +69,21 @@ export default {
   },
   methods: {
     async getProjectsData() {
-      await axios
-        .get("http://localhost:3000/api/projects")
-        .then((response) => (this.projectsData = response.data));
+      if(!this.$cookies.get('jwt')) {
+        this.$router.push('/login')
+        axios.defaults.headers.common['Authorization'] = null;
+      } else {
+        axios.defaults.headers.common['Authorization'] = `bearer ${ this.$cookies.get('jwt') }`;
+        await axios
+          .get("http://localhost:3000/api/projects")
+          .then((response) => (this.projectsData = response.data));
+      }
     },
+    logout() {
+      this.$cookies.remove('jwt');
+      axios.defaults.headers.common['Authorization'] = null;
+      this.$router.push('/login');
+    }
   },
 };
 </script>

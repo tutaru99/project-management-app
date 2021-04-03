@@ -1,21 +1,34 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const passport = require('passport');
+require('dotenv').config();
+require('./api/config/passport.js');
 const authRoutes = require("./api/routes/auth.js");
-require('dotenv').config()
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 const app = express();
 
 
-app.use(cors());
-
-
+app.use(cors({
+  origin: 'http://localhost:8080',
+  credentials: true
+}));
+app.use(cookieParser());
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(cookieParser());
 
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
-
+// app.use('/api/user', passport.authenticate('jwt', {session: false}), authRoutes)
 app.use('/api/user', authRoutes)
 // simple route
 app.get("/", (req, res) => {
@@ -42,4 +55,5 @@ db.mongoose
     process.exit();
   });
     
-require("./api/routes/project.routes.js")(app);
+// require("./api/routes/auth.js")(app, passport);
+require("./api/routes/project.routes.js")(app, passport);
