@@ -3,7 +3,7 @@ module.exports = (app, passport) => {
   var jsonParser = bodyParser.json()
   const projects = require("../controllers/project.controller.js");
   const { verifyToken } = require("../validation");
-  
+
   function ensureAuthenticated(req,res,next) {
     if(req.isAuthenticated()) {return next();}
         res.redirect('/'); // if failed...
@@ -15,7 +15,7 @@ module.exports = (app, passport) => {
   var router = require("express").Router();
 
   // Create a new Project
-  router.post("/", jsonParser, projects.create);  
+  router.post("/", jsonParser, projects.create);
 
   // Retrieve all Projects by Condition
   router.get("/completed",  projects.findAllCompleted);
