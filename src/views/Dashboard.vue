@@ -238,12 +238,10 @@ export default {
     async getInvitedProjectsData() {
       await axios
         .get("http://localhost:3000/api/projects/invited")
-        .then(
-          (response) => (
-            (this.invitedProjectsData = response.data),
-            (this.fullscreenLoading = false),
-            console.log(response)
-          )
+        .then(response => {
+            this.invitedProjectsData = response.data,
+            this.fullscreenLoading = false
+          }
         )
     },
 

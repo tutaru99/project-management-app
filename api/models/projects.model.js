@@ -13,17 +13,21 @@ module.exports = mongoose => {
             task_description: String,
             task_time: Number,
             task_state: String,
-            task_priority: String
+            task_priority: String,
+            asignee: [ {
+              type: [mongoose.Schema.Types.ObjectId],
+              ref: "user"
+            }]
 
           }]
         }],
         owner: {
           type: [mongoose.Schema.Types.ObjectId],
-          ref: "users"
+          ref: "user"
         },
         users: [{
           type: [mongoose.Schema.Types.ObjectId],
-          ref: "users"
+          ref: "user"
         }],
       },
       { timestamps: true }

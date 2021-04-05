@@ -138,11 +138,104 @@ exports.findAllInvited = (req, res) => {
      });
  };
 
+ // Add a user to a task
+ exports.addUserToTask = async (req, res) => {
+   const foundUser = await db.users
+     .findOne({ email: req.body.userEmail })
+     .catch((err) => {
+       res.status(500).send({
+         message:
+           err.message || "Some error occurred while retrieving Projects.",
+       });
+     });
+
+   // Check if user is already assigned to task
+   await project
+     .findOne({ "columns.tasks._id": ObjectId(req.body.taskId) })
+     .then(async (result) => {
+       return new Promise(async function(resolve, reject) {
+         for await (let column of result.columns) {
+           for await (let task of column.tasks) {
+             if (task._id.equals(req.body.taskId)) {
+               if (task.asignee.length > 0) {
+                 for await (asignee of task.asignee) {
+                   if (asignee.equals(foundUser._id)) {
+                     reject();
+                     return res.status(500).send({
+                       message: "User is already assigned to task.",
+                     });
+                   } else {
+                     return resolve(true);
+                   }
+                 }
+               } else {
+                 return resolve(true);
+               }
+             }
+           }
+         }
+       });
+     });
+
+   await project
+     .updateOne(
+       { "columns.tasks._id": ObjectId(req.body.taskId) },
+       {
+         $push: {
+           "columns.$[].tasks.$[].asignee": ObjectId(foundUser._id),
+         },
+       }
+     )
+     .then((result) => {
+       if (result.ok) {
+         res.status(200).json(result.ok);
+       }
+     })
+     .catch((err) => {
+       console.log(err);
+       res.status(500).send({
+         message:
+           err.message || "Some error occurred while retrieving Projects.",
+       });
+     });
+ };
+
+
+//remove a user from a task
+exports.removeUserfromTask = async (req, res) => {
+     
+    const foundUser = await db.users.findOne({ email: req.body.userEmail })
+    .catch(err => {
+        res.status(500).send({
+            message:
+            err.message || "Some error occurred while retrieving Projects."
+        });
+    });
+    await project.updateOne(
+        { 'columns.tasks._id' : mongoose.Types.ObjectId(req.body.taskId) },
+        {
+            $pull: { 
+                "columns.$[].tasks.$[].asignee": mongoose.Types.ObjectId(foundUser._id) 
+            },
+        }
+     ).then(result => {
+         if(result.ok) {
+            res.status(200).json(result.ok)
+         }
+     })
+     .catch(err => {
+         res.status(500).send({
+             message:
+                 err.message || "Some error occurred while retrieving Projects."
+         });
+     });
+ };
+
 // Find a single Project by an ID
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
-    project.findById(id)
+    project.findById(id).populate({path: 'users', select: ['username', 'email'] })
         .then(data => {
             if (!data)
                 res.status(404).send({ message: "Project not found with id " + id });

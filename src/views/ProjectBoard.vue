@@ -70,6 +70,15 @@
             @dragstart="dragStart($event)"
             @click.self="openDetailsTaskDialog(task)"
           >
+          {{task}}
+              <DetailsTaskDialog
+                v-if="detailsTaskDialog && detailsTaskDialogData === task"
+                :detailsTaskDialog="detailsTaskDialog"
+                :detailsTaskDialogData="task"
+                :users="projectData.users"
+                @submit="getProject"
+                @close="closeDetailsTaskDialog"
+              />
             <div @click="openDetailsTaskDialog(task)">
               <p>{{ task.task_name }}</p>
             </div>
@@ -135,6 +144,9 @@
           </template>
         </el-dialog>
       </div>
+        <p style="color:white;">
+          {{projectData}}
+        </p>
     </div>
     <!-- Dialog Components -->
     <NewTaskDialogComponent
@@ -152,13 +164,14 @@
       @edit="getProject"
     />
 
-    <DetailsTaskDialog
+    <!-- <DetailsTaskDialog
       v-if="detailsTaskDialog"
       :detailsTaskDialog="detailsTaskDialog"
       :detailsTaskDialogData="detailsTaskDialogData"
+      :users="projectData.users"
       @submit="getProject"
       @close="closeDetailsTaskDialog"
-    />
+    /> -->
     <el-dialog
       title="People in project"
       v-model="viewPeopleDialog"
@@ -248,6 +261,11 @@ export default {
       let rminutes = Math.round(minutes);
       return rhours + " hour(s) " + rminutes + " minute(s)";
     },
+  },
+  computed: {
+    detailsTaskDialogDataReactive(task) {
+      return task
+    }
   },
 
   methods: {

@@ -41,6 +41,10 @@ module.exports = (app, passport) => {
   router.post("/add-user", passport.authenticate('jwt', {session: false}), projects.addUser);
   // Remove user from project
   router.post("/remove-user", passport.authenticate('jwt', {session: false}), projects.removeUser);
+  // Add user to task
+  router.put("/task/add-user", passport.authenticate('jwt', {session: false}), projects.addUserToTask);
+  // Add user to task
+  router.put("/task/remove-user", passport.authenticate('jwt', {session: false}), projects.removeUserfromTask);
   // Retrieve all Project owned by user
   router.get("/", passport.authenticate('jwt', {session: false}), projects.findAll);
   // Retrieve all Projects a user is invited to

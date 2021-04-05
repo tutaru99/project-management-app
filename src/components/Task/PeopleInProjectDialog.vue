@@ -1,7 +1,7 @@
 <template>
     <el-main>
       <el-row type="flex">
-        <el-table :data="usersDetails" style="width: 100%">
+        <el-table :data="users" style="width: 100%">
           <el-table-column prop="username" label="Name">
           </el-table-column>
           <el-table-column prop="email" label="E-mail">
@@ -23,21 +23,10 @@ export default {
   emits: [ "removed", "close" ],
 
   data: () => ({
-    usersDetails: null,
     dialog: true
   }),
 
-  mounted() {
-      this.getUsersData()
-  },
-
   methods: {
-    async getUsersData() {
-      await axios.post(`http://localhost:3000/api/user/info`, this.users)
-        .then((response) => {
-          this.usersDetails = response.data
-        });
-    },
     async removeUser(user) {
       await axios.post('http://localhost:3000/api/projects/remove-user', {
         userEmail: user.email,

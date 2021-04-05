@@ -51,8 +51,31 @@
         <el-col :span="8" :offset="1">
           <h1>Actions</h1>
           <p class="bold mt-2">Assign members to task</p>
-          <AddMembers />
-          <br /><br />
+          <AddMembers 
+            :taskId="detailsTaskDialogData._id"
+            :users="usersNotAddedToTask"
+            @refresh="$emit('submit')"
+          />
+          <br />
+          <div v-if="usersAddedToTask.length">
+          Asignees:
+            <p  v-for="user in usersAddedToTask" :key="user.id">
+              <b>
+                {{user.username}}
+              </b> 
+              <br>
+              <small> 
+                {{user.email}} 
+              </small>
+              <el-button @click="removeUserFromTask(user.email)">
+                Remove from task
+              </el-button>
+            </p>
+          </div>
+          <p v-else>
+            No one is assigned to this task
+          </p>
+          <br />
           <p class="bold mt-2">Task State</p>
           <el-radio-group v-model="taskProgress" size="small">
             <el-radio-button label="In Progress"></el-radio-button>
@@ -98,14 +121,15 @@ export default {
   components: {
     AddMembers,
   },
-  props: ["detailsTaskDialog", "detailsTaskDialogData"],
+  props: ["detailsTaskDialog", "detailsTaskDialogData", "users"],
   emits: ["submit", "close"],
 
   data: () => ({
 
+    email: null,
     detailsEdit: {
       editName: "",
-      editDescription: "",
+      editDescription: ""
     },
 
     taskId: "",
@@ -144,6 +168,22 @@ export default {
     this.priorityValue = this.detailsTaskDialogData.task_priority;
   },
 
+  computed: {
+    usersAddedToTask: function () {
+      let arr = [];
+      this.detailsTaskDialogData.asignee.forEach(asignee => {
+        const filteredArr = this.users.filter(function (user) {
+          return user.id === asignee
+        })
+        arr.push(filteredArr[0])
+      })
+      return arr
+    },
+    usersNotAddedToTask() {
+      return this.users.filter(user => !this.detailsTaskDialogData.asignee.includes(user.id))
+    }
+  },
+
   methods: {
     async submitTask(taskId) {
       await axios
@@ -159,21 +199,29 @@ export default {
         });
     },
 
-     validateSubmitTask(formName, taskId) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.submitTask(taskId)
-          } else {
-            return false;
-          }
-        });
-      },
-
-
+    validateSubmitTask(formName, taskId) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.submitTask(taskId)
+        } else {
+          return false;
+        }
+      });
+    },
 
     async removeTask(taskid) {
       await axios
         .put(`http://localhost:3000/api/projects/deletetask/${taskid}`)
+        .then((response) => {
+          (this.tasks = response.data), this.close(), this.$emit("submit");
+        });
+    },
+
+    async removeUserFromTask(email) {
+      await axios.put(`http://localhost:3000/api/projects/task/remove-user/`,{
+          taskId: this.detailsTaskDialogData._id,
+          userEmail: email
+        })
         .then((response) => {
           (this.tasks = response.data), this.close(), this.$emit("submit");
         });

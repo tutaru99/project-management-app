@@ -1,5 +1,8 @@
 
 <template>
+  {{users}}
+  asd 
+  {{state}}
   <el-autocomplete
     popper-class="my-autocomplete"
     v-model="state"
@@ -11,42 +14,36 @@
       <i class="el-icon-plus el-input__icon" @click="handleIconClick"></i>
     </template>
     <template #default="{ item }">
-      <div class="value">{{ item.value }}</div>
+      <div @click="addUser(item.email)">{{ item.email }}</div>
     </template>
   </el-autocomplete>
 </template>
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
+import axios from 'axios'
 export default defineComponent({
-  setup() {
+  props: ['taskId', 'users'],
+  emits: ['refresh'],
+  setup(props) {
     const links = ref([]);
 
     const querySearch = (queryString, cb) => {
       var results = queryString
-        ? links.value.filter(createFilter(queryString))
-        : links.value;
+        ? links.email.filter(createFilter(queryString))
+        : links.email;
       // call callback function to return suggestion objects
       cb(results);
     };
     const createFilter = (queryString) => {
       return (restaurant) => {
         return (
-          restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) ===
-          0
+          restaurant.email.toLowerCase().indexOf(queryString.toLowerCase()) === 0
         );
       };
     };
     const loadAll = () => {
-      return [
-        { value: "Username?"},
-        { value: "Choose"},
-        { value: "from"},
-        { value: "added"},
-        { value: "Users"},
-        { value: "to this"},
-        { value: "project"},
-      ];
+      return props.users;
     };
     const handleSelect = (item) => {
       console.log(item);
@@ -57,18 +54,30 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      links.value = loadAll();
+      links.email = loadAll();
     });
 
     return {
       state: ref(""),
+      userEmail: null,
       querySearch,
       createFilter,
       loadAll,
       handleSelect,
-      handleIconClick,
+      handleIconClick
     };
   },
+  methods: {
+    async addUser (email) {
+      await axios.put(`http://localhost:3000/api/projects/task/add-user`, {
+          taskId: this.taskId,
+          userEmail: email
+        })
+        .then(() => {
+          this.$emit('refresh')
+        });
+    },
+  }
 });
 </script>
 
