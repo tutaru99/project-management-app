@@ -1,8 +1,5 @@
 
 <template>
-  {{users}}
-  asd 
-  {{state}}
   <el-autocomplete
     popper-class="my-autocomplete"
     v-model="state"
@@ -20,7 +17,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, onUpdated } from "vue";
 import axios from 'axios'
 export default defineComponent({
   props: ['taskId', 'users'],
@@ -42,9 +39,6 @@ export default defineComponent({
         );
       };
     };
-    const loadAll = () => {
-      return props.users;
-    };
     const handleSelect = (item) => {
       console.log(item);
     };
@@ -54,15 +48,18 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      links.email = loadAll();
+      links.email = props.users;
     });
+
+    onUpdated(() => {
+      links.email = props.users
+    })
 
     return {
       state: ref(""),
       userEmail: null,
       querySearch,
       createFilter,
-      loadAll,
       handleSelect,
       handleIconClick
     };

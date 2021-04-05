@@ -222,8 +222,8 @@ export default {
           taskId: this.detailsTaskDialogData._id,
           userEmail: email
         })
-        .then((response) => {
-          (this.tasks = response.data), this.close(), this.$emit("submit");
+        .then(response => {
+          this.tasks = response.data, this.$emit("submit");
         });
     },
 

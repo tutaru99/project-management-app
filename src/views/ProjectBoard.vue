@@ -79,35 +79,34 @@
             @end="drag = false"
             item-key="task_name"
           >
-          {{task}}
-              <DetailsTaskDialog
-                v-if="detailsTaskDialog && detailsTaskDialogData === task"
-                :detailsTaskDialog="detailsTaskDialog"
-                :detailsTaskDialogData="task"
-                :users="projectData.users"
-                @submit="getProject"
-                @close="closeDetailsTaskDialog"
-              />
             <template #item="{ element }">
               <li class="list-group-item card">
+                <DetailsTaskDialog
+                  v-if="detailsTaskDialogData._id == element._id"
+                  :detailsTaskDialog="true"
+                  :detailsTaskDialogData="element"
+                  :users="projectData.users"
+                  @submit="getProject"
+                  @close="closeDetailsTaskDialog"
+                />
                 <i :class="element.fixed ? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'"
                   @click="element.fixed = !element.fixed"
                   aria-hidden="true"
                 ></i>
-                <div @click="openDetailsTaskDialog(element)">
-                {{ element.task_name }}
+                <div @click.self="openDetailsTaskDialog(element)">
+                  {{ element.task_name }}
                 </div>
-                            <div class="inline" @click.self="openDetailsTaskDialog(element)">
-              <div>
-                <el-button
-                  class="details"
-                  size="small"
-                  icon="el-icon-edit"
-                  circle
-                  @click="openTaskDetailsModalDialog(element)"
-                ></el-button>
-              </div>
-            </div>
+                <div class="inline" @click.self="openDetailsTaskDialog(element)">
+                  <div>
+                    <el-button
+                      class="details"
+                      size="small"
+                      icon="el-icon-edit"
+                      circle
+                      @click="openTaskDetailsModalDialog(element)"
+                    ></el-button>
+                  </div>
+                </div>
               </li>
             </template>
           </draggable>
@@ -165,9 +164,6 @@
           </template>
         </el-dialog>
       </div>
-        <p style="color:white;">
-          {{projectData}}
-        </p>
     </div>
     <!-- Dialog Components -->
     <NewTaskDialogComponent
@@ -184,15 +180,6 @@
       @close="closeEditTaskModalDialog"
       @edit="getProject"
     />
-
-    <!-- <DetailsTaskDialog
-      v-if="detailsTaskDialog"
-      :detailsTaskDialog="detailsTaskDialog"
-      :detailsTaskDialogData="detailsTaskDialogData"
-      :users="projectData.users"
-      @submit="getProject"
-      @close="closeDetailsTaskDialog"
-    /> -->
     <el-dialog
       title="People in project"
       v-model="viewPeopleDialog"
