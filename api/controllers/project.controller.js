@@ -179,12 +179,13 @@ exports.findAllInvited = (req, res) => {
 
    await project
      .updateOne(
-       { "columns.tasks._id": ObjectId(req.body.taskId) },
-       {
-         $push: {
-           "columns.$[].tasks.$[].asignee": ObjectId(foundUser._id),
-         },
-       }
+       { "columns.tasks._id": mongoose.Types.ObjectId(req.body.taskId) },
+        {
+            $push: {
+                "columns.$[].tasks.$[taskfield].asignee": mongoose.Types.ObjectId(foundUser._id),
+            }
+        },
+        { arrayFilters: [{ "taskfield._id": mongoose.Types.ObjectId(req.body.taskId) }] }
      )
      .then((result) => {
        if (result.ok) {
@@ -215,9 +216,10 @@ exports.removeUserfromTask = async (req, res) => {
         { 'columns.tasks._id' : mongoose.Types.ObjectId(req.body.taskId) },
         {
             $pull: { 
-                "columns.$[].tasks.$[].asignee": mongoose.Types.ObjectId(foundUser._id) 
+                "columns.$[].tasks.$[taskfield].asignee": mongoose.Types.ObjectId(foundUser._id) 
             },
-        }
+        },
+        { arrayFilters: [{ "taskfield._id": mongoose.Types.ObjectId(req.body.taskId) }] }
      ).then(result => {
          if(result.ok) {
             res.status(200).json(result.ok)
