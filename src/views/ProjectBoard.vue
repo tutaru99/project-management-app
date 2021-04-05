@@ -244,6 +244,7 @@ export default {
   mounted() {
     this.getProject();
   },
+
   watch: {
     $routeID() {
       this.getProject();
@@ -254,6 +255,7 @@ export default {
       }
     },
   },
+
   computed: {
     dragOptions() {
       return {
@@ -295,46 +297,6 @@ export default {
         .then((response) => {
           (this.tasks = response.data), this.getProject();
         });
-    },
-
-    //Opening and closing component dialogs
-    openTaskModalDialog(column) {
-      this.taskDialogData = column;
-      this.taskModalDialog = true;
-    },
-    closeTaskModalDialog() {
-      this.taskDialogData = false;
-      this.taskModalDialog = false;
-      document.body.classList.remove("el-popup-parent--hidden");
-    },
-
-    openTaskDetailsModalDialog(task) {
-      this.editTaskDialogData = task;
-      this.editTaskModalDialog = true;
-    },
-    closeEditTaskModalDialog() {
-      this.editTaskDialogData = false;
-      this.editTaskModalDialog = false;
-      document.body.classList.remove("el-popup-parent--hidden");
-    },
-
-    openDetailsTaskDialog(task) {
-      this.detailsTaskDialogData = task;
-      this.detailsTaskDialog = true;
-    },
-    closeDetailsTaskDialog() {
-      this.detailsTaskDialogData = false;
-      this.detailsTaskDialog = false;
-      document.body.classList.remove("el-popup-parent--hidden");
-    },
-
-    closeColDialog() {
-      (this.colDialogFormVisible = !this.colDialogFormVisible),
-        (this.col_nameValidateForm.col_name = "");
-    },
-
-    closeInviteUserDialog() {
-      (this.inviteUserDialog = !this.inviteUserDialog), (this.username = "");
     },
 
     async deleteColumn(colID) {
@@ -379,12 +341,55 @@ export default {
           await this.getProject();
         });
     },
+
+
+
+    //Opening and closing component dialogs
+    openTaskModalDialog(column) {
+      this.taskDialogData = column;
+      this.taskModalDialog = true;
+    },
+    closeTaskModalDialog() {
+      this.taskDialogData = false;
+      this.taskModalDialog = false;
+      document.body.classList.remove("el-popup-parent--hidden");
+    },
+
+    openTaskDetailsModalDialog(task) {
+      this.editTaskDialogData = task;
+      this.editTaskModalDialog = true;
+    },
+    closeEditTaskModalDialog() {
+      this.editTaskDialogData = false;
+      this.editTaskModalDialog = false;
+      document.body.classList.remove("el-popup-parent--hidden");
+    },
+
+    openDetailsTaskDialog(task) {
+      this.detailsTaskDialogData = task;
+      this.detailsTaskDialog = true;
+    },
+    closeDetailsTaskDialog() {
+      this.detailsTaskDialogData = false;
+      this.detailsTaskDialog = false;
+      document.body.classList.remove("el-popup-parent--hidden");
+    },
+
+    closeColDialog() {
+      (this.colDialogFormVisible = !this.colDialogFormVisible),
+        (this.col_nameValidateForm.col_name = "");
+    },
+
+    closeInviteUserDialog() {
+      (this.inviteUserDialog = !this.inviteUserDialog), (this.username = "");
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
 @import "src/scss/_variables.scss";
+
 #boardTitle {
   color: #fff;
 }
@@ -415,9 +420,6 @@ export default {
   grid-auto-flow: column;
   grid-gap: 10px;
 }
-.board-lists:last-child {
-  margin-right: 15px;
-}
 .board-list {
   background-color: rgb(235, 236, 240);
   border-radius: 3px;
@@ -426,10 +428,11 @@ export default {
   grid-gap: 10px;
   /* Chrome use a fixed height */
   height: max-content;
-  min-height: 140px;
   padding: 10px;
 }
-
+.board-lists:last-child {
+  margin-right: 15px;
+}
 .list-title {
   font-size: 18px;
   font-weight: bold;
@@ -441,7 +444,6 @@ export default {
   user-select: none; /* Non-prefixed version, currently */
   padding: 5px 0 5px 0;
 }
-
 .card {
   background-color: white;
   border-radius: 3px;
@@ -450,14 +452,45 @@ export default {
   cursor: pointer;
 }
 
-.addNewTask {
-  width: 100%;
-  margin-bottom: 7px;
-}
 .cardList {
   max-height: 700px;
   overflow: auto;
 }
+.cardList:hover .hide {
+  display: block;
+}
+
+ul li:nth-child(n + 2) {
+  margin-top: 10px;
+}
+.inline {
+  margin-top: 5px;
+  display: flex;
+}
+.colButton {
+  max-height: 40px;
+}
+.delete {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  left: 84%;
+  position: absolute;
+}
+.addNewTask {
+  width: 100%;
+  margin-bottom: 7px;
+}
+#totalTaskTime {
+  color: white;
+  font-weight: 600;
+}
+.hide {
+  display: none;
+}
+
+
+
+
 /* ScrollBar */
 /* Firefox */
 * {
@@ -475,33 +508,5 @@ export default {
   background-color: rgb(255, 255, 255);
   border-radius: 20px;
   border: 2px solid rgb(0, 0, 0);
-}
-.delete {
-  position: -webkit-sticky; /* Safari */
-  position: sticky;
-  left: 84%;
-  position: absolute;
-}
-.hide {
-  display: none;
-}
-.cardList:hover .hide {
-  display: block;
-}
-
-ul li:nth-child(n + 2) {
-  margin-top: 10px;
-}
-.inline {
-  margin-top: 5px;
-  display: flex;
-}
-.colButton {
-  max-height: 40px;
-}
-
-#totalTaskTime {
-  color: white;
-  font-weight: 600;
 }
 </style>
