@@ -136,25 +136,42 @@
         </el-dialog>
       </div>
       <h1>NEW CARD TEST</h1>
-                      <p>
+                      <h1>
                                   <el-row>
                                     <div v-for="column in projectData.columns"
                                             :key="column.id">
+                                            <h1>{{column.col_name}}</h1>
                                           <draggable
-                                            v-for="task in column.tasks"
-                                            :key="task.id"
-                                            v-model="column.tasks" 
-                                            group="people" 
-                                            @start="drag=true" 
-                                            @end="drag=false" 
-                                            item-key="id">
+                                          class="vueDraggable ml-2"
+                                                  tag="transition-group"
+                                                  :component-data="{
+                                                    tag: 'ul',
+                                                    type: 'transition-group',
+                                                    name: !drag ? 'flip-list' : null
+                                                  }"
+                                                    itemKey="task_name"
+                                                    v-model="column.tasks" 
+                                                    group="people" 
+                                                    @start="drag=true" 
+                                                    @end="drag=false" 
+                                                    item-key="task_name">
                                             <template #item="{element}">
-                                              <div>{{element.task_name}}</div>
+                                                     <li  class="list-group-item vueDraggable2">
+                                                      <i
+                                                        :class="
+                                                          element.fixed ? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'
+                                                        "
+                                                        @click="element.fixed = !element.fixed"
+                                                        aria-hidden="true"
+                                                      ></i>
+                                                      {{ element.task_name}}
+                                                    </li>
+                                           
                                             </template>
                                         </draggable>
                                       </div>
                             </el-row>
-                      </p>
+                      </h1>
     </div>
     <!-- Dialog Components -->
     <NewTaskDialogComponent
@@ -239,6 +256,8 @@ export default {
       viewPeopleDialog: false,
 
       routeID: this.$route.params.id,
+
+       drag: false
     };
   },
 
@@ -256,6 +275,14 @@ export default {
     },
   },
   computed: {
+      dragOptions() {
+      return {
+        animation: 200,
+        group: "description",
+        disabled: false,
+        ghostClass: "ghost"
+      };
+    },
     addTime() {
       let total = 0;
       this.projectData.columns.forEach((column) => {
@@ -554,5 +581,35 @@ ul li:nth-child(n + 2) {
 }
 
 
+
+/* CARD LIB CSS */
+.button {
+  margin-top: 35px;
+}
+.flip-list-move {
+  transition: transform 0.5s;
+}
+.no-move {
+  transition: transform 0s;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+.list-group {
+  min-height: 20px;
+}
+.list-group-item {
+  cursor: move;
+}
+.list-group-item i {
+  cursor: pointer;
+}
+.vueDraggable{
+  background-color: grey;
+}
+.vueDraggable2{
+  background-color: white;
+}
 
 </style>
