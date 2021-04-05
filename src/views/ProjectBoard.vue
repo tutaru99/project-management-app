@@ -135,21 +135,16 @@
           </template>
         </el-dialog>
       </div>
-      <h1>NEW CARD TEST</h1>
                       <h1>
+                                          <h1>NEW CARD TEST</h1>
                                   <el-row>
-                                    <div v-for="column in projectData.columns"
+                                    <div  class="ml-3 vueDraggable" v-for="column in projectData.columns"
                                             :key="column.id">
                                             <h1>{{column.col_name}}</h1>
-                                          <draggable
-                                          class="vueDraggable ml-2"
+                                          <draggable 
+                                         
                                                   tag="transition-group"
-                                                  :component-data="{
-                                                    tag: 'ul',
-                                                    type: 'transition-group',
-                                                    name: !drag ? 'flip-list' : null
-                                                  }"
-                                                    itemKey="task_name"
+                                                   :component-data="{ tag: 'ul', name: 'flip-list', type: 'transition' }"
                                                     v-model="column.tasks" 
                                                     group="people" 
                                                     @start="drag=true" 
@@ -210,6 +205,7 @@
       />
     </el-dialog>
   </div>
+  
 </template>
 
 
