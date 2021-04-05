@@ -135,6 +135,26 @@
           </template>
         </el-dialog>
       </div>
+      <h1>NEW CARD TEST</h1>
+                      <p>
+                                  <el-row>
+                                    <div v-for="column in projectData.columns"
+                                            :key="column.id">
+                                          <draggable
+                                            v-for="task in column.tasks"
+                                            :key="task.id"
+                                            v-model="column.tasks" 
+                                            group="people" 
+                                            @start="drag=true" 
+                                            @end="drag=false" 
+                                            item-key="id">
+                                            <template #item="{element}">
+                                              <div>{{element.task_name}}</div>
+                                            </template>
+                                        </draggable>
+                                      </div>
+                            </el-row>
+                      </p>
     </div>
     <!-- Dialog Components -->
     <NewTaskDialogComponent
@@ -183,12 +203,15 @@ import TaskDetailsDialog from "@/components/Task/EditTaskDialog.vue";
 import DetailsTaskDialog from "@/components/Task/DetailsTaskDialog.vue";
 import PeopleInProjectDialog from "@/components/Task/PeopleInProjectDialog.vue";
 
+import draggable from 'vuedraggable';
+
 export default {
   components: {
     NewTaskDialogComponent,
     TaskDetailsDialog,
     DetailsTaskDialog,
-    PeopleInProjectDialog
+    PeopleInProjectDialog,
+    draggable
   },
   data() {
     return {
