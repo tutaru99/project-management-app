@@ -11,16 +11,17 @@
             type="primary"
             @click="inviteUserDialog = true"
           >
-            Invite users to collaborate
+            Invite Users
           </el-button>
           <span class="ml-3" id="totalTaskTime">
             Total Time: {{ addTime }}
             <el-button
+              icon="el-icon-user"
               @click="viewPeopleDialog = true"
               type="primary"
               class="ml-5"
               closable
-              >People</el-button
+              >Collaborators</el-button
             >
           </span>
           <el-dialog
@@ -54,7 +55,7 @@
           :key="column.id"
         > 
         {{ column._id }}
-        
+
           <div class="list-title">
             <el-row type="flex" justify="space-between" align="middle">
               <h4>{{ column.col_name }}</h4>
