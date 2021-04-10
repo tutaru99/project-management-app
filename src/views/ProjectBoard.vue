@@ -284,9 +284,7 @@ export default {
       let rminutes = Math.round(minutes);
       return rhours + " hour(s) " + rminutes + " minute(s)";
     },
-  },
-  computed: {
-    detailsTaskDialogDataReactive(task) {
+        detailsTaskDialogDataReactive(task) {
       return task
     }
   },
