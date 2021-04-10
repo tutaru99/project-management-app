@@ -383,6 +383,32 @@ exports.updateTask = (req, res) => {
         });
 };
 
+//Moving tasks to different columns
+exports.moveTask = (req, res) => {
+    const id = req.params.id;
+
+    project.update({ "columns.tasks._id": mongoose.Types.ObjectId(id) },
+        {
+            $pull: { "columns.$[].tasks": { "_id": mongoose.Types.ObjectId(id) } },
+            $push: { 'columns': { "_id": mongoose.Types.ObjectId('6071ddabb7c11f60789d3934') }},
+        },
+    )
+        .then(data => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Cannot MOVE TASK with id= ${id}.`
+                });
+            } else res.send({ message: "Task was MOVED successfully!" + `${id}` });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while MOVING TASK"
+            });
+        });
+};
+
+
 
 //COLUMNS
 // Delete a Column with the specified ID

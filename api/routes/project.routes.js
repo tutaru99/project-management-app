@@ -28,6 +28,8 @@ module.exports = (app, passport) => {
   router.put("/deletetask/:id", projects.deleteTask);
   // Add a new TASK by Column ID
   router.put("/addtask/:id", projects.addTask);
+  // Add a new TASK by Column ID
+  router.put("/movetask/:id", projects.moveTask);
 
 
   //COLUMNS
