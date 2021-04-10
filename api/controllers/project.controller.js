@@ -436,6 +436,32 @@ exports.addColumn = (req, res) => {
     });
 };
 
+//Edit Column name
+exports.editColumn = (req, res) => {
+    const id = req.params.id;
+
+    project.update({ "columns._id": mongoose.Types.ObjectId(id) },
+        {
+            $set: {
+                "columns.$.col_name": req.body.col_name,
+            }
+        },
+    )
+        .then(data => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Cannot update column name with id=${id}.`
+                });
+            } else res.send({ message: "Column name was updated successfully! " + `${id}` });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while updating column name"
+            });
+        });
+};
+
 
 //PROJECT
 // Delete all Projects at once from the database.

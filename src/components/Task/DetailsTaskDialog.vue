@@ -3,7 +3,7 @@
     :before-close="close"
     title="DETAILS"
     v-model="detailsTaskDialog"
-    width="50%"
+    width="70%"
   >
     <el-main>
       <el-row type="flex">
@@ -47,6 +47,15 @@
             >
             </el-option>
           </el-select>
+                    <p class="bold mt-3">Estimate time to complete (minutes)</p>
+          <el-input-number
+            v-model="timeSelect"
+            :model-value="timeSelect"
+            :precision="0"
+            :step="5"
+            :min="0"
+            :max="1000"
+          ></el-input-number>
         </el-col>
         <el-col :span="8" :offset="1">
           <h1>Actions</h1>
@@ -83,18 +92,13 @@
             <el-radio-button label="Completed"></el-radio-button>
           </el-radio-group>
 
-          <p class="bold mt-3">Estimate time to complete (minutes)</p>
-          <el-input-number
-            v-model="timeSelect"
-            :model-value="timeSelect"
-            :precision="0"
-            :step="5"
-            :min="0"
-            :max="1000"
-          ></el-input-number>
+
+          <br>
           <el-button
             id="mt-3"
             class="mt-3"
+            type="danger"
+            plain
             icon="el-icon-delete"
             @click="removeTask(detailsTaskDialogData._id)"
             >Delete Task</el-button
