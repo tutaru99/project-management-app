@@ -11,16 +11,17 @@
             type="primary"
             @click="inviteUserDialog = true"
           >
-            Add people to the project
+            Invite Users
           </el-button>
           <span class="ml-3" id="totalTaskTime">
             Total Time: {{ addTime }}
             <el-button
+              icon="el-icon-user"
               @click="viewPeopleDialog = true"
               type="primary"
               class="ml-5"
               closable
-              >People</el-button
+              >Collaborators</el-button
             >
           </span>
           <el-dialog
@@ -52,18 +53,29 @@
           class="board-list cardList"
           v-for="column in projectData.columns"
           :key="column.id"
-        >
-          <div id="show" class="list-title">
+        > 
+        {{ column._id }}
+
+          <div class="list-title">
             <el-row type="flex" justify="space-between" align="middle">
               <h4>{{ column.col_name }}</h4>
-              <el-button
-                class="delete hide"
-                type="danger"
-                plain
-                icon="el-icon-delete"
-                @click="deleteColumn(column._id)"
-                circle
-              ></el-button>
+                <el-col :span="4">
+                  <el-dropdown  class="delete hide" placement="bottom-start" trigger="click">
+                        <el-button
+                          class="delete hide"
+                          plain
+                          icon="el-icon-more"
+                          circle
+                        ></el-button>
+                          <template #dropdown>
+                            <el-dropdown-menu >
+                              <el-dropdown-item icon="el-icon-edit" @click="openEditColumnNameModalDialog(column)">Rename List</el-dropdown-item>
+                              <el-dropdown-item icon="el-icon-plus" @click="openTaskModalDialog(column)">Add New Task</el-dropdown-item>
+                              <el-dropdown-item icon="el-icon-delete" @click="deleteColumn(column._id)">Remove List</el-dropdown-item>
+                            </el-dropdown-menu>
+                          </template>
+                  </el-dropdown>
+                </el-col>
             </el-row>
           </div>
           <draggable
@@ -173,6 +185,13 @@
       @create="getProject"
       @close="closeTaskModalDialog"
     />
+    <EditColumnNameDialog
+      v-if="editColumnNameModalDialog"
+      :editColumnNameModalDialog="editColumnNameModalDialog"
+      :editColumnNameModalDialogData="editColumnNameModalDialogData"
+      @create="getProject"
+      @close="closeEditColumnNameModalDialog"
+    />
     <TaskDetailsDialog
       v-if="editTaskModalDialog"
       :editTaskModalDialog="editTaskModalDialog"
@@ -202,6 +221,7 @@
 <script>
 import axios from "axios";
 import NewTaskDialogComponent from "@/components/Task/NewTaskDialog.vue";
+import EditColumnNameDialog from "@/components/Column/EditColumnNameDialog.vue";
 import TaskDetailsDialog from "@/components/Task/EditTaskDialog.vue";
 import DetailsTaskDialog from "@/components/Task/DetailsTaskDialog.vue";
 import PeopleInProjectDialog from "@/components/Task/PeopleInProjectDialog.vue";
@@ -211,6 +231,7 @@ import draggable from "vuedraggable";
 export default {
   components: {
     NewTaskDialogComponent,
+    EditColumnNameDialog,
     TaskDetailsDialog,
     DetailsTaskDialog,
     PeopleInProjectDialog,
@@ -229,6 +250,9 @@ export default {
 
       editTaskModalDialog: false,
       editTaskDialogData: {},
+
+      editColumnNameModalDialog: false,
+      editColumnNameModalDialogData: {},
 
       colID: "",
       projectID: "",
@@ -285,6 +309,9 @@ export default {
       let minutes = (hours - rhours) * 60;
       let rminutes = Math.round(minutes);
       return rhours + " hour(s) " + rminutes + " minute(s)";
+    },
+      detailsTaskDialogDataReactive(task) {
+      return task
     }
   },
 
@@ -379,6 +406,16 @@ export default {
     closeTaskModalDialog() {
       this.taskDialogData = false;
       this.taskModalDialog = false;
+      document.body.classList.remove("el-popup-parent--hidden");
+    },
+
+    openEditColumnNameModalDialog(column) {
+      this.editColumnNameModalDialogData = column;
+      this.editColumnNameModalDialog = true;
+    },
+    closeEditColumnNameModalDialog() {
+      this.editColumnNameModalDialogData = false;
+      this.editColumnNameModalDialog = false;
       document.body.classList.remove("el-popup-parent--hidden");
     },
 
@@ -483,8 +520,12 @@ export default {
   max-height: 700px;
   overflow: auto;
 }
-.cardList:hover .hide {
+.cardList:hover .hide  {
   display: block;
+  margin-top: -26px;
+}
+.hide {
+  display: none;
 }
 
 ul li:nth-child(n + 2) {
@@ -510,9 +551,6 @@ ul li:nth-child(n + 2) {
 #totalTaskTime {
   color: white;
   font-weight: 600;
-}
-.hide {
-  display: none;
 }
 
 
