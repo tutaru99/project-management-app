@@ -29,6 +29,13 @@ module.exports = mongoose => {
           type: [mongoose.Schema.Types.ObjectId],
           ref: "user"
         }],
+        userRoles: [{
+          userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "user"
+          },
+          role: String
+        }]
       },
       { timestamps: true }
     )

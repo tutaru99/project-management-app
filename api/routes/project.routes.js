@@ -41,6 +41,8 @@ module.exports = (app, passport) => {
   router.post("/add-user", passport.authenticate('jwt', {session: false}), projects.addUser);
   // Remove user from project
   router.post("/remove-user", passport.authenticate('jwt', {session: false}), projects.removeUser);
+  // Remove user from project
+  router.put("/change-user-permission", passport.authenticate('jwt', {session: false}), projects.changeUserPermissionForProject);
   // Add user to task
   router.put("/task/add-user", passport.authenticate('jwt', {session: false}), projects.addUserToTask);
   // Add user to task

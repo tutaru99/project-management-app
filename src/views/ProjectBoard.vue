@@ -188,6 +188,8 @@
       <PeopleInProjectDialog
         v-if="viewPeopleDialog"
         :users="projectData.users"
+        :usersRoles="projectData.userRoles"
+        :currentUserRole="userRole()"
         :projectId="projectData._id"
         @removed="getProject"
         @close="viewPeopleDialog = false"
@@ -246,7 +248,7 @@ export default {
   },
 
   mounted() {
-    this.getProject();
+    this.getProject().then(() => { this.userRole() });
   },
 
   watch: {
@@ -283,11 +285,6 @@ export default {
       let minutes = (hours - rhours) * 60;
       let rminutes = Math.round(minutes);
       return rhours + " hour(s) " + rminutes + " minute(s)";
-    },
-  },
-  computed: {
-    detailsTaskDialogDataReactive(task) {
-      return task
     }
   },
 
@@ -298,6 +295,21 @@ export default {
         .then((response) => {
           this.projectData = response.data;
         });
+    },
+
+    userRole () {
+      const userId = this.$store.state.auth.id
+      const projectOwner = this.projectData.owner[0]
+
+      if (projectOwner === userId) {
+        return 'OWNER'
+      } else {
+        if (this.projectData.users.find(user => user.id === userId)) {
+          return this.projectData.userRoles.find(el => el.userId == userId).role
+        } else {
+          this.$router.push('/')
+        }
+      }
     },
 
     async removeTask(taskid) {
@@ -339,11 +351,17 @@ export default {
     },
 
     async addUserToProject() {
+      const role = this.userRole()
       await axios
         .post("http://localhost:3000/api/projects/add-user", {
-          projectId: this.projectData._id,
-          userEmail: this.email,
-        })
+            projectId: this.projectData._id,
+            userEmail: this.email,
+          },{
+            headers: {
+              role: role,
+            }
+          }
+        )
         .then(async () => {
           this.inviteUserDialog = false;
           this.email = null;

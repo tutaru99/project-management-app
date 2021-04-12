@@ -183,6 +183,7 @@ export default {
   components: {
     DashboardComponent,
   },
+  emits: ['refreshData'],
   data() {
     return {
       projectsData: [],
@@ -237,7 +238,7 @@ export default {
 
     async getInvitedProjectsData() {
       await axios
-        .get("http://localhost:3000/api/projects/invited")
+        .get(`${ process.env.VUE_APP_BASE_URL_API }/api/projects/invited`)
         .then(response => {
             this.invitedProjectsData = response.data,
             this.fullscreenLoading = false

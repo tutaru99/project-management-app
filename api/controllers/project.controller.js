@@ -84,31 +84,92 @@ exports.findAllInvited = (req, res) => {
  };
 
  // Add a user to a project
- exports.addUser = async (req, res) => {
-    const foundUser = await db.users.findOne({ email: req.body.userEmail })
-    .catch(err => {
-        res.status(500).send({
-            message:
-            err.message || "Some error occurred while retrieving Projects."
+exports.addUser = async (req, res) => {
+    var error;
+
+    const foundUser = await db.users
+        .findOne({ email: req.body.userEmail })
+        .catch((err) => {
+            error = true
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while retrieving Projects.",
+            });
         });
-    });
-    project.updateOne(
-        { '_id' : ObjectId(req.body.projectId) },
-        {
-          $push: { 'users': ObjectId(foundUser._id) },
+
+    await project.findById(req.body.projectId)
+        .populate({ path: "users", select: ["username", "email"] })
+        .then(async data => {
+            if (!data) {
+                res.status(404).send({ message: "Error" });
+            } else {
+                for await (user of data.users) {
+                    if (user._id.equals(foundUser._id)) {
+                        error = true
+                        return res.status(400).send({ message: 'User is already added' })
+                    }
+                }
+            }
+        })
+        .catch((err) => {
+            error = true
+            res.status(500).send({ message: "Error retrieving Project with id=" + id });
+        });
+
+    if (!error) {
+        if (req.headers.role === "OWNER" || req.headers.role === "ADMIN") {
+
+            await project.updateOne(
+                { _id: ObjectId(req.body.projectId) },
+                {
+                    $push: {
+                        users: ObjectId(foundUser._id),
+                        userRoles: {
+                            userId: ObjectId(foundUser._id),
+                            role: "USER",
+                        },
+                    },
+                }
+            )
+                .then((result) => {
+                    if (result.ok) {
+                        res.status(200).json(result.ok);
+                    }
+                })
+                .catch((err) => {
+                    res.status(500).send({
+                        message: err.message || "Some error occurred while retrieving Projects.",
+                    });
+                });
+        } else {
+            res.status(401).json({
+                message: "You dont have permissions to do this. Please contact the owner of the project.",
+            });
         }
-     ).then(result => {
-         if(result.ok) {
-            res.status(200).json(result.ok)
-         }
-     })
-     .catch(err => {
-         res.status(500).send({
-             message:
-                 err.message || "Some error occurred while retrieving Projects."
-         });
-     });
- };
+    }
+};
+
+ //change user permissions for a project
+exports.changeUserPermissionForProject = async (req, res) => {
+    if (req.headers.role === 'OWNER' || req.headers.role === 'ADMIN') {
+        project.updateOne(
+            { '_id': mongoose.Types.ObjectId(req.body.projectId), 'userRoles.userId': mongoose.Types.ObjectId(req.body.userId) },
+            { $set: { "userRoles.$.role": `${req.body.newPermission}` } }
+        )
+            .then(result => {
+                if (result.n) {
+                    res.status(200).json(result.n)
+                }
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    } else {
+        res.status(401).json({
+            message: "You dont have permissions to do this. Please contact the owner of the project.",
+        });
+    }
+}
 
 //remove a user from a project
  exports.removeUser = async (req, res) => {
