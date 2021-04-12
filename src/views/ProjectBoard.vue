@@ -87,9 +87,10 @@
             }"
             v-model="column.tasks"
             group="people"
+            item-key="task_name"
             @start="drag = true"
             @end="drag = false"
-            item-key="task_name"
+            @change="($e)=>{moveTask( column._id, $e)}"
           >
             <template #item="{ element }">
               <li class="list-group-item card">
@@ -297,13 +298,18 @@ export default {
     },
     addTime() {
       let total = 0;
-      this.projectData.columns.forEach((column) => {
-        column.tasks.forEach((task) => {
-          if (task.task_time != null) {
-            total += task.task_time;
+
+      // if(this.projectData.columns) {
+        for (const column of this.projectData.columns) {
+          for (const task of column.tasks) {
+              if (task.task_time != null) {
+              total += task.task_time;
+            }
           }
-        });
-      });
+        }
+      // }
+
+
       let hours = total / 60;
       let rhours = Math.floor(hours);
       let minutes = (hours - rhours) * 60;
@@ -396,7 +402,36 @@ export default {
         });
     },
 
+        async moveTask(columnId, event) {
+          console.log(event)
+        if (event.moved) {
+         var projectTasks
+         for (const column of this.projectData.columns) {
+           console.log(column)
+           if (column._id === columnId) {
+             projectTasks = column.tasks
+           }
+         }
+         await axios
+          .put(`http://localhost:3000/api/projects/movetasksamecolumn/${columnId}`, {
+            projectId: this.projectData._id,
+            tasks: projectTasks
+          })
+        }
+        if(event.added) {
+            console.log(event.added.element._id, columnId )
+        await axios
+        .put(`http://localhost:3000/api/projects/movetask/${event.added.element._id}/${columnId}`)
+        .then((response) => {
+          ( this.projectData = response.data),
+            this.getProject()
+        });
+        }
+    },
 
+    moveTaskSameColumn(event) {
+      console.log(event)
+    },
 
     //Opening and closing component dialogs
     openTaskModalDialog(column) {
@@ -453,7 +488,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "src/scss/_variables.scss";
-
 #boardTitle {
   color: #fff;
 }

@@ -448,7 +448,7 @@ exports.updateTask = (req, res) => {
 exports.moveTask = async (req, res) => {
     const id = req.params.id;
     const columnId = req.params.columnId;
-    // console.log(req.params)
+    console.log(req.params)
     var taskData;
     await project.find({ "columns.tasks._id": mongoose.Types.ObjectId(id) })
         .then(async result => {
@@ -497,6 +497,17 @@ exports.moveTask = async (req, res) => {
         });
 };
 
+//Move task same Column
+exports.moveTaskSameColumn = async (req, res) => {
+
+    const projectData = await project.findById(req.body.projectId)
+     for await (const column of projectData.columns) {
+        if (column._id.equals(req.params.columnId)) {
+            column.tasks = req.body.tasks
+        }
+    }
+    projectData.save().catch(err => console.error(err))
+}
 
 
 //COLUMNS

@@ -1,7 +1,7 @@
 <template>
     <el-main>
       <el-row type="flex">
-w        <el-table :data="usersData" style="width: 100%">
+        <el-table :data="usersData" style="width: 100%">
           <el-table-column prop="username" label="Name">
           </el-table-column>
           <el-table-column prop="email" label="E-mail">
