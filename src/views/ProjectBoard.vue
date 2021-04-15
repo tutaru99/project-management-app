@@ -107,7 +107,8 @@
                 <div @click.self="openDetailsTaskDialog(element)">
                   {{ element.task_name }}
                 </div>
-                <div class="inline" @click.self="openDetailsTaskDialog(element)">
+                <el-row type="flex" @click="openDetailsTaskDialog(element)">
+                  <el-col :span="12">
                   <div>
                     <el-button
                       class="details"
@@ -117,7 +118,17 @@
                       @click="openTaskDetailsModalDialog(element)"
                     ></el-button>
                   </div>
-                </div>
+                  </el-col>
+                  <el-col :span="12">
+                    <div style="text-align:right;">
+                      <span  v-for="user in usersAddedToTask(element)" :key="user.id">
+                        <el-tooltip class="item" effect="dark" :content="user.username" placement="top">
+                            <el-avatar size="small"> {{ user.username.charAt(0).toUpperCase() }} </el-avatar> 
+                        </el-tooltip>
+                      </span>
+                    </div>
+                  </el-col>
+                </el-row>
               </li>
             </template>
           </draggable>
@@ -316,10 +327,20 @@ export default {
     },
       detailsTaskDialogDataReactive(task) {
       return task
-    }
+    },
   },
 
   methods: {
+    usersAddedToTask: function (element) {
+      let arr = [];
+      element.asignee.forEach(asignee => {
+        const filteredArr = this.projectData.users.filter(function (user) {
+          return user.id === asignee
+        })
+        arr.push(filteredArr[0])
+      })
+      return arr
+    },
     async getProject() {
       await axios
         .get(`http://localhost:3000/api/projects/${this.$route.params.id}`)
