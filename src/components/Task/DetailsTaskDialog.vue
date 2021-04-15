@@ -47,7 +47,7 @@
             >
             </el-option>
           </el-select>
-                    <p class="bold mt-3">Estimate time to complete (minutes)</p>
+            <p class="bold mt-3">Estimate time to complete (minutes)</p>
           <el-input-number
             v-model="timeSelect"
             :model-value="timeSelect"
@@ -67,31 +67,33 @@
           />
           <br />
           <div v-if="usersAddedToTask.length">
-          Asignees:
+           <p class="bold mt-1 pb-1">Members:</p>
             <p  v-for="user in usersAddedToTask" :key="user.id">
-              <b>
-                {{user.username}}
-              </b> 
-              <br>
-              <small> 
-                {{user.email}} 
-              </small>
-              <el-button @click="removeUserFromTask(user.email)">
-                Remove from task
-              </el-button>
+              <el-row class="mt-1" type="flex" align="middle" justify="space-between">
+                <b>
+                <i class="el-icon-user-solid"></i>  {{user.username}}
+                <small>
+                  {{user.email}}
+                </small>
+                </b>
+                <el-button class="ml-1" type="danger"
+                  plain icon="el-icon-delete" size="mini"
+                  circle @click="removeUserFromTask(user.email)">
+                </el-button>
+              </el-row>
             </p>
           </div>
           <p v-else>
-            No one is assigned to this task
+            No Members Assigned to this Task.
           </p>
           <br />
+
           <p class="bold mt-2">Task State</p>
           <el-radio-group v-model="taskProgress" size="small">
             <el-radio-button label="In Progress"></el-radio-button>
             <el-radio-button label="On Hold"></el-radio-button>
             <el-radio-button label="Completed"></el-radio-button>
           </el-radio-group>
-
 
           <br>
           <el-button
@@ -239,8 +241,14 @@ export default {
 </script>
 
 <style scoped>
+.mt-1{
+  margin-top: 5px;
+}
 #mt-3 {
   margin-top: 30px;
+}
+.ml-1{
+  margin-left: 5px;
 }
 .bold {
   font-weight: bold;
