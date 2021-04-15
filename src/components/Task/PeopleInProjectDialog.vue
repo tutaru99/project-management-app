@@ -8,9 +8,6 @@
           </el-table-column>
           <el-table-column prop="role" label="Role">
              <template #default="scope">
-              <p>
-                Permission
-              </p>
                <el-select v-model="scope.row.role" placeholder="Change permission">
                 <el-option
                   v-for="item in permissions"
@@ -23,7 +20,7 @@
               </el-select>
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="Operations" width="120">
+          <el-table-column fixed="right" label="Actions" width="120">
             <template #default="scope">
               <el-button @click="removeUser(scope.row)" type="text" size="small">Remove</el-button>
             </template>
@@ -44,12 +41,13 @@ export default {
     usersData: [],
     permissionValue: '',
     permissions: [{
-      value: 'ADMIN',
-      label: 'Admin'
-    }, {
       value: 'OWNER',
       label: 'Owner'
-    }, {
+    },
+    {
+      value: 'ADMIN',
+      label: 'Admin'
+    },{
       value: 'USER',
       label: 'User'
     }],

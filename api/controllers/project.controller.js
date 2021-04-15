@@ -448,7 +448,6 @@ exports.updateTask = (req, res) => {
 exports.moveTask = async (req, res) => {
     const id = req.params.id;
     const columnId = req.params.columnId;
-    console.log(req.params)
     var taskData;
     await project.find({ "columns.tasks._id": mongoose.Types.ObjectId(id) })
         .then(async result => {

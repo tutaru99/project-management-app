@@ -11,7 +11,7 @@
             type="primary"
             @click="inviteUserDialog = true"
           >
-            Invite Users
+            Invite Collaborators
           </el-button>
           <span class="ml-3" id="totalTaskTime">
             Total Time: {{ addTime }}
@@ -53,9 +53,7 @@
           class="board-list cardList"
           v-for="column in projectData.columns"
           :key="column.id"
-        > 
-        {{ column._id }}
-
+        >
           <div class="list-title">
             <el-row type="flex" justify="space-between" align="middle">
               <h4>{{ column.col_name }}</h4>
