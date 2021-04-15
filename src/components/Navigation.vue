@@ -24,12 +24,14 @@
       <i class="el-icon-menu"></i>
       <template #title>Dashboard</template>
     </el-menu-item>
-    <el-submenu index="1">
+    <el-submenu index="1" v-if="$store.state.auth.id">
       <template #title>
         <i class="el-icon-folder-opened"></i>
         <span>Projects</span>
       </template>
-      <el-menu-item-group >
+      <!-- Owned Projects -->
+      <el-menu-item-group>
+         <template #title><span>My Projects</span></template>
         <router-link
           v-for="project in projectsData.slice().reverse()"
           :key="project.key"
@@ -38,20 +40,22 @@
           <el-menu-item>{{ project.title }}</el-menu-item>
         </router-link>
       </el-menu-item-group>
+      <!-- Projects User is part of/invited to (collab)-->
+      <el-menu-item-group>
+         <template #title><span>Collab Projects</span></template>
+        <router-link
+          v-for="project in invitedProjectsData.slice().reverse()"
+          :key="project.key"
+          :to="{ path: '/projectboard/' + project._id }"
+        >
+          <el-menu-item>{{ project.title }}</el-menu-item>
+        </router-link>
+      </el-menu-item-group>
     </el-submenu>
-    <el-menu-item index="5">
-      <i class="el-icon-menu"></i>
-      <template #title>Navigator Two</template>
+      <el-menu-item index="/login" v-if="$store.state.auth.id" @click="logout">
+      <i class="mdi mdi-logout"></i>
+        <template #title>Sign Out</template>
     </el-menu-item>
-    <el-menu-item index="5">
-      <i class="el-icon-setting"></i>
-      <template #title>Navigator Three</template>
-    </el-menu-item>
-    <el-row justify="center" type="flex">
-      <el-button @click="logout">
-        Logout
-      </el-button>
-    </el-row>
   </el-menu>
 </template>
 
@@ -62,10 +66,12 @@ export default {
   data() {
     return {
       projectsData: [],
+      invitedProjectsData: [],
     };
   },
   mounted() {
     this.getProjectsData();
+    this.getInvitedProjectsData();
   },
   methods: {
     async getProjectsData() {
@@ -80,6 +86,20 @@ export default {
         await axios
           .get(`http://localhost:3000/api/projects`)
           .then((response) => (this.projectsData = response.data));
+      }
+    },
+      async getInvitedProjectsData() {
+
+        if(!this.$cookies.get('jwt') && location.href.substring(location.href.lastIndexOf('/') + 1) !== 'register') {
+        this.$router.push('/login')
+        axios.defaults.headers.common['Authorization'] = null;
+      } else if (!this.$cookies.get('jwt') && location.href.substring(location.href.lastIndexOf('/') + 1) === 'register') {
+        axios.defaults.headers.common['Authorization'] = null;
+      } else {
+        axios.defaults.headers.common['Authorization'] = `bearer ${ this.$cookies.get('jwt') }`;
+        await axios
+        .get(`${ process.env.VUE_APP_BASE_URL_API }/api/projects/invited`)
+        .then((response) => (this.invitedProjectsData = response.data));
       }
     },
     logout() {
@@ -108,4 +128,5 @@ a {
   margin-top: 10px;
   margin-left: 7%;
 }
+
 </style>
