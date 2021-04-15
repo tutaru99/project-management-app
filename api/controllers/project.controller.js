@@ -53,7 +53,7 @@ exports.create = (req, res) => {
 exports.findAll = (req, res) => {
     project.find({
         'owner.0': ObjectId(req.user._id)
-    })
+    }).populate({ path: 'users', select: ['username', 'email'] })
         .then(data => {
             res.send(data);
         })
@@ -70,7 +70,7 @@ exports.findAll = (req, res) => {
 exports.findAllInvited = (req, res) => {
     project.find({
         'users': ObjectId(req.user._id)
-    })
+    }).populate({ path: 'users', select: ['username', 'email'] })
          .then(data => {
              res.send(data);
          })

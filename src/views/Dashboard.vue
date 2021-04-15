@@ -74,14 +74,20 @@
                 </el-row>
                 <p id="completed" v-if="project.completed == true">Completed</p>
                 <p id="inProgress" v-else>Ongoing</p>
-                
                 <el-row>
                   <el-col :span="24">
                     <el-collapse>
                       <el-collapse-item title="About Project">
                         <h4>{{ project.description }}</h4>
                         <p class="mt-1">Total time assigned to tasks: <span class="bold"> {{ addTime(project) }} </span> </p>
+                        <el-row type="flex">
                         <p>Users part of the project:</p>
+                          <div
+                            v-for="user in project.users.slice().reverse()"
+                            :key="user.key">
+                           <b class="users"> <i class="el-icon-user"></i> {{ user.username + "\u00A0"}}</b>
+                          </div>
+                        </el-row>
                         <p class="bold mt-1">Project Status</p>
                         <el-switch
                           v-model="project.completed"
@@ -131,14 +137,20 @@
                 </el-row>
                 <p id="completed" v-if="project.completed == true">Completed</p>
                 <p id="inProgress" v-else>Ongoing</p>
-                
                 <el-row>
                   <el-col :span="24">
                     <el-collapse>
                       <el-collapse-item title="About Project">
                         <h4>{{ project.description }}</h4>
                         <p class="mt-1">Total time assigned to tasks: <span class="bold"> {{ addTime(project) }} </span> </p>
-                        <p>Users part of the project:</p>
+                                                <el-row type="flex">
+                        <p>Users part of the project: </p>
+                          <div
+                            v-for="user in project.users.slice().reverse()"
+                            :key="user.key">
+                           <b class="users"><i class="el-icon-user"></i> {{ user.username + "\u00A0"}}</b>
+                          </div>
+                        </el-row>
                         <p class="bold mt-1">Project Status</p>
                         <el-switch
                           v-model="project.completed"
@@ -337,5 +349,8 @@ export default {
 }
 .bold{
   font-weight: 700;
+}
+.users{
+ padding-left: 7px;
 }
 </style>

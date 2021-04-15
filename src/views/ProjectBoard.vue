@@ -55,6 +55,7 @@
           :key="column.id"
         >
           <div class="list-title">
+  
             <el-row type="flex" justify="space-between" align="middle">
               <h4>{{ column.col_name }}</h4>
                 <el-col :span="4">
