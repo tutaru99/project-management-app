@@ -71,10 +71,16 @@
             <p  v-for="user in usersAddedToTask" :key="user.id">
               <el-row class="mt-1" type="flex" align="middle" justify="space-between">
                 <b>
-                <i class="el-icon-user-solid"></i>  {{user.username}}
-                <small>
-                  {{user.email}}
-                </small>
+                  <el-col class="mt-1">
+                    <i class="el-icon-user" style="font-size: 28px;"></i> 
+                  </el-col>
+                  <el-col>
+                    {{user.username}}
+                    <br/>
+                    <small>
+                      {{user.email}}
+                    </small>
+                  </el-col>
                 </b>
                 <el-button class="ml-1" type="danger"
                   plain icon="el-icon-delete" size="mini"
