@@ -1,69 +1,69 @@
 <template>
   <div>
     <el-main>
-            <el-row>
-              <el-col :span="24" :offset="1">
-              <el-button
-              class="mt-1"
-                type="primary"
-                icon="el-icon-plus"
-                @click="isNewProjectDialog = true"
+      <el-row>
+        <el-col :span="24" :offset="1">
+          <el-button
+            class="mt-1"
+            type="primary"
+            icon="el-icon-plus"
+            @click="isNewProjectDialog = true"
+          >
+            New Project
+          </el-button>
+          <el-dialog
+            title="Create New Project"
+            v-model="isNewProjectDialog"
+            width="30%"
+          >
+            <el-form :model="newProjectValidate" ref="newProjectValidate">
+              <el-form-item
+                label="Project Name"
+                prop="title"
+                :rules="[
+                  { required: true, message: 'Project name is required' },
+                ]"
               >
-                New Project
-              </el-button>
-              <el-dialog
-                title="Create New Project"
-                v-model="isNewProjectDialog"
-                width="30%"
-              >
-                <el-form :model="newProjectValidate" ref="newProjectValidate">
-                  <el-form-item
-                    label="Project Name"
-                    prop="title"
-                    :rules="[
-                      { required: true, message: 'Project name is required' },
-                    ]"
-                  >
-                    <el-input
-                      maxlength="40"
-                      show-word-limit
-                      v-model="newProjectValidate.title"
-                      autocomplete="off"
-                    ></el-input>
-                  </el-form-item>
-                  <el-form-item label="Short Description">
-                    <el-input
-                      type="textarea"
-                      maxlength="200"
-                      minlength="1"
-                      show-word-limit
-                      v-model="newProjectValidate.description"
-                      autocomplete="off"
-                    ></el-input>
-                  </el-form-item>
-                </el-form>
-                <template #footer>
-                  <span class="dialog-footer">
-                    <el-button @click="isNewProjectDialog = false"
-                      >Cancel</el-button
-                    >
-                    <el-button
-                      type="primary"
-                      @click="validateProjectSubmit('newProjectValidate')"
-                      >Create</el-button
-                    >
-                  </span>
-                </template>
-              </el-dialog>
-              </el-col>
-            </el-row>
-      <el-row  type="flex" align="middle" justify="center">
+                <el-input
+                  maxlength="40"
+                  show-word-limit
+                  v-model="newProjectValidate.title"
+                  autocomplete="off"
+                ></el-input>
+              </el-form-item>
+              <el-form-item label="Short Description">
+                <el-input
+                  type="textarea"
+                  maxlength="200"
+                  minlength="1"
+                  show-word-limit
+                  v-model="newProjectValidate.description"
+                  autocomplete="off"
+                ></el-input>
+              </el-form-item>
+            </el-form>
+            <template #footer>
+              <span class="dialog-footer">
+                <el-button @click="isNewProjectDialog = false"
+                  >Cancel</el-button
+                >
+                <el-button
+                  type="primary"
+                  @click="validateProjectSubmit('newProjectValidate')"
+                  >Create</el-button
+                >
+              </span>
+            </template>
+          </el-dialog>
+        </el-col>
+      </el-row>
+      <el-row type="flex" align="middle" justify="center">
         <el-col :span="10">
           <div>
-            <!-- New Project Dialog -->
-              <h1 class="ml-1">My Projects</h1>
+            <h1 class="ml-1" v-if="projectsData.length">My Projects</h1>
+            <h1 v-else>No Projects Created..</h1>
 
-              <!-- Project Loop -->
+            <!-- Project Loop -->
             <div
               v-for="project in projectsData.slice().reverse()"
               :key="project.key"
@@ -73,6 +73,8 @@
                   <h2>{{ project.title }}</h2>
                   <el-button
                     class="more"
+                    type="danger"
+                    plain
                     icon="el-icon-delete"
                     @click="deleteProject(project._id)"
                     circle
@@ -131,7 +133,10 @@
           </div>
         </el-col>
         <el-col :span="10" :offset="1">
-          <h1  class="ml-1">Projects I am invited</h1>
+          <h1 class="ml-1" v-if="invitedProjectsData.length">
+            Invited Projects
+          </h1>
+          <h1 v-else>Nothing to show here..</h1>
           <div
             v-for="project in invitedProjectsData.slice().reverse()"
             :key="project.key"
@@ -142,6 +147,8 @@
                 <el-button
                   class="more"
                   icon="el-icon-delete"
+                  type="danger"
+                  plain
                   @click="deleteProject(project._id)"
                   circle
                 ></el-button>
