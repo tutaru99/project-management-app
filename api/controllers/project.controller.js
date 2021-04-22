@@ -35,20 +35,7 @@ exports.create = (req, res) => {
         });
 };
 
-// Retrieve all Projects from the database.
-// exports.findAll = (req, res) => {
-//    project.find()
-//         .then(data => {
-//             res.send(data);
-//         })
-//         .catch(err => {
-//             res.status(500).send({
-//                 message:
-//                     err.message || "Some error occurred while retrieving Projects."
-//             });
-//         });
 
-// };
 // Retrieve all Projects that are owned by a user.
 exports.findAll = (req, res) => {
     project.find({
@@ -63,8 +50,7 @@ exports.findAll = (req, res) => {
                     err.message || "Some error occurred while retrieving Projects."
             });
         });
-
-};
+    };
 
 // Retrieve all Projects that a user is invited to.
 exports.findAllInvited = (req, res) => {
