@@ -4,7 +4,7 @@
         <el-table :data="usersData" style="width: 100%">
           <el-table-column prop="username" label="Name">
           </el-table-column>
-          <el-table-column prop="email" label="E-mail">
+          <el-table-column prop="email" label="Email">
           </el-table-column>
           <el-table-column prop="role" label="Role">
              <template #default="scope">
@@ -28,6 +28,11 @@
         </el-table>
       </el-row>
     </el-main>
+      <el-row type="flex" justify="end">
+        <el-col :span="4">
+            <el-button class="mt-1" type="plain" @click="close()">Close</el-button>
+          </el-col>
+      </el-row>
 </template>
 
 <script>
@@ -98,7 +103,17 @@ export default {
           }
         }
       }
-    }
+    },
+    close() {
+      this.$emit("close");
+    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.mt-1{
+  margin-top: 20px;
+}
+
+</style>

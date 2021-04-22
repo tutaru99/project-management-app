@@ -57,7 +57,7 @@
             :max="1000"
           ></el-input-number>
         </el-col>
-        <el-col :span="8" :offset="1">
+        <el-col :span="6" :offset="1">
           <h1>Actions</h1>
           <p class="bold mt-2">Assign members to task</p>
           <AddMembers 
@@ -72,7 +72,7 @@
               <el-row class="mt-1" type="flex" align="middle" justify="space-between">
                 <b>
                   <el-col class="mt-1">
-                    <i class="el-icon-user" style="font-size: 28px;"></i> 
+                    <i class="el-icon-user" style="font-size: 28px;"></i>
                   </el-col>
                   <el-col>
                     {{user.username}}

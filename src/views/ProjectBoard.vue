@@ -107,8 +107,8 @@
                 <div @click.self="openDetailsTaskDialog(element)">
                   {{ element.task_name }}
                 </div>
-                <el-row type="flex" @click="openDetailsTaskDialog(element)">
-                  <el-col :span="12">
+                <el-row class="mt-1" type="flex" @click="openDetailsTaskDialog(element)">
+                  <el-col :span="4">
                   <div>
                     <el-button
                       class="details"
@@ -119,7 +119,7 @@
                     ></el-button>
                   </div>
                   </el-col>
-                  <el-col :span="12">
+                  <el-col :span="20">
                     <div style="text-align:right;">
                       <span  v-for="user in usersAddedToTask(element)" :key="user.id">
                         <el-tooltip class="item" effect="dark" :content="user.username" placement="top">
