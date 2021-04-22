@@ -55,7 +55,6 @@
           :key="column.id"
         >
           <div class="list-title">
-  
             <el-row type="flex" justify="space-between" align="middle">
               <h4>{{ column.col_name }}</h4>
                 <el-col :span="4">
@@ -116,7 +115,7 @@
                       size="small"
                       icon="el-icon-edit"
                       circle
-                      @click="openTaskDetailsModalDialog(element)"
+                      @click.stop="openTaskDetailsModalDialog(element)"
                     ></el-button>
                   </div>
                   </el-col>
@@ -124,7 +123,7 @@
                     <div style="text-align:right;">
                       <span  v-for="user in usersAddedToTask(element)" :key="user.id">
                         <el-tooltip class="item" effect="dark" :content="user.username" placement="top">
-                            <el-avatar size="small"> {{ user.username.charAt(0).toUpperCase() }} </el-avatar> 
+                            <el-avatar size="small"> {{ user.username.charAt(0).toUpperCase() }} </el-avatar>
                         </el-tooltip>
                       </span>
                     </div>
