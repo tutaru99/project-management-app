@@ -60,7 +60,7 @@
       <el-row type="flex" align="middle" justify="center">
         <el-col :span="10">
           <div>
-            <h1 class="ml-1" v-if="projectsData.length">My Projects</h1>
+            <h1 class="ml-1" v-if="projectsData.length">Personal Projects</h1>
             <h1 v-else>No Projects Created..</h1>
 
             <!-- Project Loop -->
@@ -134,7 +134,7 @@
         </el-col>
         <el-col :span="10" :offset="1">
           <h1 class="ml-1" v-if="invitedProjectsData.length">
-            Invited Projects
+            Shared Projects
           </h1>
           <h1 v-else>Nothing to show here..</h1>
           <div
