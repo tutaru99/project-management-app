@@ -1,10 +1,9 @@
 <template>
   <div>
     <el-main>
-      <el-row>
+      <el-row type="flex" align="middle" justify="center" class="header">
         <el-col :span="24" :offset="1">
           <el-button
-            class="mt-1"
             type="primary"
             icon="el-icon-plus"
             @click="isNewProjectDialog = true"
@@ -372,5 +371,9 @@ export default {
 }
 .users {
   padding-left: 7px;
+}
+.header{
+  background-color: black;
+  height: 50px;
 }
 </style>

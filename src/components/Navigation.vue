@@ -31,7 +31,7 @@
       </template>
       <!-- Owned Projects -->
       <el-menu-item-group>
-         <template #title><span>My Projects</span></template>
+         <template #title><span>Personal Projects</span></template>
         <router-link
           v-for="project in projectsData.slice().reverse()"
           :key="project.key"
