@@ -1,8 +1,9 @@
 <template>
   <div>
     <el-main>
-      <el-row type="flex" align="middle" justify="center" class="header">
-        <el-col :span="24" :offset="1">
+      <el-row type="flex" align="middle" justify="space-between" class="header">
+        <el-col :span="6" :offset="1">
+      
           <el-button
             type="primary"
             icon="el-icon-plus"
@@ -54,6 +55,18 @@
               </span>
             </template>
           </el-dialog>
+        </el-col>
+        <el-col :span="8">
+              <h3>Project Management Application</h3>
+        </el-col>
+        <el-col :span="4">
+          <el-row>
+              <h3>Theme</h3>
+                <div class="themeColors1"></div>
+                <div class="themeColors2"></div>
+                <div class="themeColors3"></div>
+                <div class="themeColors4"></div>
+          </el-row>
         </el-col>
       </el-row>
       <el-row type="flex" align="middle" justify="center">
@@ -135,7 +148,7 @@
           <h1 class="ml-1" v-if="invitedProjectsData.length">
             Shared Projects
           </h1>
-          <h1 v-else>Nothing to show here..</h1>
+          <h1 v-else>No Shared Projects added..</h1>
           <div
             v-for="project in invitedProjectsData.slice().reverse()"
             :key="project.key"
@@ -375,5 +388,40 @@ export default {
 .header{
   background-color: black;
   height: 50px;
+}
+h3{
+  color: white;
+}
+.themeColors1{
+  margin-left: 10px;
+  margin-top: 2px;
+  height: 20px;
+  width: 20px;
+  background-color: red;
+  border-radius: 50%;
+}
+.themeColors2{
+    margin-left: 10px;
+  margin-top: 2px;
+  height: 20px;
+  width: 20px;
+  background-color: green;
+  border-radius: 50%;
+}
+.themeColors3{
+    margin-left: 10px;
+  margin-top: 2px;
+  height: 20px;
+  width: 20px;
+  background-color: blue;
+  border-radius: 50%;
+}
+.themeColors4{
+    margin-left: 10px;
+  margin-top: 2px;
+  height: 20px;
+  width: 20px;
+  background-color: hotpink;
+  border-radius: 50%;
 }
 </style>
