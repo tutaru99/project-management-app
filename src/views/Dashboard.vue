@@ -340,7 +340,7 @@ export default {
       await axios
         .delete(`http://localhost:3000/api/projects/${projectID}`)
         .then((response) => {
-          (this.projects = response.data), this.getProjectsData();
+          (this.projects = response.data), this.getProjectsData(), this.getInvitedProjectsData();
         })
         .then(this.$emit("refreshData"));
     },
