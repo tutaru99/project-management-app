@@ -15,8 +15,9 @@
             @paste.prevent
             maxlength="40"
             minlength="6"
-            type="text"
+            type="email"
             name="email"
+            @input="isEmailValid"
           />
         </el-form-item>
         <el-form-item
@@ -57,13 +58,9 @@
         </el-form-item>
         <router-link to="/login">Click here to login</router-link>
       </el-form>
+      {{ isEmailValid() }}
     </el-col>
   </el-row>
-    <el-button
-    plain
-    @click="RegisterSuccess">
-    Success
-  </el-button>
   </div>
 </template>
 
@@ -76,16 +73,29 @@ export default {
       formInline: {
         email: null,
         username: null,
-        password: null
+        password: null,
+        reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/
       },
       errors: null
     };
   },
   methods: {
+      isEmailValid: function() {
+      return (this.formInline.email == "")? "" 
+      : (this.formInline.reg.test(this.formInline.email)) ?
+      true : false;
+    },
+
       validateRegister(email) {
       this.$refs[email].validate((valid) => {
         if (valid) {
-          this.register()
+          this.isEmailValid()
+          console.log(this.isEmailValid())
+          if (this.isEmailValid() === true) {
+            this.register()
+          } else {
+            return false
+          }
         } else {
           return false;
         }
@@ -110,12 +120,12 @@ export default {
           }
         })
     },
-    RegisterSuccess() {
-      this.$notify({
-      title: 'Register Success',
-      message: 'Now you can Login into the application!',
-      type: 'success'
-  });
+      RegisterSuccess() {
+        this.$notify({
+        title: 'Register Success',
+        message: 'Now you can Login into the application!',
+        type: 'success'
+    });
     },
   },
 };
