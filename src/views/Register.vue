@@ -1,42 +1,65 @@
 <template>
-  <el-row justify="center" type="flex">
-    <el-col :span="12">
-      <el-form :model="formInline" class="demo-form">
-        <el-form-item label="E-mail">
+<div class="template">
+  <el-row class="RegisterForm" justify="center" align="middle" type="flex">
+    <el-col :span="8">
+      <h2>Register User</h2>
+      <el-form :model="formInline" class="mt-1 demo-form" ref="formInline">
+        <el-form-item
+        prop="email"
+        :rules="[{ required: true, message: 'Email is required' }]"
+        label="E-mail">
           <el-input
             placeholder="E-mail"
-            v-model="email"
+            v-model="formInline.email"
+            @keydown.space.prevent
+            @paste.prevent
+            maxlength="40"
+            minlength="6"
             type="text"
             name="email"
           />
         </el-form-item>
-        <el-form-item label="Username">
+        <el-form-item
+         prop="username"
+        :rules="[{ required: true, message: 'Username is required' }]"
+        label="Username">
           <el-input
             placeholder="Username"
-            v-model="username"
+            v-model="formInline.username"
+            @keydown.space.prevent
+            @paste.prevent
+            maxlength="30"
+            minlength="6"
             type="text"
             name="username"
           />
         </el-form-item>
-        <el-form-item label="Password">
+        <el-form-item 
+         prop="password"
+        :rules="[{ required: true, message: 'Password is required' }]"
+        label="Password">
           <el-input
-            v-model="password"
+            v-model="formInline.password"
+            @keydown.space.prevent
+            @paste.prevent
             type="password"
+            maxlength="30"
+            minlength="6"
             show-password
             placeholder="Password"
           />
         </el-form-item>
-          <p>
-            &nbsp;
+          <p class="pb-2">
             {{errors}}
           </p>
         <el-form-item>
-          <el-button type="primary" @click="register">Register</el-button>
+          <el-button type="primary" @click="validateRegister('formInline')">Register</el-button>
         </el-form-item>
         <a href="/login">Click here to login</a>
       </el-form>
     </el-col>
   </el-row>
+  </div>
 </template>
 
 <script>
@@ -45,18 +68,29 @@ import axios from "axios";
 export default {
   data() {
     return {
-      username: null,
-      email: null,
-      password: null,
+      formInline: {
+        email: null,
+        username: null,
+        password: null
+      },
       errors: null
     };
   },
   methods: {
+        validateRegister(email) {
+      this.$refs[email].validate((valid) => {
+        if (valid) {
+          this.register()
+        } else {
+          return false;
+        }
+      });
+    },
     async register() {
       const user = {
-        username: this.username,
-        email: this.email,
-        password: this.password,
+        username: this.formInline.username,
+        email: this.formInline.email,
+        password: this.formInline.password,
       };
       await axios.post("http://localhost:3000/api/user/register", user)
         .catch(err => {
@@ -68,4 +102,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+p{
+  color: red;
+}
+.pb-2{
+  padding-bottom: 15px;
+}
+.template {
+  height: 80vh;
+}
+.RegisterForm{
+   margin-top: 12%;
+}
+.mt-1{
+  margin-top: 10px;
+}
 </style>

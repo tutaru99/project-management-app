@@ -49,7 +49,7 @@
       <!-- whole board element -->
       <div id="boardlists" class="board-lists">
         <!-- whole card holder -->
-      <div
+        <div
           class="board-list cardList"
           v-for="column in projectData.columns"
           :key="column.id"
@@ -57,23 +57,39 @@
           <div class="list-title">
             <el-row type="flex" justify="space-between" align="middle">
               <h4>{{ column.col_name }}</h4>
-                <el-col :span="4">
-                  <el-dropdown  class="delete hide" placement="bottom-start" trigger="click">
-                        <el-button
-                          class="delete hide"
-                          plain
-                          icon="el-icon-more"
-                          circle
-                        ></el-button>
-                          <template #dropdown>
-                            <el-dropdown-menu >
-                              <el-dropdown-item icon="el-icon-edit" @click="openEditColumnNameModalDialog(column)">Rename List</el-dropdown-item>
-                              <el-dropdown-item icon="el-icon-plus" @click="openTaskModalDialog(column)">Add New Task</el-dropdown-item>
-                              <el-dropdown-item icon="el-icon-delete" @click="deleteColumn(column._id)">Remove List</el-dropdown-item>
-                            </el-dropdown-menu>
-                          </template>
-                  </el-dropdown>
-                </el-col>
+              <el-col :span="4">
+                <el-dropdown
+                  class="delete hide"
+                  placement="bottom-start"
+                  trigger="click"
+                >
+                  <el-button
+                    class="delete hide"
+                    plain
+                    icon="el-icon-more"
+                    circle
+                  ></el-button>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item
+                        icon="el-icon-edit"
+                        @click="openEditColumnNameModalDialog(column)"
+                        >Rename List</el-dropdown-item
+                      >
+                      <el-dropdown-item
+                        icon="el-icon-plus"
+                        @click="openTaskModalDialog(column)"
+                        >Add New Task</el-dropdown-item
+                      >
+                      <el-dropdown-item
+                        icon="el-icon-delete"
+                        @click="deleteColumn(column._id)"
+                        >Remove List</el-dropdown-item
+                      >
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+              </el-col>
             </el-row>
           </div>
           <draggable
@@ -88,7 +104,11 @@
             item-key="task_name"
             @start="drag = true"
             @end="drag = false"
-            @change="($e)=>{moveTask( column._id, $e)}"
+            @change="
+              ($e) => {
+                moveTask(column._id, $e);
+              }
+            "
           >
             <template #item="{ element }">
               <li class="list-group-item card">
@@ -100,30 +120,49 @@
                   @submit="getProject"
                   @close="closeDetailsTaskDialog"
                 />
-                <i :class="element.fixed ? 'fa fa-anchor' : 'glyphicon glyphicon-pushpin'"
+                <i
+                  :class="
+                    element.fixed
+                      ? 'fa fa-anchor'
+                      : 'glyphicon glyphicon-pushpin'
+                  "
                   @click="element.fixed = !element.fixed"
                   aria-hidden="true"
                 ></i>
                 <div @click.self="openDetailsTaskDialog(element)">
                   {{ element.task_name }}
                 </div>
-                <el-row class="mt-1" type="flex" @click="openDetailsTaskDialog(element)">
+                <el-row
+                  class="mt-1"
+                  type="flex"
+                  @click="openDetailsTaskDialog(element)"
+                >
                   <el-col :span="4">
-                  <div>
-                    <el-button
-                      class="details"
-                      size="small"
-                      icon="el-icon-edit"
-                      circle
-                      @click.stop="openTaskDetailsModalDialog(element)"
-                    ></el-button>
-                  </div>
+                    <div>
+                      <el-button
+                        class="details"
+                        size="small"
+                        icon="el-icon-edit"
+                        circle
+                        @click.stop="openTaskDetailsModalDialog(element)"
+                      ></el-button>
+                    </div>
                   </el-col>
                   <el-col :span="20">
-                    <div style="text-align:right;">
-                      <span  v-for="user in usersAddedToTask(element)" :key="user.id">
-                        <el-tooltip class="item" effect="dark" :content="user.username" placement="top">
-                            <el-avatar size="small"> {{ user.username.charAt(0).toUpperCase() }} </el-avatar>
+                    <div style="text-align: right">
+                      <span
+                        v-for="user in usersAddedToTask(element)"
+                        :key="user.id"
+                      >
+                        <el-tooltip
+                          class="item"
+                          effect="dark"
+                          :content="user.username"
+                          placement="top"
+                        >
+                          <el-avatar size="small">
+                            {{ user.username.charAt(0).toUpperCase() }}
+                          </el-avatar>
                         </el-tooltip>
                       </span>
                     </div>
@@ -209,11 +248,7 @@
       @close="closeEditTaskModalDialog"
       @edit="getProject"
     />
-    <el-dialog
-      title="People in project"
-      v-model="viewPeopleDialog"
-      width="50%"
-    >
+    <el-dialog title="People in project" v-model="viewPeopleDialog" width="50%">
       <PeopleInProjectDialog
         v-if="viewPeopleDialog"
         :users="projectData.users"
@@ -282,7 +317,9 @@ export default {
   },
 
   mounted() {
-    this.getProject().then(() => { this.userRole() });
+    this.getProject().then(() => {
+      this.userRole();
+    });
   },
 
   watch: {
@@ -309,15 +346,14 @@ export default {
       let total = 0;
 
       // if(this.projectData.columns) {
-        for (const column of this.projectData.columns) {
-          for (const task of column.tasks) {
-              if (task.task_time != null) {
-              total += task.task_time;
-            }
+      for (const column of this.projectData.columns) {
+        for (const task of column.tasks) {
+          if (task.task_time != null) {
+            total += task.task_time;
           }
         }
+      }
       // }
-
 
       let hours = total / 60;
       let rhours = Math.floor(hours);
@@ -325,21 +361,21 @@ export default {
       let rminutes = Math.round(minutes);
       return rhours + " hour(s) " + rminutes + " minute(s)";
     },
-      detailsTaskDialogDataReactive(task) {
-      return task
+    detailsTaskDialogDataReactive(task) {
+      return task;
     },
   },
 
   methods: {
     usersAddedToTask: function (element) {
       let arr = [];
-      element.asignee.forEach(asignee => {
+      element.asignee.forEach((asignee) => {
         const filteredArr = this.projectData.users.filter(function (user) {
-          return user.id === asignee
-        })
-        arr.push(filteredArr[0])
-      })
-      return arr
+          return user.id === asignee;
+        });
+        arr.push(filteredArr[0]);
+      });
+      return arr;
     },
     async getProject() {
       await axios
@@ -349,17 +385,18 @@ export default {
         });
     },
 
-    userRole () {
-      const userId = this.$store.state.auth.id
-      const projectOwner = this.projectData.owner[0]
+    userRole() {
+      const userId = this.$store.state.auth.id;
+      const projectOwner = this.projectData.owner[0];
 
       if (projectOwner === userId) {
-        return 'OWNER'
+        return "OWNER";
       } else {
-        if (this.projectData.users.find(user => user.id === userId)) {
-          return this.projectData.userRoles.find(el => el.userId == userId).role
+        if (this.projectData.users.find((user) => user.id === userId)) {
+          return this.projectData.userRoles.find((el) => el.userId == userId)
+            .role;
         } else {
-          this.$router.push('/')
+          this.$router.push("/");
         }
       }
     },
@@ -403,15 +440,18 @@ export default {
     },
 
     async addUserToProject() {
-      const role = this.userRole()
+      const role = this.userRole();
       await axios
-        .post("http://localhost:3000/api/projects/add-user", {
+        .post(
+          "http://localhost:3000/api/projects/add-user",
+          {
             projectId: this.projectData._id,
             userEmail: this.email,
-          },{
+          },
+          {
             headers: {
               role: role,
-            }
+            },
           }
         )
         .then(async () => {
@@ -421,35 +461,38 @@ export default {
         });
     },
 
-        async moveTask(columnId, event) {
-          console.log(event)
-        if (event.moved) {
-         var projectTasks
-         for (const column of this.projectData.columns) {
-           console.log(column)
-           if (column._id === columnId) {
-             projectTasks = column.tasks
-           }
-         }
-         await axios
-          .put(`http://localhost:3000/api/projects/movetasksamecolumn/${columnId}`, {
+    async moveTask(columnId, event) {
+      console.log(event);
+      if (event.moved) {
+        var projectTasks;
+        for (const column of this.projectData.columns) {
+          console.log(column);
+          if (column._id === columnId) {
+            projectTasks = column.tasks;
+          }
+        }
+        await axios.put(
+          `http://localhost:3000/api/projects/movetasksamecolumn/${columnId}`,
+          {
             projectId: this.projectData._id,
-            tasks: projectTasks
-          })
-        }
-        if(event.added) {
-            console.log(event.added.element._id, columnId )
+            tasks: projectTasks,
+          }
+        );
+      }
+      if (event.added) {
+        console.log(event.added.element._id, columnId);
         await axios
-        .put(`http://localhost:3000/api/projects/movetask/${event.added.element._id}/${columnId}`)
-        .then((response) => {
-          ( this.projectData = response.data),
-            this.getProject()
-        });
-        }
+          .put(
+            `http://localhost:3000/api/projects/movetask/${event.added.element._id}/${columnId}`
+          )
+          .then((response) => {
+            (this.projectData = response.data), this.getProject();
+          });
+      }
     },
 
     moveTaskSameColumn(event) {
-      console.log(event)
+      console.log(event);
     },
 
     //Opening and closing component dialogs
@@ -573,7 +616,7 @@ export default {
   max-height: 700px;
   overflow: auto;
 }
-.cardList:hover .hide  {
+.cardList:hover .hide {
   display: block;
   margin-top: -26px;
 }
@@ -605,9 +648,6 @@ ul li:nth-child(n + 2) {
   color: white;
   font-weight: 600;
 }
-
-
-
 
 /* ScrollBar */
 /* Firefox */

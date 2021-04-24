@@ -3,6 +3,7 @@ import Dashboard from '../views/Dashboard.vue'
 import ProjectBoard from '../views/ProjectBoard.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import notFound from '../views/404.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: '404',
+    component: notFound
   },
 ]
 

@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-main>
-      <el-row type="flex" align="middle" justify="space-between" class="header">
-        <el-col :span="6" :offset="1">
-      
+      <el-row type="flex" align="middle" justify="space-around" class="header">
+        <el-col :span="7">
+
           <el-button
             type="primary"
             icon="el-icon-plus"
@@ -60,7 +60,7 @@
               <h3>Project Management Application</h3>
         </el-col>
         <el-col :span="4">
-          <el-row>
+          <el-row type="flex" justify="end">
               <h3>Theme</h3>
                 <div class="themeColors1"></div>
                 <div class="themeColors2"></div>
@@ -72,7 +72,7 @@
       <el-row type="flex" align="middle" justify="center">
         <el-col :span="10">
           <div>
-            <h1 class="ml-1" v-if="projectsData.length">Personal Projects</h1>
+            <h1 class="ml-1 mt-5" v-if="projectsData.length">Personal Projects</h1>
             <h1 v-else>No Projects Created..</h1>
 
             <!-- Project Loop -->
@@ -145,7 +145,7 @@
           </div>
         </el-col>
         <el-col :span="10" :offset="1">
-          <h1 class="ml-1" v-if="invitedProjectsData.length">
+          <h1 class="ml-1 mt-5" v-if="invitedProjectsData.length">
             Shared Projects
           </h1>
           <h1 v-else>No Shared Projects added..</h1>
@@ -378,6 +378,9 @@ export default {
 }
 .mt-1 {
   margin-top: 10px;
+}
+.mt-5 {
+  margin-top:70px;
 }
 .bold {
   font-weight: 700;
