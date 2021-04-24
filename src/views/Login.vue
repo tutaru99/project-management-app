@@ -1,37 +1,39 @@
 <template>
-    <el-row justify="center" type="flex">
-      <el-col :span="12">
-        <el-form :model="formInline" class="demo-form">
+  <div class="template">
+    <el-row class="RegisterForm" justify="center" align="middle" type="flex">
+      <el-col :span="8">
+           <h2>Login</h2>
+        <el-form :model="formInline" class="mt-1 demo-form">
           <el-form-item label="E-mail">
             <el-input
               placeholder="E-mail"
-              v-model="email"
+              v-model="formInline.email"
               type="text"
               name="username"
             />
           </el-form-item>
           <el-form-item label="Password">
             <el-input
-              v-model="password"
+              v-model="formInline.password"
               type="password"
               show-password
               placeholder="Password"
             />
           </el-form-item>
           <el-form-item>
-          <p>
-            &nbsp;
+          <p class="pb-2">
             {{errors}}
           </p>
             <el-button type="primary" @click="login">Login</el-button>
           </el-form-item>
-          <a href="/register">Click here to register</a>
+          <router-link to="/register">Click here to register</router-link>
         </el-form>
       </el-col>
     </el-row>
       Use these <br>
       email: nikoTestUser@nikosad.cdasda <br>
       password: 123456
+  </div>
 </template>
 
 <script>
@@ -40,16 +42,18 @@ import axios from "axios";
 export default {
   data() {
     return {
-      email: null,
-      password: null,
+      formInline: {
+        email: null,
+        password: null
+      },
       errors: null
     };
   },
   methods: {
     async login() {
       const user = {
-        email: this.email,
-        password: this.password,
+        email: this.formInline.email,
+        password: this.formInline.password,
       };
       await axios
         .post("http://localhost:3000/api/user/login", user, {
@@ -73,4 +77,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+p{
+  color: red;
+}
+.pb-2{
+  padding-bottom: 15px;
+}
+.template {
+  height: 80vh;
+}
+.RegisterForm{
+   margin-top: 12%;
+}
+.mt-1{
+  margin-top: 10px;
+}
 </style>

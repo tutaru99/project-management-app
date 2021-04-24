@@ -55,10 +55,15 @@
         <el-form-item>
           <el-button type="primary" @click="validateRegister('formInline')">Register</el-button>
         </el-form-item>
-        <a href="/login">Click here to login</a>
+        <router-link to="/login">Click here to login</router-link>
       </el-form>
     </el-col>
   </el-row>
+    <el-button
+    plain
+    @click="RegisterSuccess">
+    Success
+  </el-button>
   </div>
 </template>
 
@@ -77,7 +82,7 @@ export default {
     };
   },
   methods: {
-        validateRegister(email) {
+      validateRegister(email) {
       this.$refs[email].validate((valid) => {
         if (valid) {
           this.register()
@@ -94,8 +99,23 @@ export default {
       };
       await axios.post("http://localhost:3000/api/user/register", user)
         .catch(err => {
-            this.errors = err.response.data.error
+          this.errors = err.response.data.error
         })
+        .then((response) => {
+          if (response.status === 200) {
+            this.RegisterSuccess(),
+            this.$router.push({ path: 'login' })
+          } else {
+            return false;
+          }
+        })
+    },
+    RegisterSuccess() {
+      this.$notify({
+      title: 'Register Success',
+      message: 'Now you can Login into the application!',
+      type: 'success'
+  });
     },
   },
 };
