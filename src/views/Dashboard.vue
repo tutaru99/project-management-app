@@ -3,7 +3,6 @@
     <el-main>
       <el-row type="flex" align="middle" justify="space-around" class="header">
         <el-col :span="7">
-
           <el-button
             type="primary"
             icon="el-icon-plus"
@@ -61,11 +60,19 @@
         </el-col>
         <el-col :span="4">
           <el-row type="flex" justify="end">
-              <h3>Theme</h3>
-                <div class="themeColors1"></div>
-                <div class="themeColors2"></div>
-                <div class="themeColors3"></div>
-                <div class="themeColors4"></div>
+                    <div style="text-align: right">
+                        <el-tooltip
+                          class="item"
+                          effect="dark"
+                          placement="top"
+                          content="full username (-and/or) email"
+                        >
+                          <el-avatar>
+                           S
+                          </el-avatar>
+                        </el-tooltip>
+                    </div>
+
           </el-row>
         </el-col>
       </el-row>
@@ -394,37 +401,5 @@ export default {
 }
 h3{
   color: white;
-}
-.themeColors1{
-  margin-left: 10px;
-  margin-top: 2px;
-  height: 20px;
-  width: 20px;
-  background-color: red;
-  border-radius: 50%;
-}
-.themeColors2{
-    margin-left: 10px;
-  margin-top: 2px;
-  height: 20px;
-  width: 20px;
-  background-color: green;
-  border-radius: 50%;
-}
-.themeColors3{
-    margin-left: 10px;
-  margin-top: 2px;
-  height: 20px;
-  width: 20px;
-  background-color: blue;
-  border-radius: 50%;
-}
-.themeColors4{
-    margin-left: 10px;
-  margin-top: 2px;
-  height: 20px;
-  width: 20px;
-  background-color: hotpink;
-  border-radius: 50%;
 }
 </style>

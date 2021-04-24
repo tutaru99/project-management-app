@@ -56,9 +56,9 @@
           <p v-if="errors" class="pb-2">
             {{ errors }}
           </p>
-                  <div class="pb-2" v-if="!isEmailValid()">
-                    <p id="email">Enter a valid email address (format: xxx@xxx.xxx)</p>
-                  </div>
+          <div class="pb-2" v-if="!isEmailValid()">
+            <p id="email">Enter a valid email address (format: xxx@xxx.xxx)</p>
+          </div>
           <el-form-item>
             <el-button type="primary" @click="validateRegister('formInline')"
               >Register</el-button
@@ -155,7 +155,7 @@ p {
 .mt-1 {
   margin-top: 10px;
 }
-#email{
+#email {
   font-size: 14px;
 }
 </style>
