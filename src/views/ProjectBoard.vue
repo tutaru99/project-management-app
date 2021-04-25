@@ -3,26 +3,26 @@
     <!-- v-if acts as a loader otherwise data doesnt show -->
     <div class="board-layout" v-if="projectData">
       <div class="left">
-        <div id="boardTitle" class="board-text">{{ projectData.title }}</div>
+        <div id="boardTitle" class="board-text ml-1">{{ projectData.title }}</div>
         <div>
           <!-- Invite User to project -->
           <el-button
+          class="ml-1"
             icon="el-icon-plus"
             type="primary"
             @click="inviteUserDialog = true"
           >
-            Invite Collaborators
+            Invite
           </el-button>
-          <span class="ml-3" id="totalTaskTime">
-            Total Time: {{ addTime }}
             <el-button
               icon="el-icon-user"
               @click="viewPeopleDialog = true"
               type="primary"
               class="ml-5"
               closable
-              >Collaborators</el-button
-            >
+              >Members</el-button>
+          <span class="ml-7" id="totalTaskTime">
+            Total Time: {{ addTime }}
           </span>
           <el-dialog
             :before-close="closeInviteUserDialog"
