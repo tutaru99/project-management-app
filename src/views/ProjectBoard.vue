@@ -67,6 +67,7 @@
                     class="delete hide"
                     plain
                     icon="el-icon-more"
+                    size="small"
                     circle
                   ></el-button>
                   <template #dropdown>
@@ -130,7 +131,7 @@
                   aria-hidden="true"
                 ></i>
                 <div @click.self="openDetailsTaskDialog(element)">
-                  {{ element.task_name }}
+                  <p id="taskName"> {{ element.task_name }} </p>
                 </div>
                 <el-row
                   class="mt-1"
@@ -554,7 +555,7 @@ export default {
   color: #fff;
 }
 .board-layout {
-  background-color: rgb(0, 0, 0);
+  background-color: #191A1F;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   display: grid;
@@ -564,6 +565,13 @@ export default {
   height: 97vh;
   width: 99%;
   overflow-y: auto !important;
+}
+.card {
+  background-color: #121318;
+  border-radius: 7px;
+  box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+  padding: 10px;
+  cursor: grab;
 }
 .list-layout {
   display: grid;
@@ -581,7 +589,6 @@ export default {
   grid-gap: 10px;
 }
 .board-list {
-  background-color: rgb(235, 236, 240);
   border-radius: 3px;
   display: grid;
   grid-auto-rows: max-content;
@@ -594,7 +601,10 @@ export default {
   margin-right: 15px;
 }
 .list-title {
-  font-size: 18px;
+  padding: 10px 10px !important;
+  background-color: #fff;
+  border-radius: 3px;
+  font-size: 15px;
   font-weight: bold;
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -604,21 +614,15 @@ export default {
   user-select: none; /* Non-prefixed version, currently */
   padding: 5px 0 5px 0;
 }
-.card {
-  background-color: white;
-  border-radius: 3px;
-  box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
-  padding: 10px;
-  cursor: pointer;
-}
 
 .cardList {
   max-height: 700px;
   overflow: auto;
 }
+/* Position of "More" button */
 .cardList:hover .hide {
   display: block;
-  margin-top: -26px;
+  margin-top: -21px;
 }
 .hide {
   display: none;
@@ -633,6 +637,7 @@ ul li:nth-child(n + 2) {
 }
 .colButton {
   max-height: 40px;
+  margin-top: 10px;
 }
 .delete {
   position: -webkit-sticky; /* Safari */
@@ -643,6 +648,11 @@ ul li:nth-child(n + 2) {
 .addNewTask {
   width: 100%;
   margin-bottom: 7px;
+}
+#taskName{
+  font-weight: 600;
+  font-size: 14px;
+  color: #D0CAE5;
 }
 #totalTaskTime {
   color: white;
