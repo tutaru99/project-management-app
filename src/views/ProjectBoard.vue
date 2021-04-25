@@ -56,7 +56,7 @@
         >
           <div class="list-title">
             <el-row type="flex" justify="space-between" align="middle">
-              <h4>{{ column.col_name }}</h4>
+              <span class="columnName">{{ column.col_name }}</span>
               <el-col :span="4">
                 <el-dropdown
                   class="delete hide"
@@ -572,6 +572,7 @@ export default {
   box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
   padding: 10px;
   cursor: grab;
+  box-shadow: 0 0 2px #8112EA;
 }
 .list-layout {
   display: grid;
@@ -600,10 +601,13 @@ export default {
 .board-lists:last-child {
   margin-right: 15px;
 }
+
 .list-title {
   padding: 10px 10px !important;
-  background-color: #fff;
+  background-color: #121318;
   border-radius: 3px;
+  border-top: 1px solid #8112EA;
+  box-shadow: 0 0 3px #8112EA;
   font-size: 15px;
   font-weight: bold;
   -webkit-touch-callout: none; /* iOS Safari */
@@ -613,6 +617,10 @@ export default {
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently */
   padding: 5px 0 5px 0;
+
+  .columnName {
+  color: #D0CAE5;
+  }
 }
 
 .cardList {
@@ -650,8 +658,8 @@ ul li:nth-child(n + 2) {
   margin-bottom: 7px;
 }
 #taskName{
-  font-weight: 600;
   font-size: 14px;
+  font-weight: 600;
   color: #D0CAE5;
 }
 #totalTaskTime {
@@ -664,17 +672,21 @@ ul li:nth-child(n + 2) {
 * {
   scrollbar-width: thin;
   scrollbar-color: rgb(255, 255, 255) rgb(0, 0, 0);
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: rgb(0, 0, 0);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: rgb(255, 255, 255);
+    border-radius: 20px;
+    border: 2px solid rgb(0, 0, 0);
+  }
 }
-/* Chrome, Edge, and Safari */
-*::-webkit-scrollbar {
-  width: 12px;
-}
-*::-webkit-scrollbar-track {
-  background: rgb(0, 0, 0);
-}
-*::-webkit-scrollbar-thumb {
-  background-color: rgb(255, 255, 255);
-  border-radius: 20px;
-  border: 2px solid rgb(0, 0, 0);
-}
+
 </style>
