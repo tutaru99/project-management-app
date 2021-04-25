@@ -57,7 +57,7 @@
           <div class="list-title">
             <el-row type="flex" justify="space-between" align="middle">
               <span class="columnName">{{ column.col_name }}</span>
-              <el-col :span="4">
+              <el-col :span="2">
                 <el-dropdown
                   class="delete hide"
                   placement="bottom-start"
@@ -67,7 +67,7 @@
                     class="delete hide"
                     plain
                     icon="el-icon-more"
-                    size="small"
+                    size="mini"
                     circle
                   ></el-button>
                   <template #dropdown>
@@ -141,8 +141,8 @@
                   <el-col :span="4">
                     <div>
                       <el-button
-                        class="details"
-                        size="small"
+                        class="details mt-05"
+                        size="mini"
                         icon="el-icon-edit"
                         circle
                         @click.stop="openTaskDetailsModalDialog(element)"
@@ -161,7 +161,7 @@
                           :content="user.username"
                           placement="top"
                         >
-                          <el-avatar size="small">
+                          <el-avatar size="smmall">
                             {{ user.username.charAt(0).toUpperCase() }}
                           </el-avatar>
                         </el-tooltip>
