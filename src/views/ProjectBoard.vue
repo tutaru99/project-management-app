@@ -634,7 +634,7 @@ export default {
     /* Position of Column "More" button */
     .cardList:hover .hide {
       display: block;
-      margin-top: -21px;
+      margin-top: -21px !important;
     }
 
     .list-title {
@@ -642,7 +642,7 @@ export default {
       background-color: #121318;
       border-radius: 3px;
       border-top: 1px solid #8112EA;
-      box-shadow: 0 0 3px #8112EA;
+      box-shadow: 0 1px 3px #8112EA;
       font-size: 15px;
       font-weight: bold;
       -webkit-touch-callout: none; /* iOS Safari */
