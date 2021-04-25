@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="template">
     <!-- v-if acts as a loader otherwise data doesnt show -->
     <div class="board-layout" v-if="projectData">
       <div class="left">
@@ -551,10 +551,18 @@ export default {
 
 <style lang="scss" scoped>
 @import "src/scss/_variables.scss";
-#boardTitle {
-  color: #fff;
+
+.template {
+    height: 100vh;
+    background-color: #191A1F;
+
+    #boardTitle {
+    color: #fff;
+    }
 }
+
 .board-layout {
+  height: 97vh;
   background-color: #191A1F;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
@@ -562,8 +570,6 @@ export default {
   grid-template-rows: max-content auto;
   grid-gap: 10px;
   padding: 10px 10px;
-  height: 97vh;
-  width: 99%;
   overflow-y: auto !important;
 }
 .card {
@@ -573,7 +579,19 @@ export default {
   padding: 10px;
   cursor: grab;
   box-shadow: 0 0 2px #8112EA;
+
+    .el-avatar {
+    margin-top: 7px;
+    background: rebeccapurple;
+    width: 24px;
+    margin-right: 4px;
+    height: 24px;
+    line-height: 25px;
+    cursor: context-menu;
+    font-weight: 500;
+  }
 }
+
 .list-layout {
   display: grid;
   grid-gap: 10px;
@@ -667,26 +685,22 @@ ul li:nth-child(n + 2) {
   font-weight: 600;
 }
 
-/* ScrollBar */
-/* Firefox */
 * {
+  /* ScrollBar */
+  /* Firefox */
   scrollbar-width: thin;
-  scrollbar-color: rgb(255, 255, 255) rgb(0, 0, 0);
-
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 12px;
-  }
-
-  *::-webkit-scrollbar-track {
-    background: rgb(0, 0, 0);
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background-color: rgb(255, 255, 255);
-    border-radius: 20px;
-    border: 2px solid rgb(0, 0, 0);
-  }
+  scrollbar-color: #D0CAE5 #191A1F;
+    /* Chrome, Edge, and Safari */
+    *::-webkit-scrollbar {
+      width: 12px;
+    }
+    *::-webkit-scrollbar-track {
+      background: #191A1F;
+    }
+    *::-webkit-scrollbar-thumb {
+      background-color: #D0CAE5;
+      border-radius: 20px;
+      border: 5px solid #191A1F;
+    }
 }
-
 </style>
