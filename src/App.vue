@@ -30,12 +30,14 @@ export default {
   watch: {
     '$route' (to, from) {
       this.$refs.nav.getProjectsData()
+      this.$refs.nav.getInvitedProjectsData()
     }
   },
 
   methods: {
     async refresh() {
       await this.$refs.nav.getProjectsData()
+      await this.$refs.nav.getInvitedProjectsData()
     },
 
   },
