@@ -47,7 +47,7 @@
         </div>
       </div>
       <!-- whole board element -->
-      <div id="boardlists" class="board-lists">
+      <div class="board-lists">
         <!-- whole card holder -->
         <div
           class="board-list cardList"
@@ -571,7 +571,31 @@ export default {
   grid-gap: 10px;
   padding: 10px 10px;
   overflow-y: auto !important;
+
+    #totalTaskTime {
+      color: white;
+      font-weight: 600;
+    }
+    .board-text {
+      font-weight: bold;
+      font-size: 28px;
+      padding: 5px;
+    }
+    .board-list {
+      border-radius: 3px;
+      display: grid;
+      grid-auto-rows: max-content;
+      grid-gap: 10px;
+      /* Chrome use a fixed height */
+      height: max-content;
+      padding: 10px;
+    }
+    .board-lists:last-child {
+      margin-right: 15px;
+    }
+
 }
+
 .card {
   background-color: #121318;
   border-radius: 7px;
@@ -580,111 +604,81 @@ export default {
   cursor: grab;
   box-shadow: 0 0 2px #8112EA;
 
+    #taskName{
+      font-size: 14px;
+      font-weight: 600;
+      color: #D0CAE5;
+  }
     .el-avatar {
-    margin-top: 7px;
-    background: rebeccapurple;
-    width: 24px;
-    margin-right: 4px;
-    height: 24px;
-    line-height: 25px;
-    cursor: context-menu;
-    font-weight: 500;
+      margin-top: 7px;
+      background: rebeccapurple;
+      width: 24px;
+      margin-right: 4px;
+      height: 24px;
+      line-height: 25px;
+      cursor: context-menu;
+      font-weight: 500;
   }
 }
 
-.list-layout {
-  display: grid;
-  grid-gap: 10px;
-}
-.board-text {
-  font-weight: bold;
-  font-size: 28px;
-  padding: 5px;
-}
 .board-lists {
   display: grid;
-  grid-auto-columns: 275px;
+  grid-auto-columns: 305px;
   grid-auto-flow: column;
   grid-gap: 10px;
-}
-.board-list {
-  border-radius: 3px;
-  display: grid;
-  grid-auto-rows: max-content;
-  grid-gap: 10px;
-  /* Chrome use a fixed height */
-  height: max-content;
-  padding: 10px;
-}
-.board-lists:last-child {
-  margin-right: 15px;
-}
 
-.list-title {
-  padding: 10px 10px !important;
-  background-color: #121318;
-  border-radius: 3px;
-  border-top: 1px solid #8112EA;
-  box-shadow: 0 0 3px #8112EA;
-  font-size: 15px;
-  font-weight: bold;
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Old versions of Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently */
-  padding: 5px 0 5px 0;
+    .cardList {
+      max-height: 700px;
+      overflow: auto;
+    }
+    /* Position of Column "More" button */
+    .cardList:hover .hide {
+      display: block;
+      margin-top: -21px;
+    }
 
-  .columnName {
-  color: #D0CAE5;
+    .list-title {
+      padding: 10px 10px !important;
+      background-color: #121318;
+      border-radius: 3px;
+      border-top: 1px solid #8112EA;
+      box-shadow: 0 0 3px #8112EA;
+      font-size: 15px;
+      font-weight: bold;
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+      -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+      user-select: none; /* Non-prefixed version, currently */
+      padding: 5px 0 5px 0;
+
+        .hide {
+          display: none;
+        }
+        .columnName {
+          color: #D0CAE5;
+        }
+        .delete {
+          position: -webkit-sticky; /* Safari */
+          position: sticky;
+          position: absolute;
+        }
   }
 }
 
-.cardList {
-  max-height: 700px;
-  overflow: auto;
-}
-/* Position of "More" button */
-.cardList:hover .hide {
-  display: block;
-  margin-top: -21px;
-}
-.hide {
-  display: none;
-}
 
 ul li:nth-child(n + 2) {
   margin-top: 10px;
-}
-.inline {
-  margin-top: 5px;
-  display: flex;
 }
 .colButton {
   max-height: 40px;
   margin-top: 10px;
 }
-.delete {
-  position: -webkit-sticky; /* Safari */
-  position: sticky;
-  left: 84%;
-  position: absolute;
-}
 .addNewTask {
   width: 100%;
   margin-bottom: 7px;
 }
-#taskName{
-  font-size: 14px;
-  font-weight: 600;
-  color: #D0CAE5;
-}
-#totalTaskTime {
-  color: white;
-  font-weight: 600;
-}
-
 * {
   /* ScrollBar */
   /* Firefox */
