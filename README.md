@@ -1,5 +1,8 @@
 # project-management-app
-
+```
+(MEVN) Project Management Application
+    Like Trello, but better!
+```
 ## Project setup
 ```
 npm install
