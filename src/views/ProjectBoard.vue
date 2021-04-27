@@ -3,24 +3,27 @@
     <!-- v-if acts as a loader otherwise data doesnt show -->
     <div class="board-layout" v-if="projectData">
       <div class="left">
-        <div id="boardTitle" class="board-text ml-1">{{ projectData.title }}</div>
+        <div id="boardTitle" class="board-text ml-1">
+          {{ projectData.title }}
+        </div>
         <div>
           <!-- Invite User to project -->
           <el-button
-          class="ml-1"
+            class="ml-1"
             icon="el-icon-plus"
             type="primary"
             @click="inviteUserDialog = true"
           >
             Invite
           </el-button>
-            <el-button
-              icon="el-icon-user"
-              @click="viewPeopleDialog = true"
-              type="primary"
-              class="ml-5"
-              closable
-              >Members</el-button>
+          <el-button
+            icon="el-icon-user"
+            @click="viewPeopleDialog = true"
+            type="primary"
+            class="ml-5"
+            closable
+            >Members</el-button
+          >
           <span class="ml-7" id="totalTaskTime">
             Total Time: {{ addTime }}
           </span>
@@ -131,7 +134,7 @@
                   aria-hidden="true"
                 ></i>
                 <div @click.self="openDetailsTaskDialog(element)">
-                  <p id="taskName"> {{ element.task_name }} </p>
+                  <p id="taskName">{{ element.task_name }}</p>
                 </div>
                 <el-row
                   class="mt-1"
@@ -344,9 +347,8 @@ export default {
       };
     },
     addTime() {
-      let total = 0;
-
-      if(this.projectData.columns) {
+      if (this.projectData.columns) {
+        let total = 0;
         for (const column of this.projectData.columns) {
           for (const task of column.tasks) {
             if (task.task_time != null) {
@@ -354,17 +356,16 @@ export default {
             }
           }
         }
-      }
+        let hours = total / 60;
+        let rhours = Math.floor(hours);
+        let minutes = (hours - rhours) * 60;
+        let rminutes = Math.round(minutes);
 
-      let hours = total / 60;
-      let rhours = Math.floor(hours);
-      let minutes = (hours - rhours) * 60;
-      let rminutes = Math.round(minutes);
-
-      if (rhours > 0 || rminutes > 0) {
-        return rhours + " hour(s) " + rminutes + " minute(s)";
-      } else {
-        return "No tasks have estimations"
+        if (rhours > 0 || rminutes > 0) {
+          return rhours + " hour(s) " + rminutes + " minute(s)";
+        } else {
+          return "No tasks have estimations";
+        }
       }
     },
     detailsTaskDialogDataReactive(task) {
@@ -484,14 +485,10 @@ export default {
         );
       }
       if (event.added) {
-        console.log(event.added.element._id, columnId);
         await axios
           .put(
             `http://localhost:3000/api/projects/movetask/${event.added.element._id}/${columnId}`
           )
-          .then((response) => {
-            (this.projectData = response.data), this.getProject();
-          });
       }
     },
 
@@ -556,17 +553,17 @@ export default {
 @import "src/scss/_variables.scss";
 
 .template {
-    height: 100vh;
-    background-color: #191A1F;
+  height: 100vh;
+  background-color: #191a1f;
 
-    #boardTitle {
+  #boardTitle {
     color: #fff;
-    }
+  }
 }
 
 .board-layout {
   height: 97vh;
-  background-color: #191A1F;
+  background-color: #191a1f;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   display: grid;
@@ -575,28 +572,27 @@ export default {
   padding: 10px 10px;
   overflow-y: auto !important;
 
-    #totalTaskTime {
-      color: white;
-      font-weight: 600;
-    }
-    .board-text {
-      font-weight: bold;
-      font-size: 28px;
-      padding: 5px;
-    }
-    .board-list {
-      border-radius: 3px;
-      display: grid;
-      grid-auto-rows: max-content;
-      grid-gap: 10px;
-      /* Chrome use a fixed height */
-      height: max-content;
-      padding: 10px;
-    }
-    .board-lists:last-child {
-      margin-right: 15px;
-    }
-
+  #totalTaskTime {
+    color: white;
+    font-weight: 600;
+  }
+  .board-text {
+    font-weight: bold;
+    font-size: 28px;
+    padding: 5px;
+  }
+  .board-list {
+    border-radius: 3px;
+    display: grid;
+    grid-auto-rows: max-content;
+    grid-gap: 10px;
+    /* Chrome use a fixed height */
+    height: max-content;
+    padding: 10px;
+  }
+  .board-lists:last-child {
+    margin-right: 15px;
+  }
 }
 
 .card {
@@ -605,22 +601,22 @@ export default {
   box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
   padding: 10px;
   cursor: grab;
-  box-shadow: 0 0 2px #8112EA;
+  box-shadow: 0 0 2px #8112ea;
 
-    #taskName{
-      font-size: 14px;
-      font-weight: 600;
-      color: #D0CAE5;
+  #taskName {
+    font-size: 14px;
+    font-weight: 600;
+    color: #d0cae5;
   }
-    .el-avatar {
-      margin-top: 7px;
-      background: rebeccapurple;
-      width: 24px;
-      margin-right: 4px;
-      height: 24px;
-      line-height: 25px;
-      cursor: context-menu;
-      font-weight: 500;
+  .el-avatar {
+    margin-top: 7px;
+    background: rebeccapurple;
+    width: 24px;
+    margin-right: 4px;
+    height: 24px;
+    line-height: 25px;
+    cursor: context-menu;
+    font-weight: 500;
   }
 }
 
@@ -630,46 +626,45 @@ export default {
   grid-auto-flow: column;
   grid-gap: 10px;
 
-    .cardList {
-      max-height: 700px;
-      overflow: auto;
-    }
-    /* Position of Column "More" button */
-    .cardList:hover .hide {
-      display: block;
-      margin-top: -21px !important;
-    }
+  .cardList {
+    max-height: 700px;
+    overflow: auto;
+  }
+  /* Position of Column "More" button */
+  .cardList:hover .hide {
+    display: block;
+    margin-top: -21px !important;
+  }
 
-    .list-title {
-      padding: 10px 10px !important;
-      background-color: #121318;
-      border-radius: 3px;
-      border-top: 1px solid #8112EA;
-      box-shadow: 0 1px 3px #8112EA;
-      font-size: 15px;
-      font-weight: bold;
-      -webkit-touch-callout: none; /* iOS Safari */
-      -webkit-user-select: none; /* Safari */
-      -khtml-user-select: none; /* Konqueror HTML */
-      -moz-user-select: none; /* Old versions of Firefox */
-      -ms-user-select: none; /* Internet Explorer/Edge */
-      user-select: none; /* Non-prefixed version, currently */
-      padding: 5px 0 5px 0;
+  .list-title {
+    padding: 10px 10px !important;
+    background-color: #121318;
+    border-radius: 3px;
+    border-top: 1px solid #8112ea;
+    box-shadow: 0 1px 3px #8112ea;
+    font-size: 15px;
+    font-weight: bold;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently */
+    padding: 5px 0 5px 0;
 
-        .hide {
-          display: none;
-        }
-        .columnName {
-          color: #D0CAE5;
-        }
-        .delete {
-          position: -webkit-sticky; /* Safari */
-          position: sticky;
-          position: absolute;
-        }
+    .hide {
+      display: none;
+    }
+    .columnName {
+      color: #d0cae5;
+    }
+    .delete {
+      position: -webkit-sticky; /* Safari */
+      position: sticky;
+      position: absolute;
+    }
   }
 }
-
 
 ul li:nth-child(n + 2) {
   margin-top: 10px;
@@ -686,18 +681,18 @@ ul li:nth-child(n + 2) {
   /* ScrollBar */
   /* Firefox */
   scrollbar-width: thin;
-  scrollbar-color: #D0CAE5 #191A1F;
-    /* Chrome, Edge, and Safari */
-    *::-webkit-scrollbar {
-      width: 12px;
-    }
-    *::-webkit-scrollbar-track {
-      background: #191A1F;
-    }
-    *::-webkit-scrollbar-thumb {
-      background-color: #D0CAE5;
-      border-radius: 20px;
-      border: 5px solid #191A1F;
-    }
+  scrollbar-color: #d0cae5 #191a1f;
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 12px;
+  }
+  *::-webkit-scrollbar-track {
+    background: #191a1f;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: #d0cae5;
+    border-radius: 20px;
+    border: 5px solid #191a1f;
+  }
 }
 </style>
