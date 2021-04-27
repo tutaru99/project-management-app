@@ -7,6 +7,25 @@ $--color-primary: #8112EA;
 .el-badge__content{
     border: 1px solid #8112EA !important;
   }
+  .el-collapse {
+    border-top: red !important;
+
+    .el-collapse-item__header{
+      background-color: #121318 !important;
+      border: 1px solid #121318 !important;
+      color: white !important;
+      font-weight: 600 !important;
+      letter-spacing: 1px;
+    }
+    .el-collapse-item__wrap {
+      background-color: #121318 !important;
+      border-bottom: 1px solid #121318 !important;
+  }
+}
+.el-switch__label {
+color: white !important;
+}
+
 
 /* icon font path, required */
 $--font-path: '~element-plus/lib/theme-chalk/fonts';

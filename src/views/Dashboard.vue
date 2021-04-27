@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="template">
     <el-main>
       <el-row type="flex" align="middle" justify="space-around" class="header">
         <el-col :span="7">
@@ -79,8 +79,8 @@
       <el-row type="flex" align="middle" justify="center">
         <el-col :span="10">
           <div>
-            <h1 class="ml-1 mt-5" v-if="projectsData.length">Personal Projects</h1>
-            <h1 v-else>No Projects Created..</h1>
+            <h3 class="ml-1 mt-5" v-if="projectsData.length">Personal Projects</h3>
+            <h3 class="ml-1 mt-5" v-else>No Projects Created..</h3>
 
             <!-- Project Loop -->
             <div
@@ -89,7 +89,7 @@
             >
               <div class="projectsWrapper">
                 <el-row type="flex" justify="space-between">
-                  <h2>{{ project.title }}</h2>
+                  <h3 class="textTitle">{{ project.title }}</h3>
                   <el-button
                     class="more"
                     type="danger"
@@ -124,6 +124,8 @@
                         </el-row>
                         <p class="bold mt-1">Project Status</p>
                         <el-switch
+                          active-color="#13ce66"
+                          inactive-color="#8112EA"
                           v-model="project.completed"
                           active-text="Completed"
                           inactive-text="Ongoing"
@@ -152,17 +154,17 @@
           </div>
         </el-col>
         <el-col :span="10" :offset="1">
-          <h1 class="ml-1 mt-5" v-if="invitedProjectsData.length">
+          <h3 class="ml-1 mt-5" v-if="invitedProjectsData.length">
             Shared Projects
-          </h1>
-          <h1 v-else>No Shared Projects added..</h1>
+          </h3>
+          <h3 class="ml-1 mt-5" v-else>No Shared Projects Added..</h3>
           <div
             v-for="project in invitedProjectsData.slice().reverse()"
             :key="project.key"
           >
             <div class="projectsWrapper">
               <el-row type="flex" justify="space-between">
-                <h2>{{ project.title }}</h2>
+                <h3 class="textTitle">{{ project.title }}</h3>
                 <el-button
                   class="more"
                   icon="el-icon-delete"
@@ -197,6 +199,8 @@
                       </el-row>
                       <p class="bold mt-1">Project Status</p>
                       <el-switch
+                        active-color="#13ce66"
+                        inactive-color="#8112EA"
                         v-model="project.completed"
                         active-text="Completed"
                         inactive-text="Ongoing"
@@ -369,19 +373,52 @@ export default {
 
 <style lang="scss" scoped>
 /* Shitty CSS for now */
-.projectsWrapper {
-  border: 1px solid rgb(0, 0, 0);
+.template{
+  height: 100vh;
+  background-color: #191a1f;
+
+  .header{
+  background-color: #121318;
+  box-shadow: 0 0 2px #8112ea;
+  height: 50px;
+  }
+  .el-avatar {
+  background: #8112EA;
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  cursor: context-menu;
+  font-weight: 500;
+  }
+  .projectsWrapper {
+  box-shadow: 0 0 2px #8112ea;
+  background-color: #121318;
   padding: 10px;
   margin: 10px;
-}
-  .el-avatar {
-    background: #8112EA;
-    width: 35px;
-    height: 35px;
-    line-height: 35px;
-    cursor: context-menu;
-    font-weight: 500;
+
+    .users {
+    padding-left: 7px;
+    color: white;
+    }
   }
+}
+
+
+.textTitle{
+  color: #d0cae5;
+}
+h3{
+  color: white;
+}
+p{
+  color: white;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+
+
+
 #completed {
   color: lightgreen;
   font-weight: 700;
@@ -405,14 +442,7 @@ export default {
 .bold {
   font-weight: 700;
 }
-.users {
-  padding-left: 7px;
-}
-.header{
-  background-color: black;
-  height: 50px;
-}
-h3{
-  color: white;
-}
+
+
+
 </style>
