@@ -655,6 +655,7 @@ export default {
     font-size: 14px;
     font-weight: 600;
     color: #d0cae5;
+    word-break: break-all;
   }
   .flag{
   margin-top: 11px;
