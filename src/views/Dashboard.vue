@@ -65,7 +65,7 @@
                           class="item"
                           effect="dark"
                           placement="top"
-                          content="full username (-and/or) email"
+                          :content="$store.state.auth.username"
                         >
                           <el-avatar>
                            S

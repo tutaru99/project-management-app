@@ -161,7 +161,7 @@
                           :content="user.username"
                           placement="top"
                         >
-                          <el-avatar size="smmall">
+                          <el-avatar size="small">
                             {{ user.username.charAt(0).toUpperCase() }}
                           </el-avatar>
                         </el-tooltip>
@@ -346,21 +346,26 @@ export default {
     addTime() {
       let total = 0;
 
-      // if(this.projectData.columns) {
-      for (const column of this.projectData.columns) {
-        for (const task of column.tasks) {
-          if (task.task_time != null) {
-            total += task.task_time;
+      if(this.projectData.columns) {
+        for (const column of this.projectData.columns) {
+          for (const task of column.tasks) {
+            if (task.task_time != null) {
+              total += task.task_time;
+            }
           }
         }
       }
-      // }
 
       let hours = total / 60;
       let rhours = Math.floor(hours);
       let minutes = (hours - rhours) * 60;
       let rminutes = Math.round(minutes);
-      return rhours + " hour(s) " + rminutes + " minute(s)";
+
+      if (rhours > 0 || rminutes > 0) {
+        return rhours + " hour(s) " + rminutes + " minute(s)";
+      } else {
+        return "No tasks have estimations"
+      }
     },
     detailsTaskDialogDataReactive(task) {
       return task;
@@ -463,11 +468,9 @@ export default {
     },
 
     async moveTask(columnId, event) {
-      console.log(event);
       if (event.moved) {
         var projectTasks;
         for (const column of this.projectData.columns) {
-          console.log(column);
           if (column._id === columnId) {
             projectTasks = column.tasks;
           }

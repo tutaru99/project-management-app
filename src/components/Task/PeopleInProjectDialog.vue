@@ -30,7 +30,7 @@
     </el-main>
       <el-row type="flex" justify="end">
         <el-col :span="4">
-            <el-button class="mt-1" type="plain" @click="close()">Close</el-button>
+            <el-button class="mt-1" @click="close()">Close</el-button>
           </el-col>
       </el-row>
 </template>

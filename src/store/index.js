@@ -17,7 +17,7 @@ export default createStore({
       this.isCollapse = !this.isCollapse
     },
     logIn(state, payload){
-      state.auth.id = payload
+      state.auth = payload
     },
     logOut(state){
       state.auth.id = null
