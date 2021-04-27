@@ -59,7 +59,8 @@
         >
           <div class="list-title">
             <el-row type="flex" justify="space-between" align="middle">
-              <span class="columnName">{{ column.col_name }}
+              <span class="columnName">
+                {{ column.col_name }}
                 <el-badge :value="column.tasks.length" />
               </span>
               <el-col :span="2">
@@ -736,4 +737,5 @@ ul li:nth-child(n + 2) {
     border: 5px solid #191a1f;
   }
 }
+
 </style>

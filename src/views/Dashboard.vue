@@ -68,7 +68,7 @@
                           :content="$store.state.auth.username"
                         >
                           <el-avatar>
-                           S
+                             {{ $store.state.auth.username.charAt(0).toUpperCase() }}
                           </el-avatar>
                         </el-tooltip>
                     </div>

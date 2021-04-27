@@ -4,6 +4,9 @@ found in element-plus/packages/theme-chalk/src/common/var.scss.
 For example, to overwrite the theme color:
 */
 $--color-primary: #8112EA;
+.el-badge__content{
+    border: 1px solid #8112EA !important;
+  }
 
 /* icon font path, required */
 $--font-path: '~element-plus/lib/theme-chalk/fonts';
