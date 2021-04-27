@@ -153,14 +153,19 @@
                         @click.stop="openTaskDetailsModalDialog(element)"
                       ></el-button>
                   </el-col>
-                  <el-col :span="2">
-                    <div v-if="element.task_priority" class="mt-05">
-                      <el-tooltip class="item" effect="dark" :content="taskFlagTooltopText(element.task_priority)" placement="top">
+                  <el-col v-if="element.task_description" :span="2">
+                            <div class="mt-05 flag">
+                                <i style="color:white" class="mdi mdi-comment-text-outline"></i>
+                            </div>
+                  </el-col>
+                  <el-col v-if="element.task_priority" :span="2">
+                      <div class="mt-05 ml-05 flag">
+                        <el-tooltip class="item" effect="dark" :content="taskFlagTooltopText(element.task_priority)" placement="top">
                         <i class="mdi mdi-flag" :style="taskFlagColor(element.task_priority)"></i>
                       </el-tooltip>
                     </div>
-                  </el-col>
-                  <el-col :span="18">
+                    </el-col>
+                  <el-col :span="16">
                     <div style="text-align: right">
                       <span
                         v-for="user in usersAddedToTask(element)"
@@ -372,7 +377,7 @@ export default {
         if (rhours > 0 || rminutes > 0) {
           return rhours + " hour(s) " + rminutes + " minute(s)";
         } else {
-          return "No Estimations Added";
+          return "No Estimations";
         }
       }
     },
@@ -650,6 +655,9 @@ export default {
     font-weight: 600;
     color: #d0cae5;
   }
+  .flag{
+  margin-top: 11px;
+}
   .el-avatar {
     margin-top: 7px;
     background: rebeccapurple;

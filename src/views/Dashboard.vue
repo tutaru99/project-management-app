@@ -278,7 +278,7 @@ export default {
       if (rhours > 0 || rminutes > 0) {
         return rhours + " hour(s) " + rminutes + " minute(s)";
       } else {
-        return "No Estimations Added";
+        return "No Estimations";
       }
     },
 
@@ -374,6 +374,14 @@ export default {
   padding: 10px;
   margin: 10px;
 }
+  .el-avatar {
+    background: #8112EA;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    cursor: context-menu;
+    font-weight: 500;
+  }
 #completed {
   color: lightgreen;
   font-weight: 700;

@@ -70,7 +70,7 @@ export default {
           } else {
             this.errors = "Something went wrong..."
           }
-        }) 
+        })
     },
   },
 };
