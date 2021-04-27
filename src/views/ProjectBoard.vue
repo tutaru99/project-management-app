@@ -59,7 +59,9 @@
         >
           <div class="list-title">
             <el-row type="flex" justify="space-between" align="middle">
-              <span class="columnName">{{ column.col_name }}</span>
+              <span class="columnName">{{ column.col_name }}
+                <el-badge :value="column.tasks.length" />
+              </span>
               <el-col :span="2">
                 <el-dropdown
                   class="delete hide"
@@ -142,7 +144,6 @@
                   @click="openDetailsTaskDialog(element)"
                 >
                   <el-col :span="4">
-                    <div>
                       <el-button
                         class="details mt-05"
                         size="mini"
@@ -150,9 +151,15 @@
                         circle
                         @click.stop="openTaskDetailsModalDialog(element)"
                       ></el-button>
+                  </el-col>
+                  <el-col :span="2">
+                    <div v-if="element.task_priority" class="mt-05">
+                      <el-tooltip class="item" effect="dark" :content="taskFlagTooltopText(element.task_priority)" placement="top">
+                        <i class="mdi mdi-flag" :style="taskFlagColor(element.task_priority)"></i>
+                      </el-tooltip>
                     </div>
                   </el-col>
-                  <el-col :span="20">
+                  <el-col :span="18">
                     <div style="text-align: right">
                       <span
                         v-for="user in usersAddedToTask(element)"
@@ -492,6 +499,40 @@ export default {
       }
     },
 
+    taskFlagColor(taskPriority) {
+      switch (taskPriority) {
+        case 'Option1': 
+          return 'color:white'
+          break;
+        case 'Option2': 
+          return 'color:yellow'
+          break;
+        case 'Option3': 
+          return 'color:orange'
+          break;
+        case 'Option4': 
+          return 'color:red'
+          break;
+      }
+    },
+
+    taskFlagTooltopText(taskPriority) {
+      switch (taskPriority) {
+        case 'Option1': 
+          return 'Low priority'
+          break;
+        case 'Option2': 
+          return 'Medium priority'
+          break;
+        case 'Option3': 
+          return 'High priority'
+          break;
+        case 'Option4': 
+          return 'Very high priority'
+          break;
+      }
+    },
+
     moveTaskSameColumn(event) {
       console.log(event);
     },
@@ -587,7 +628,7 @@ export default {
     grid-auto-rows: max-content;
     grid-gap: 10px;
     /* Chrome use a fixed height */
-    height: max-content;
+    height: 80vh;
     padding: 10px;
   }
   .board-lists:last-child {
