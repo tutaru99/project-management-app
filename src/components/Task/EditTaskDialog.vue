@@ -12,8 +12,10 @@
         :rules="[{ required: true, message: 'Task name is required' }]"
       >
         <el-input
+          type="textarea"
           v-model="editTask.editName"
-          maxlength="100"
+          maxlength="120"
+          :rows="3"
           show-word-limit
           autocomplete="off"
         ></el-input>
@@ -24,6 +26,7 @@
           v-model="editTask.editDescription"
           autocomplete="off"
           maxlength="200"
+          :rows="5"
           show-word-limit
         ></el-input>
       </el-form-item>

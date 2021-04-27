@@ -15,7 +15,9 @@
           placeholder="Enter task name"
           v-model="newTask.name"
           autocomplete="off"
-          maxlength="100"
+          type="textarea"
+          :rows="2"
+          maxlength="120"
           show-word-limit
         ></el-input>
       </el-form-item>
@@ -26,6 +28,7 @@
           v-model="newTask.description"
           autocomplete="off"
           maxlength="200"
+          :rows="5"
           show-word-limit
         ></el-input>
       </el-form-item>

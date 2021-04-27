@@ -142,6 +142,7 @@
                 <el-row
                   class="mt-1"
                   type="flex"
+                  justify="space-between"
                   @click="openDetailsTaskDialog(element)"
                 >
                   <el-col :span="4">

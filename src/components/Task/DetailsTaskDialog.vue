@@ -17,7 +17,9 @@
             >
               <el-input
                 v-model="detailsEdit.editName"
-                maxlength="100"
+                type="textarea"
+                maxlength="120"
+                :rows="3"
                 show-word-limit
                 autocomplete="off"
               ></el-input>
