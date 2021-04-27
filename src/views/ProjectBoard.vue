@@ -372,7 +372,7 @@ export default {
         if (rhours > 0 || rminutes > 0) {
           return rhours + " hour(s) " + rminutes + " minute(s)";
         } else {
-          return "No tasks have estimations";
+          return "No Estimations Added";
         }
       }
     },
