@@ -35,6 +35,7 @@
                   type="textarea"
                   maxlength="200"
                   minlength="1"
+                  :rows="5"
                   show-word-limit
                   v-model="newProjectValidate.description"
                   autocomplete="off"
@@ -105,13 +106,13 @@
                   <el-col :span="24">
                     <el-collapse>
                       <el-collapse-item title="About Project">
-                        <h4>{{ project.description }}</h4>
+                        <p>{{ project.description }}</p>
                         <p class="mt-1">
                           Total time assigned to tasks:
                           <span class="bold"> {{ addTime(project) }} </span>
                         </p>
                         <el-row type="flex">
-                          <p>Users part of the project:</p>
+                          <p v-if="project.users.length">Users part of the project:</p>
                           <div
                             v-for="user in project.users.slice().reverse()"
                             :key="user.key"
@@ -180,7 +181,7 @@
                 <el-col :span="24">
                   <el-collapse>
                     <el-collapse-item title="About Project">
-                      <h4>{{ project.description }}</h4>
+                      <p>{{ project.description }}</p>
                       <p class="mt-1">
                         Total time assigned to tasks:
                         <span class="bold"> {{ addTime(project) }} </span>
@@ -377,10 +378,14 @@ export default {
   height: 100vh;
   background-color: #191a1f;
 
+
   .header{
-  background-color: #121318;
+  background-color: #121318 !important;
   box-shadow: 0 0 2px #8112ea;
   height: 50px;
+  }
+  .el-row--flex.is-align-middle{
+  background-color: #191a1f;
   }
   .el-avatar {
   background: #8112EA;
@@ -391,6 +396,7 @@ export default {
   font-weight: 500;
   }
   .projectsWrapper {
+  border-radius: 4px;
   box-shadow: 0 0 2px #8112ea;
   background-color: #121318;
   padding: 10px;
@@ -412,8 +418,9 @@ h3{
 }
 p{
   color: white;
-  letter-spacing: 1px;
+  letter-spacing: 0.3px;
   font-weight: 500;
+  word-break: break-all;
 }
 
 
@@ -442,7 +449,5 @@ p{
 .bold {
   font-weight: 700;
 }
-
-
 
 </style>
