@@ -145,7 +145,7 @@
                   justify="space-between"
                   @click="openDetailsTaskDialog(element)"
                 >
-                  <el-col :span="4">
+                  <el-col :span="3">
                       <el-button
                         class="details mt-05"
                         size="mini"
@@ -160,7 +160,7 @@
                             </div>
                   </el-col>
                   <el-col v-if="element.task_priority" :span="2">
-                      <div class="mt-05 ml-05 flag">
+                      <div class="mt-05 flag">
                         <el-tooltip class="item" effect="dark" :content="taskFlagTooltopText(element.task_priority)" placement="top">
                         <i class="mdi mdi-flag" :style="taskFlagColor(element.task_priority)"></i>
                       </el-tooltip>
@@ -674,13 +674,14 @@ export default {
 
 .board-lists {
   display: grid;
-  grid-auto-columns: 305px;
+  grid-auto-columns: 315px;
   grid-auto-flow: column;
   grid-gap: 10px;
 
   .cardList {
     max-height: 700px;
     overflow: auto;
+    overflow-y: scroll;
   }
   /* Position of Column "More" button */
   .cardList:hover .hide {
