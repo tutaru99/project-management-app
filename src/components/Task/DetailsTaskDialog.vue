@@ -36,8 +36,8 @@
           </el-form>
         </el-col>
         <el-col :span="6" :offset="1">
-          <h1>Priority</h1>
-          <p class="bold mt-2">Priority of the task</p>
+          <h1>Task Priority</h1>
+          <p class="bold mt-2">Priority level</p>
           <el-select v-model="priorityValue" placeholder="Choose Priority">
             <el-option
               v-for="priority in priorities"
@@ -56,6 +56,12 @@
             :min="0"
             :max="1000"
           ></el-input-number>
+          <p class="bold mt-3">Task State</p>
+          <el-radio-group v-model="taskProgress" size="small">
+            <el-radio-button label="In Progress"></el-radio-button>
+            <el-radio-button label="On Hold"></el-radio-button>
+            <el-radio-button label="Completed"></el-radio-button>
+          </el-radio-group>
         </el-col>
         <el-col :span="6" :offset="1">
           <h1>Actions</h1>
@@ -92,19 +98,9 @@
           <p v-else>
             No Members Assigned to this Task.
           </p>
-          <br />
 
-          <p class="bold mt-2">Task State</p>
-          <el-radio-group v-model="taskProgress" size="small">
-            <el-radio-button label="In Progress"></el-radio-button>
-            <el-radio-button label="On Hold"></el-radio-button>
-            <el-radio-button label="Completed"></el-radio-button>
-          </el-radio-group>
-
-          <br>
           <el-button
-            id="mt-3"
-            class="mt-3"
+            class="mt-4"
             type="danger"
             plain
             icon="el-icon-delete"
@@ -247,19 +243,22 @@ export default {
 </script>
 
 <style scoped>
+  .bold {
+    font-weight: bold;
+  }
 .mt-1{
   margin-top: 5px;
-}
-#mt-3 {
-  margin-top: 30px;
 }
 .ml-1{
   margin-left: 5px;
 }
-.bold {
-  font-weight: bold;
-}
 .mt-2 {
   margin-top: 10px;
+}
+.mt-3 {
+  margin-top: 30px;
+}
+.mt-4 {
+  margin-top: 20px;
 }
 </style>

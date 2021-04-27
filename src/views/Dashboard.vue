@@ -274,7 +274,12 @@ export default {
       let rhours = Math.floor(hours);
       let minutes = (hours - rhours) * 60;
       let rminutes = Math.round(minutes);
-      return rhours + " hour(s) " + rminutes + " minute(s)";
+
+      if (rhours > 0 || rminutes > 0) {
+        return rhours + " hour(s) " + rminutes + " minute(s)";
+      } else {
+        return "No Estimations Added";
+      }
     },
 
     async getProjectsData() {
