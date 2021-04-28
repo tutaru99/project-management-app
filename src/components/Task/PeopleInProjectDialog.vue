@@ -24,7 +24,7 @@
             </template>
           </el-table-column>
           <el-table-column fixed="right" label="Actions" width="120">
-            <template #default="scope">
+            <template v-if="currentUserRole === 'OWNER' || currentUserRole === 'ADMIN'" #default="scope">
               <el-button v-if="!scope.row.isOwner" @click="removeUser(scope.row)" type="text" size="small">Remove</el-button>
             </template>
           </el-table-column>
