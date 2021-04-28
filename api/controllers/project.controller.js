@@ -83,19 +83,30 @@ exports.addUser = async (req, res) => {
             });
         });
 
+    if (!foundUser) {
+        error = true
+        return res.status(404).send({
+            message: "We couldn't find this email. Are you sure it is registered on our platform?"
+        })
+    }
+
     await project.findById(req.body.projectId)
         .populate({ path: "users", select: ["username", "email"] })
-        .then(async data => {
+        .then(data => {
             if (!data) {
                 res.status(404).send({ message: "Error" });
             } else {
-                for await (user of data.users) {
+                if (data.owner[0] && data.owner[0].equals(foundUser._id)) {
+                    error = true
+                    return res.status(400).send({ message: 'This user is the owner of the project' })
+                }
+                for (user of data.users) {
                     if (user._id.equals(foundUser._id)) {
                         error = true
                         return res.status(400).send({ message: 'User is already added' })
                     }
                 }
-            }
+            } 
         })
         .catch((err) => {
             error = true
@@ -200,12 +211,12 @@ exports.addUserToTask = async (req, res) => {
     await project
         .findOne({ "columns.tasks._id": ObjectId(req.body.taskId) })
         .then(async (result) => {
-            return new Promise(async function (resolve, reject) {
-                for await (let column of result.columns) {
-                    for await (let task of column.tasks) {
+            return new Promise(function (resolve, reject) {
+                for (let column of result.columns) {
+                    for (let task of column.tasks) {
                         if (task._id.equals(req.body.taskId)) {
                             if (task.asignee.length > 0) {
-                                for await (asignee of task.asignee) {
+                                for (asignee of task.asignee) {
                                     if (asignee.equals(foundUser._id)) {
                                         reject();
                                         return res.status(500).send({

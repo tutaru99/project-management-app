@@ -33,10 +33,13 @@
             v-model="inviteUserDialog"
             width="30%"
           >
-            <el-form>
+            <el-form ref="inviteForm">
               <el-form-item label="Email">
                 <el-input v-model="email" autocomplete="off"></el-input>
               </el-form-item>
+              <p class="pb-2 has-text-danger" >
+                {{inviteErrors}}
+              </p>
             </el-form>
             <template #footer>
               <span class="dialog-footer">
@@ -270,7 +273,7 @@
       <PeopleInProjectDialog
         v-if="viewPeopleDialog"
         :users="projectData.users"
-        :usersRoles="projectData.userRoles"
+        :usersRoles="projectUserRoles"
         :currentUserRole="userRole()"
         :projectId="projectData._id"
         @removed="getProject"
@@ -331,6 +334,7 @@ export default {
       routeID: this.$route.params.id,
 
       drag: false,
+      inviteErrors: null
     };
   },
 
@@ -385,6 +389,19 @@ export default {
     detailsTaskDialogDataReactive(task) {
       return task;
     },
+    projectUserRoles() {
+      let roles = {
+        users: [],
+        owner: {}
+      }
+      if (this.projectData) {
+        this.projectData.userRoles.forEach(role => {
+          roles.users.push(role)
+        })
+        roles.owner = this.projectData.owner
+        }
+      return roles
+    }
   },
 
   methods: {
@@ -479,7 +496,12 @@ export default {
           this.inviteUserDialog = false;
           this.email = null;
           await this.getProject();
-        });
+        })
+        .catch(err => {
+          if (err.response.data.message) {
+            this.inviteErrors = err.response.data.message
+          }
+        })
     },
 
     async moveTask(columnId, event) {

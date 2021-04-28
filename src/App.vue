@@ -75,4 +75,7 @@ export default {
     border: 5px solid #191a1f;
   }
 }
+.has-text-danger {
+  color: red !important;
+}
 </style>

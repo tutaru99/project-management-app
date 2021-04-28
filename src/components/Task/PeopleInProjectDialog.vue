@@ -8,7 +8,7 @@
           </el-table-column>
           <el-table-column prop="role" label="Role">
              <template #default="scope">
-               <el-select v-model="scope.row.role" placeholder="Change permission">
+               <el-select v-if="!scope.row.isOwner" v-model="scope.row.role" placeholder="Change permission">
                 <el-option
                   v-for="item in permissions"
                   :key="item.value"
@@ -18,11 +18,14 @@
                 >
                 </el-option>
               </el-select>
+              <p v-else>
+                Owner
+              </p>
             </template>
           </el-table-column>
           <el-table-column fixed="right" label="Actions" width="120">
             <template #default="scope">
-              <el-button @click="removeUser(scope.row)" type="text" size="small">Remove</el-button>
+              <el-button v-if="!scope.row.isOwner" @click="removeUser(scope.row)" type="text" size="small">Remove</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -45,10 +48,7 @@ export default {
     dialog: true,
     usersData: [],
     permissionValue: '',
-    permissions: [{
-      value: 'OWNER',
-      label: 'Owner'
-    },
+    permissions: [
     {
       value: 'ADMIN',
       label: 'Admin'
@@ -90,19 +90,28 @@ export default {
     },
     usersWithRoles() {
       for (var singleUser of this.users) {
-        for (var role of this.usersRoles){
+        for (var role of this.usersRoles.users){
           if (singleUser.id === role.userId){
-            let objToPush = {
+            let userObjToPush = {
               _id: singleUser.id,
               username: singleUser.username,
               email: singleUser.email,
               role: role.role
             }
-            this.usersData.push(objToPush)
+            this.usersData.push(userObjToPush)
             this.permissionValue = role.role
           }
         }
       }
+      //get owner details
+      axios.post('http://localhost:3000/api/user/info', [this.usersRoles.owner[0]]).then(res => {
+        const ownerObj = {
+          username: res.data[0].username,
+          email: res.data[0].email,
+          isOwner: true
+        }
+        this.usersData.push(ownerObj)
+      })
     },
     close() {
       this.$emit("close");
