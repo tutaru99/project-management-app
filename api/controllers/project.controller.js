@@ -181,7 +181,10 @@ exports.removeUser = async (req, res) => {
     project.updateOne(
         { '_id': ObjectId(req.body.projectId) },
         {
-            $pull: { 'users': ObjectId(foundUser._id) },
+            $pull: { 
+                'users': ObjectId(foundUser._id), 
+                'userRoles': {'userId': ObjectId(foundUser._id) }
+            },
         }
     ).then(result => {
         if (result.ok) {
