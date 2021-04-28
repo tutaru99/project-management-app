@@ -8,7 +8,7 @@
           </el-table-column>
           <el-table-column prop="role" label="Role">
              <template #default="scope">
-               <el-select v-if="!scope.row.isOwner" v-model="scope.row.role" placeholder="Change permission">
+               <el-select v-if="!scope.row.isOwner" :disabled="currentUserRole === 'OWNER' ? false : (currentUserRole === 'ADMIN' ? false : true )" v-model="scope.row.role" placeholder="Change permission">
                 <el-option
                   v-for="item in permissions"
                   :key="item.value"
