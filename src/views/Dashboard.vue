@@ -62,18 +62,18 @@
         <el-col :span="4">
           <el-row type="flex" justify="end">
                     <div style="text-align: right">
-                        <el-tooltip
+                      <el-tooltip
                           class="item"
                           effect="dark"
                           placement="top"
-                          :content="$store.state.auth.username"
-                        >
-                          <el-avatar>
-                             {{ $store.state.auth.username.charAt(0).toUpperCase() }}
-                          </el-avatar>
-                        </el-tooltip>
+                          :content="$store.state.auth.username">
+                            <el-badge is-dot class="item" type="success">
+                              <el-avatar>
+                                {{ $store.state.auth.username.charAt(0).toUpperCase() }}
+                              </el-avatar>
+                            </el-badge>
+                      </el-tooltip>
                     </div>
-
           </el-row>
         </el-col>
       </el-row>
@@ -436,6 +436,7 @@ p{
 }
 #dateCreated {
   font-size: 13px;
+  color: white;
 }
 #linkProject {
   font-size: 16px;
