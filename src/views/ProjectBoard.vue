@@ -5,8 +5,56 @@
       <div class="left">
         <div id="boardTitle" class="board-text ml-1">
           <el-row type="flex" align="middle">
-          {{ projectData.title }}
-          <el-button class="ml-05" type="white" size="mini" icon="el-icon-edit" circle></el-button>
+            {{ projectData.title }}
+            <el-button @click="isNewProjectDialog = true" class="ml-05" size="mini" icon="el-icon-edit" circle></el-button>
+
+                      <!-- Change Project's name Dialog -->
+                                    <el-dialog
+                                    title="Create New Project"
+                                    v-model="isNewProjectDialog"
+                                    width="30%"
+                                    >
+                                    <el-form :model="newProjectValidate" ref="newProjectValidate">
+                                    <el-form-item
+                                    label="Project Name"
+                                    prop="title"
+                                    :rules="[
+                                    { required: true, message: 'Project name is required' },
+                                    ]"
+                                    >
+                                    <el-input
+                                    maxlength="40"
+                                    show-word-limit
+                                    v-model="newProjectValidate.title"
+                                    autocomplete="off"
+                                    ></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="Short Description">
+                                    <el-input
+                                    type="textarea"
+                                    maxlength="200"
+                                    minlength="1"
+                                    :rows="5"
+                                    show-word-limit
+                                    v-model="newProjectValidate.description"
+                                    autocomplete="off"
+                                    ></el-input>
+                                    </el-form-item>
+                                    </el-form>
+                                    <template #footer>
+                                    <span class="dialog-footer">
+                                    <el-button @click="isNewProjectDialog = false"
+                                    >Cancel</el-button
+                                    >
+                                    <el-button
+                                    type="primary"
+                                    @click="validateProjectSubmit('newProjectValidate')"
+                                    >Create</el-button
+                                    >
+                                    </span>
+                                    </template>
+                                    </el-dialog>
+
           </el-row>
         </div>
         <div>
@@ -308,6 +356,11 @@ export default {
   },
   data() {
     return {
+      isNewProjectDialog: false,
+      newProjectValidate: {
+        title: "",
+        description: "",
+      },
       inviteUserDialog: false,
       email: "",
 
