@@ -57,7 +57,7 @@
                   >
                   <el-button
                     type="primary"
-                    @click="validateProjectUpdate('newProjectValidate')"
+                    @click="validateProjectUpdate('updateProjectValidate')"
                     >Create</el-button
                   >
                 </span>
