@@ -6,55 +6,63 @@
         <div id="boardTitle" class="board-text ml-1">
           <el-row type="flex" align="middle">
             {{ projectData.title }}
-            <el-button @click="updateProjectDialog = true" class="ml-05" size="mini" icon="el-icon-edit" circle></el-button>
+            <el-button
+              @click="updateProjectDialog = true"
+              class="ml-05"
+              size="mini"
+              icon="el-icon-edit"
+              circle
+            ></el-button>
 
-                      <!-- Change Project's name Dialog -->
-                                    <el-dialog
-                                    title="Create New Project"
-                                    v-model="updateProjectDialog"
-                                    width="30%"
-                                    >
-                                    <el-form :model="updateProjectValidate" ref="updateProjectValidate">
-                                    <el-form-item
-                                    label="Project Name"
-                                    prop="title"
-                                    :rules="[
-                                    { required: true, message: 'Project name is required' },
-                                    ]"
-                                    >
-                                    <el-input
-                                    maxlength="40"
-                                    show-word-limit
-                                    v-model="updateProjectValidate.title"
-                                    autocomplete="off"
-                                    ></el-input>
-                                    </el-form-item>
-                                    <el-form-item label="Short Description">
-                                    <el-input
-                                    type="textarea"
-                                    maxlength="200"
-                                    minlength="1"
-                                    :rows="5"
-                                    show-word-limit
-                                    v-model="updateProjectValidate.description"
-                                    autocomplete="off"
-                                    ></el-input>
-                                    </el-form-item>
-                                    </el-form>
-                                    <template #footer>
-                                    <span class="dialog-footer">
-                                    <el-button @click="updateProjectValidate = false"
-                                    >Cancel</el-button
-                                    >
-                                    <el-button
-                                    type="primary"
-                                    @click="validateProjectUpdate('newProjectValidate')"
-                                    >Create</el-button
-                                    >
-                                    </span>
-                                    </template>
-                                    </el-dialog>
-
+            <!-- Change Project's name Dialog -->
+            <el-dialog
+              title="Update Project Information"
+              v-model="updateProjectDialog"
+              width="30%"
+            >
+              <el-form
+                :model="updateProjectValidate"
+                ref="updateProjectValidate"
+              >
+                <el-form-item
+                  label="Project Name"
+                  prop="title"
+                  :rules="[
+                    { required: true, message: 'Project name is required' },
+                  ]"
+                >
+                  <el-input
+                    maxlength="40"
+                    show-word-limit
+                    v-model="updateProjectValidate.title"
+                    autocomplete="off"
+                  ></el-input>
+                </el-form-item>
+                <el-form-item label="Short Description">
+                  <el-input
+                    type="textarea"
+                    maxlength="200"
+                    minlength="1"
+                    :rows="5"
+                    show-word-limit
+                    v-model="updateProjectValidate.description"
+                    autocomplete="off"
+                  ></el-input>
+                </el-form-item>
+              </el-form>
+              <template #footer>
+                <span class="dialog-footer">
+                  <el-button @click="updateProjectDialog = false"
+                    >Cancel</el-button
+                  >
+                  <el-button
+                    type="primary"
+                    @click="validateProjectUpdate('newProjectValidate')"
+                    >Create</el-button
+                  >
+                </span>
+              </template>
+            </el-dialog>
           </el-row>
         </div>
         <div>
@@ -88,8 +96,8 @@
               <el-form-item label="Email">
                 <el-input v-model="email" autocomplete="off"></el-input>
               </el-form-item>
-              <p class="pb-2 has-text-danger" >
-                {{inviteErrors}}
+              <p class="pb-2 has-text-danger">
+                {{ inviteErrors }}
               </p>
             </el-form>
             <template #footer>
@@ -200,26 +208,37 @@
                   @click="openDetailsTaskDialog(element)"
                 >
                   <el-col :span="3">
-                      <el-button
-                        class="details mt-05"
-                        size="mini"
-                        icon="el-icon-edit"
-                        circle
-                        @click.stop="openTaskDetailsModalDialog(element)"
-                      ></el-button>
+                    <el-button
+                      class="details mt-05"
+                      size="mini"
+                      icon="el-icon-edit"
+                      circle
+                      @click.stop="openTaskDetailsModalDialog(element)"
+                    ></el-button>
                   </el-col>
                   <el-col v-if="element.task_description" :span="2">
-                            <div class="mt-05 flag">
-                                <i style="color:white" class="mdi mdi-comment-text-outline"></i>
-                            </div>
+                    <div class="mt-05 flag">
+                      <i
+                        style="color: white"
+                        class="mdi mdi-comment-text-outline"
+                      ></i>
+                    </div>
                   </el-col>
                   <el-col v-if="element.task_priority" :span="2">
-                      <div class="mt-05 flag">
-                        <el-tooltip class="item" effect="dark" :content="taskFlagTooltopText(element.task_priority)" placement="top">
-                        <i class="mdi mdi-flag" :style="taskFlagColor(element.task_priority)"></i>
+                    <div class="mt-05 flag">
+                      <el-tooltip
+                        class="item"
+                        effect="dark"
+                        :content="taskFlagTooltopText(element.task_priority)"
+                        placement="top"
+                      >
+                        <i
+                          class="mdi mdi-flag"
+                          :style="taskFlagColor(element.task_priority)"
+                        ></i>
                       </el-tooltip>
                     </div>
-                    </el-col>
+                  </el-col>
                   <el-col :span="16">
                     <div style="text-align: right">
                       <span
@@ -320,7 +339,7 @@
       @close="closeEditTaskModalDialog"
       @edit="getProject"
     />
-    <el-dialog title="People in project" v-model="viewPeopleDialog" width="50%">
+    <el-dialog title="Invited Members" v-model="viewPeopleDialog" width="50%">
       <PeopleInProjectDialog
         v-if="viewPeopleDialog"
         :users="projectData.users"
@@ -391,7 +410,7 @@ export default {
       routeID: this.$route.params.id,
 
       drag: false,
-      inviteErrors: null
+      inviteErrors: null,
     };
   },
 
@@ -449,28 +468,41 @@ export default {
     projectUserRoles() {
       let roles = {
         users: [],
-        owner: {}
-      }
+        owner: {},
+      };
       if (this.projectData) {
-        this.projectData.userRoles.forEach(role => {
-          roles.users.push(role)
-        })
-        roles.owner = this.projectData.owner
-        }
-      return roles
-    }
+        this.projectData.userRoles.forEach((role) => {
+          roles.users.push(role);
+        });
+        roles.owner = this.projectData.owner;
+      }
+      return roles;
+    },
   },
 
   methods: {
-        validateProjectUpdate(formName) {
+    //Validate Project Input field
+    validateProjectUpdate(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.createProject();
+          this.createProject(); //
         } else {
           return false;
         }
       });
     },
+    //Update Project Information
+    async updateProjectInfo(projectID) {
+      await axios
+        .put(`http://localhost:3000/api/projects/${projectID}`, {
+          title: this.updateProjectValidate.title,
+          description: this.updateProjectValidate.description,
+        })
+        .then((response) => {
+          (this.projects = response.data), this.closeUpdateProjDialog();
+        });
+    },
+
     usersAddedToTask: function (element) {
       let arr = [];
       element.asignee.forEach((asignee) => {
@@ -563,11 +595,11 @@ export default {
           this.email = null;
           await this.getProject();
         })
-        .catch(err => {
+        .catch((err) => {
           if (err.response.data.message) {
-            this.inviteErrors = err.response.data.message
+            this.inviteErrors = err.response.data.message;
           }
-        })
+        });
     },
 
     async moveTask(columnId, event) {
@@ -587,43 +619,42 @@ export default {
         );
       }
       if (event.added) {
-        await axios
-          .put(
-            `http://localhost:3000/api/projects/movetask/${event.added.element._id}/${columnId}`
-          )
+        await axios.put(
+          `http://localhost:3000/api/projects/movetask/${event.added.element._id}/${columnId}`
+        );
       }
     },
 
     taskFlagColor(taskPriority) {
       switch (taskPriority) {
-        case 'Option1': 
-          return 'color:white'
+        case "Option1":
+          return "color:white";
           break;
-        case 'Option2': 
-          return 'color:yellow'
+        case "Option2":
+          return "color:yellow";
           break;
-        case 'Option3': 
-          return 'color:orange'
+        case "Option3":
+          return "color:orange";
           break;
-        case 'Option4': 
-          return 'color:red'
+        case "Option4":
+          return "color:red";
           break;
       }
     },
 
     taskFlagTooltopText(taskPriority) {
       switch (taskPriority) {
-        case 'Option1': 
-          return 'Low priority'
+        case "Option1":
+          return "Low priority";
           break;
-        case 'Option2': 
-          return 'Medium priority'
+        case "Option2":
+          return "Medium priority";
           break;
-        case 'Option3': 
-          return 'High priority'
+        case "Option3":
+          return "High priority";
           break;
-        case 'Option4': 
-          return 'Very high priority'
+        case "Option4":
+          return "Very high priority";
           break;
       }
     },
@@ -680,6 +711,13 @@ export default {
 
     closeInviteUserDialog() {
       (this.inviteUserDialog = !this.inviteUserDialog), (this.username = "");
+    },
+
+    closeUpdateProjDialog() {
+      (this.updateProjectDialog = !this.updateProjectDialog),
+        (this.updateProjectValidate.title = ""),
+        (this.updateProjectValidate.description = ""),
+        this.getProjectsData();
     },
   },
 };
@@ -745,9 +783,9 @@ export default {
     color: #d0cae5;
     word-break: break-all;
   }
-  .flag{
-  margin-top: 11px;
-}
+  .flag {
+    margin-top: 11px;
+  }
   .el-avatar {
     margin-top: 7px;
     background: rebeccapurple;
@@ -836,5 +874,4 @@ ul li:nth-child(n + 2) {
     border: 5px solid #191a1f;
   }
 }
-
 </style>
