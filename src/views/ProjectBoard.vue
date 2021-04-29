@@ -5,7 +5,7 @@
       <div class="left">
         <div id="boardTitle" class="board-text ml-1">
           <el-row type="flex" align="middle">
-            {{ projectData.title }}
+            {{ projectData.title }} {{ projectData._id }}
             <el-button
               @click="updateProjectDialog = true"
               class="ml-05"
@@ -57,7 +57,7 @@
                   >
                   <el-button
                     type="primary"
-                    @click="validateProjectUpdate('updateProjectValidate')"
+                    @click="validateProjectUpdate('updateProjectValidate', projectData._id)"
                     >Create</el-button
                   >
                 </span>
@@ -384,7 +384,7 @@ export default {
       inviteUserDialog: false,
       email: "",
 
-      projectData: null,
+      projectData: {},
       visible: false,
       taskid: "",
       taskModalDialog: false,
@@ -418,6 +418,8 @@ export default {
     this.getProject().then(() => {
       this.userRole();
     });
+    this.updateProjectValidate.title = this.projectData.title;
+    this.updateProjectValidate.description = this.projectData.description;
   },
 
   watch: {
@@ -482,10 +484,10 @@ export default {
 
   methods: {
     //Validate Project Input field
-    validateProjectUpdate(formName) {
+    validateProjectUpdate(formName, projectID ) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.createProject(); //
+          this.updateProjectInfo(projectID);
         } else {
           return false;
         }
@@ -498,9 +500,9 @@ export default {
           title: this.updateProjectValidate.title,
           description: this.updateProjectValidate.description,
         })
-        .then((response) => {
-          (this.projects = response.data), this.closeUpdateProjDialog();
-        });
+        .then(
+          this.closeUpdateProjDialog()
+        );
     },
 
     usersAddedToTask: function (element) {
@@ -717,7 +719,7 @@ export default {
       (this.updateProjectDialog = !this.updateProjectDialog),
         (this.updateProjectValidate.title = ""),
         (this.updateProjectValidate.description = ""),
-        this.getProjectsData();
+        this.getProject();
     },
   },
 };
