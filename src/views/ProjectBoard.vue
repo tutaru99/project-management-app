@@ -487,16 +487,7 @@ export default {
           this.updateProjectValidate.title = this.projectData.title;
           this.updateProjectValidate.description = this.projectData.description;
       },
-    //Validate Project Input field
-    validateProjectUpdate(formName, projectID ) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.updateProjectInfo(projectID);
-        } else {
-          return false;
-        }
-      });
-    },
+
     //Update Project Information
     async updateProjectInfo(projectID) {
       await axios
@@ -507,6 +498,16 @@ export default {
         .then(
           this.closeUpdateProjDialog()
         );
+    },
+      //Validate Project Input field
+    validateProjectUpdate(formName, projectID) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.updateProjectInfo(projectID);
+        } else {
+          return false;
+        }
+      });
     },
 
     usersAddedToTask: function (element) {
