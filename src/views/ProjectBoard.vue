@@ -5,9 +5,9 @@
       <div class="left">
         <div id="boardTitle" class="board-text ml-1">
           <el-row type="flex" align="middle">
-            {{ projectData.title }} {{ projectData._id }}
+            {{ projectData.title }}
             <el-button
-              @click="updateProjectDialog = true"
+              @click="openUpdateProjDialog()"
               class="ml-05"
               size="mini"
               icon="el-icon-edit"
@@ -418,8 +418,6 @@ export default {
     this.getProject().then(() => {
       this.userRole();
     });
-    this.updateProjectValidate.title = this.projectData.title;
-    this.updateProjectValidate.description = this.projectData.description;
   },
 
   watch: {
@@ -483,6 +481,11 @@ export default {
   },
 
   methods: {
+    openUpdateProjDialog() {
+          this.updateProjectDialog = true,
+          this.updateProjectValidate.title = this.projectData.title;
+          this.updateProjectValidate.description = this.projectData.description;
+      },
     //Validate Project Input field
     validateProjectUpdate(formName, projectID ) {
       this.$refs[formName].validate((valid) => {
@@ -659,10 +662,6 @@ export default {
           return "Very high priority";
           break;
       }
-    },
-
-    moveTaskSameColumn(event) {
-      console.log(event);
     },
 
     //Opening and closing component dialogs
