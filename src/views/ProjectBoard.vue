@@ -6,15 +6,15 @@
         <div id="boardTitle" class="board-text ml-1">
           <el-row type="flex" align="middle">
             {{ projectData.title }}
-            <el-button @click="isNewProjectDialog = true" class="ml-05" size="mini" icon="el-icon-edit" circle></el-button>
+            <el-button @click="updateProjectDialog = true" class="ml-05" size="mini" icon="el-icon-edit" circle></el-button>
 
                       <!-- Change Project's name Dialog -->
                                     <el-dialog
                                     title="Create New Project"
-                                    v-model="isNewProjectDialog"
+                                    v-model="updateProjectDialog"
                                     width="30%"
                                     >
-                                    <el-form :model="newProjectValidate" ref="newProjectValidate">
+                                    <el-form :model="updateProjectValidate" ref="updateProjectValidate">
                                     <el-form-item
                                     label="Project Name"
                                     prop="title"
@@ -25,7 +25,7 @@
                                     <el-input
                                     maxlength="40"
                                     show-word-limit
-                                    v-model="newProjectValidate.title"
+                                    v-model="updateProjectValidate.title"
                                     autocomplete="off"
                                     ></el-input>
                                     </el-form-item>
@@ -36,19 +36,19 @@
                                     minlength="1"
                                     :rows="5"
                                     show-word-limit
-                                    v-model="newProjectValidate.description"
+                                    v-model="updateProjectValidate.description"
                                     autocomplete="off"
                                     ></el-input>
                                     </el-form-item>
                                     </el-form>
                                     <template #footer>
                                     <span class="dialog-footer">
-                                    <el-button @click="isNewProjectDialog = false"
+                                    <el-button @click="updateProjectValidate = false"
                                     >Cancel</el-button
                                     >
                                     <el-button
                                     type="primary"
-                                    @click="validateProjectSubmit('newProjectValidate')"
+                                    @click="validateProjectUpdate('newProjectValidate')"
                                     >Create</el-button
                                     >
                                     </span>
@@ -356,11 +356,12 @@ export default {
   },
   data() {
     return {
-      isNewProjectDialog: false,
-      newProjectValidate: {
+      updateProjectDialog: false,
+      updateProjectValidate: {
         title: "",
         description: "",
       },
+
       inviteUserDialog: false,
       email: "",
 
@@ -461,6 +462,15 @@ export default {
   },
 
   methods: {
+        validateProjectUpdate(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.createProject();
+        } else {
+          return false;
+        }
+      });
+    },
     usersAddedToTask: function (element) {
       let arr = [];
       element.asignee.forEach((asignee) => {
