@@ -293,8 +293,7 @@ export default {
         .then(
           (response) => (
             (this.projectsData = response.data),
-            (this.fullscreenLoading = false),
-            console.log(this.projectsData)
+            (this.fullscreenLoading = false)
           )
         )
         .then(this.$emit("refreshData"));
@@ -319,7 +318,6 @@ export default {
         .then(
           (response) => (
             (this.projects = response.data),
-            console.log(response),
             this.closeProjDialog()
           )
         )
