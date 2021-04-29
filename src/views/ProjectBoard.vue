@@ -4,7 +4,10 @@
     <div class="board-layout" v-if="projectData">
       <div class="left">
         <div id="boardTitle" class="board-text ml-1">
+          <el-row type="flex" align="middle">
           {{ projectData.title }}
+          <el-button class="ml-05" type="white" size="mini" icon="el-icon-edit" circle></el-button>
+          </el-row>
         </div>
         <div>
           <!-- Invite User to project -->

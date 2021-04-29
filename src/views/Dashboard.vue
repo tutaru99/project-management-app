@@ -105,7 +105,7 @@
                 <el-row>
                   <el-col :span="24">
                     <el-collapse>
-                      <el-collapse-item title="About Project">
+                      <el-collapse-item title="Project Details">
                         <p>{{ project.description }}</p>
                         <p class="mt-1">
                           Total time assigned to tasks:
@@ -180,7 +180,7 @@
               <el-row>
                 <el-col :span="24">
                   <el-collapse>
-                    <el-collapse-item title="About Project">
+                    <el-collapse-item title="Project Details">
                       <p>{{ project.description }}</p>
                       <p class="mt-1">
                         Total time assigned to tasks:
