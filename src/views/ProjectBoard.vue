@@ -7,13 +7,13 @@
           <el-row type="flex" align="middle">
             {{ projectData.title }}
             <el-button
+              v-if="projectRoleOwner === true"
               @click="openUpdateProjDialog()"
               class="ml-05"
               size="mini"
               icon="el-icon-edit"
               circle
             ></el-button>
-
             <!-- Change Project's name Dialog -->
             <el-dialog
               title="Update Project Information"
@@ -376,6 +376,7 @@ export default {
   data() {
     return {
       updateProjectDialog: false,
+      projectRoleOwner: null,
       updateProjectValidate: {
         title: "",
         description: "",
@@ -531,12 +532,15 @@ export default {
       const projectOwner = this.projectData.owner[0];
 
       if (projectOwner === userId) {
+        this.projectRoleOwner = true;
         return "OWNER";
       } else {
+        this.projectRoleOwner = false;
         if (this.projectData.users.find((user) => user.id === userId)) {
           return this.projectData.userRoles.find((el) => el.userId == userId)
             .role;
         } else {
+          this.projectRoleOwner = false;
           this.$router.push("/");
         }
       }
