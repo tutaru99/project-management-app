@@ -57,7 +57,12 @@
                   >
                   <el-button
                     type="primary"
-                    @click="validateProjectUpdate('updateProjectValidate', projectData._id)"
+                    @click="
+                      validateProjectUpdate(
+                        'updateProjectValidate',
+                        projectData._id
+                      )
+                    "
                     >Create</el-button
                   >
                 </span>
@@ -483,10 +488,10 @@ export default {
 
   methods: {
     openUpdateProjDialog() {
-          this.updateProjectDialog = true,
-          this.updateProjectValidate.title = this.projectData.title;
-          this.updateProjectValidate.description = this.projectData.description;
-      },
+      (this.updateProjectDialog = true),
+        (this.updateProjectValidate.title = this.projectData.title);
+      this.updateProjectValidate.description = this.projectData.description;
+    },
 
     //Update Project Information
     async updateProjectInfo(projectID) {
@@ -495,11 +500,9 @@ export default {
           title: this.updateProjectValidate.title,
           description: this.updateProjectValidate.description,
         })
-        .then(
-          this.closeUpdateProjDialog()
-        );
+        .then(this.closeUpdateProjDialog());
     },
-      //Validate Project Input field
+    //Validate Project Input field
     validateProjectUpdate(formName, projectID) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
