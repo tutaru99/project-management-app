@@ -152,7 +152,7 @@
                     ></el-input>
                   </el-form-item>
                   <div class="pb-2">
-                    {{isValidPassword()}}
+                    {{ isValidPassword() }}
                     <p v-if="!isValidPassword()" id="passwordWarning">
                       Password must have at least 6 characters
                     </p>
@@ -176,13 +176,12 @@
         </el-col>
       </el-row>
       <el-row type="flex" align="middle" justify="center">
-        <el-col :span="10">
+        <el-col :span="8">
           <div>
             <h3 class="ml-1 mt-5" v-if="projectsData.length">
               Personal Projects
             </h3>
             <h3 class="ml-1 mt-5" v-else>No Projects Created..</h3>
-
             <!-- Project Loop -->
             <div
               v-for="project in projectsData.slice().reverse()"
@@ -256,7 +255,7 @@
             </div>
           </div>
         </el-col>
-        <el-col :span="10" :offset="1">
+        <el-col :span="8" :offset="1">
           <h3 class="ml-1 mt-5" v-if="invitedProjectsData.length">
             Shared Projects
           </h3>
@@ -461,9 +460,10 @@ export default {
         })
         .then(this.$emit("refreshData"));
     },
-      //making sure form fields are required and cannot be bypassed
-      validateUpdatePassword(formName) {
-        this.$refs[formName].validate((valid) => {
+
+    //making sure form fields are required and cannot be bypassed
+    validateUpdatePassword(formName) {
+      this.$refs[formName].validate((valid) => {
         if (valid) {
           this.isValidPassword();
           if (this.isValidPassword() === true) {
