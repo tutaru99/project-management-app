@@ -14,7 +14,7 @@
               icon="el-icon-edit"
               circle
             ></el-button>
-            <!-- Change Project's name Dialog -->
+            <!-- Change Project's name and descr Dialog -->
             <el-dialog
               title="Update Project Information"
               v-model="updateProjectDialog"
@@ -358,7 +358,6 @@
   </div>
 </template>
 
-
 <script>
 import axios from "axios";
 import NewTaskDialogComponent from "@/components/Task/NewTaskDialog.vue";
@@ -513,10 +512,10 @@ export default {
       });
     },
 
-    usersAddedToTask: function (element) {
+    usersAddedToTask: function(element) {
       let arr = [];
       element.asignee.forEach((asignee) => {
-        const filteredArr = this.projectData.users.filter(function (user) {
+        const filteredArr = this.projectData.users.filter(function(user) {
           return user.id === asignee;
         });
         arr.push(filteredArr[0]);

@@ -57,30 +57,126 @@
           </el-dialog>
         </el-col>
         <el-col :span="8">
-              <h3>Project Management Application</h3>
+          <h3>Project Management Application</h3>
         </el-col>
         <el-col :span="4">
           <el-row type="flex" justify="end">
-                    <div style="text-align: right">
-                      <el-tooltip
-                          class="item"
-                          effect="dark"
-                          placement="top"
-                          :content="$store.state.auth.username">
-                            <el-badge is-dot class="item" type="success">
-                              <el-avatar>
-                                {{ $store.state.auth.username.charAt(0).toUpperCase() }}
-                              </el-avatar>
-                            </el-badge>
-                      </el-tooltip>
-                    </div>
+            <div style="text-align: right">
+              <el-tooltip
+                class="item"
+                effect="dark"
+                placement="top"
+                :content="$store.state.auth.username"
+              >
+                <el-badge is-dot class="item" type="success">
+                  <el-avatar>
+                    {{ $store.state.auth.username.charAt(0).toUpperCase() }}
+                  </el-avatar>
+                </el-badge>
+              </el-tooltip>
+              <el-dropdown trigger="click" placement="bottom-start">
+                <el-button
+                  class="moreDropdown"
+                  icon="el-icon-caret-bottom"
+                  size="mini"
+                  type="info"
+                  circle
+                ></el-button>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item
+                      icon="el-icon-edit"
+                      @click="changePassDialog = true"
+                      >Change Password</el-dropdown-item
+                    >
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+              <el-row type="flex" justify="center" align="middle">
+                <el-dialog v-model="changePassDialog" width="25%">
+                  <el-form :model="changePassValidate" ref="changePassValidate">
+                    <el-form-item
+                      label="Old Password"
+                      prop="oldPassword"
+                      :rules="[
+                        { required: true, message: 'Password is required' },
+                      ]"
+                    >
+                      <el-input
+                        @keydown.space.prevent
+                        @paste.prevent
+                        type="password"
+                        maxlength="30"
+                        minlength="6"
+                        show-password
+                        show-word-limit
+                        v-model="changePassValidate.oldPassword"
+                        autocomplete="off"
+                      ></el-input>
+                    </el-form-item>
+                    <el-form-item
+                      label="New Password"
+                      prop="newPassword"
+                      :rules="[
+                        { required: true, message: 'Password is required' },
+                      ]"
+                    >
+                      <el-input
+                        @keydown.space.prevent
+                        @paste.prevent
+                        type="password"
+                        maxlength="30"
+                        minlength="6"
+                        show-password
+                        show-word-limit
+                        v-model="changePassValidate.newPassword"
+                        autocomplete="off"
+                      ></el-input>
+                    </el-form-item>
+                    <el-form-item
+                      label="Repeat New Password"
+                      prop="newPassword"
+                      :rules="[
+                        { required: true, message: 'Password is required' },
+                      ]"
+                    >
+                      <el-input
+                        @keydown.space.prevent
+                        @paste.prevent
+                        type="password"
+                        maxlength="30"
+                        minlength="6"
+                        show-password
+                        show-word-limit
+                        v-model="changePassValidate.newPassword2"
+                        autocomplete="off"
+                      ></el-input>
+                    </el-form-item>
+                  </el-form>
+                  <template #footer>
+                    <span class="dialog-footer">
+                      <el-button @click="changePassDialog = false"
+                        >Cancel</el-button
+                      >
+                      <el-button
+                        @click="validateUpdatePassword('changePassValidate')"
+                        type="primary"
+                        >Create</el-button
+                      >
+                    </span>
+                  </template>
+                </el-dialog>
+              </el-row>
+            </div>
           </el-row>
         </el-col>
       </el-row>
       <el-row type="flex" align="middle" justify="center">
         <el-col :span="10">
           <div>
-            <h3 class="ml-1 mt-5" v-if="projectsData.length">Personal Projects</h3>
+            <h3 class="ml-1 mt-5" v-if="projectsData.length">
+              Personal Projects
+            </h3>
             <h3 class="ml-1 mt-5" v-else>No Projects Created..</h3>
 
             <!-- Project Loop -->
@@ -112,7 +208,9 @@
                           <span class="bold"> {{ addTime(project) }} </span>
                         </p>
                         <el-row type="flex">
-                          <p v-if="project.users.length">Users part of the project:</p>
+                          <p v-if="project.users.length">
+                            Users part of the project:
+                          </p>
                           <div
                             v-for="user in project.users.slice().reverse()"
                             :key="user.key"
@@ -250,9 +348,15 @@ export default {
       invitedProjectsData: [],
       fullscreenLoading: true,
       isNewProjectDialog: false,
+      changePassDialog: false,
       newProjectValidate: {
         title: "",
         description: "",
+      },
+      changePassValidate: {
+        oldPassword: "",
+        newPassword: "",
+        newPassword2: "",
       },
 
       projectStatus: null,
@@ -317,8 +421,7 @@ export default {
         })
         .then(
           (response) => (
-            (this.projects = response.data),
-            this.closeProjDialog()
+            (this.projects = response.data), this.closeProjDialog()
           )
         )
         .then(this.$emit("refreshData"));
@@ -328,6 +431,17 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.createProject();
+        } else {
+          return false;
+        }
+      });
+    },
+
+    validateUpdatePassword(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.updatePassSuccess()
+          //   this.updatePassword()      Update pass fnction
         } else {
           return false;
         }
@@ -348,11 +462,19 @@ export default {
       await axios
         .delete(`http://localhost:3000/api/projects/${projectID}`)
         .then((response) => {
-          (this.projects = response.data), this.getProjectsData(), this.getInvitedProjectsData();
+          (this.projects = response.data),
+            this.getProjectsData(),
+            this.getInvitedProjectsData();
         })
         .then(this.$emit("refreshData"));
     },
-
+     updatePassSuccess() {
+      this.$notify({
+        title: "Password Updated",
+        message: "Password was successfully updated!",
+        type: "success",
+      });
+    },
     openFullScreen1() {
       this.fullscreenLoading = true;
       setTimeout(() => {
@@ -372,57 +494,52 @@ export default {
 
 <style lang="scss" scoped>
 /* Shitty CSS for now */
-.template{
+.template {
   height: 100vh;
   background-color: #191a1f;
 
-
-  .header{
-  background-color: #121318 !important;
-  box-shadow: 0 0 2px #8112ea;
-  height: 50px;
+  .header {
+    background-color: #121318 !important;
+    box-shadow: 0 0 2px #8112ea;
+    height: 50px;
   }
-  .el-row--flex.is-align-middle{
-  background-color: #191a1f;
+  .el-row--flex.is-align-middle {
+    background-color: #191a1f;
   }
   .el-avatar {
-  background: #8112EA;
-  width: 35px;
-  height: 35px;
-  line-height: 35px;
-  cursor: context-menu;
-  font-weight: 500;
+    background: #8112ea;
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    cursor: context-menu;
+    font-weight: 500;
   }
   .projectsWrapper {
-  border-radius: 4px;
-  box-shadow: 0 0 2px #8112ea;
-  background-color: #121318;
-  padding: 10px;
-  margin: 10px;
+    border-radius: 4px;
+    box-shadow: 0 0 2px #8112ea;
+    background-color: #121318;
+    padding: 10px;
+    margin: 10px;
 
     .users {
-    padding-left: 7px;
-    color: white;
+      padding-left: 7px;
+      color: white;
     }
   }
 }
 
-
-.textTitle{
+.textTitle {
   color: #d0cae5;
 }
-h3{
+h3 {
   color: white;
 }
-p{
+p {
   color: white;
   letter-spacing: 0.3px;
   font-weight: 500;
   word-break: break-all;
 }
-
-
-
 
 #completed {
   color: lightgreen;
@@ -443,10 +560,13 @@ p{
   margin-top: 10px;
 }
 .mt-5 {
-  margin-top:70px;
+  margin-top: 70px;
 }
 .bold {
   font-weight: 700;
 }
-
+.moreDropdown {
+  background-color: #121318 !important;
+  border: none;
+}
 </style>
