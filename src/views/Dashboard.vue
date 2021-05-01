@@ -92,81 +92,85 @@
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
-              <el-row type="flex" justify="center" align="middle">
-                <el-dialog v-model="changePassDialog" width="25%">
-                  <el-form :model="changePassValidate" ref="changePassValidate">
-                    <el-form-item
-                      label="Old Password"
-                      prop="oldPassword"
-                      :rules="[
-                        { required: true, message: 'Password is required' },
-                      ]"
+              <el-dialog v-model="changePassDialog" width="25%">
+                <el-form :model="changePassValidate" ref="changePassValidate">
+                  <el-form-item
+                    label="Old Password"
+                    prop="oldPassword"
+                    :rules="[
+                      { required: true, message: 'Password is required' },
+                    ]"
+                  >
+                    <el-input
+                      @keydown.space.prevent
+                      @paste.prevent
+                      type="password"
+                      maxlength="30"
+                      minlength="6"
+                      show-password
+                      show-word-limit
+                      v-model="changePassValidate.oldPassword"
+                      autocomplete="off"
+                    ></el-input>
+                  </el-form-item>
+                  <el-form-item
+                    label="New Password"
+                    prop="newPassword"
+                    :rules="[
+                      { required: true, message: 'Password is required' },
+                    ]"
+                  >
+                    <el-input
+                      @keydown.space.prevent
+                      @paste.prevent
+                      type="password"
+                      maxlength="30"
+                      minlength="6"
+                      show-password
+                      show-word-limit
+                      v-model="changePassValidate.newPassword"
+                      autocomplete="off"
+                    ></el-input>
+                  </el-form-item>
+                  <el-form-item
+                    label="Repeat New Password"
+                    prop="newPassword2"
+                    :rules="[
+                      { required: true, message: 'Password is required' },
+                    ]"
+                  >
+                    <el-input
+                      @keydown.space.prevent
+                      @paste.prevent
+                      type="password"
+                      maxlength="30"
+                      minlength="6"
+                      show-password
+                      show-word-limit
+                      v-model="changePassValidate.newPassword2"
+                      autocomplete="off"
+                    ></el-input>
+                  </el-form-item>
+                  <div class="pb-2">
+                    {{isValidPassword()}}
+                    <p v-if="!isValidPassword()" id="passwordWarning">
+                      Password must have at least 6 characters
+                    </p>
+                  </div>
+                </el-form>
+                <template #footer>
+                  <span class="dialog-footer">
+                    <el-button @click="changePassDialog = false"
+                      >Cancel</el-button
                     >
-                      <el-input
-                        @keydown.space.prevent
-                        @paste.prevent
-                        type="password"
-                        maxlength="30"
-                        minlength="6"
-                        show-password
-                        show-word-limit
-                        v-model="changePassValidate.oldPassword"
-                        autocomplete="off"
-                      ></el-input>
-                    </el-form-item>
-                    <el-form-item
-                      label="New Password"
-                      prop="newPassword"
-                      :rules="[
-                        { required: true, message: 'Password is required' },
-                      ]"
+                    <el-button
+                      @click="validateUpdatePassword('changePassValidate')"
+                      type="primary"
+                      >Create</el-button
                     >
-                      <el-input
-                        @keydown.space.prevent
-                        @paste.prevent
-                        type="password"
-                        maxlength="30"
-                        minlength="6"
-                        show-password
-                        show-word-limit
-                        v-model="changePassValidate.newPassword"
-                        autocomplete="off"
-                      ></el-input>
-                    </el-form-item>
-                    <el-form-item
-                      label="Repeat New Password"
-                      prop="newPassword"
-                      :rules="[
-                        { required: true, message: 'Password is required' },
-                      ]"
-                    >
-                      <el-input
-                        @keydown.space.prevent
-                        @paste.prevent
-                        type="password"
-                        maxlength="30"
-                        minlength="6"
-                        show-password
-                        show-word-limit
-                        v-model="changePassValidate.newPassword2"
-                        autocomplete="off"
-                      ></el-input>
-                    </el-form-item>
-                  </el-form>
-                  <template #footer>
-                    <span class="dialog-footer">
-                      <el-button @click="changePassDialog = false"
-                        >Cancel</el-button
-                      >
-                      <el-button
-                        @click="validateUpdatePassword('changePassValidate')"
-                        type="primary"
-                        >Create</el-button
-                      >
-                    </span>
-                  </template>
-                </el-dialog>
-              </el-row>
+                  </span>
+                </template>
+              </el-dialog>
             </div>
           </el-row>
         </el-col>
@@ -437,17 +441,6 @@ export default {
       });
     },
 
-    validateUpdatePassword(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          this.updatePassSuccess()
-          //   this.updatePassword()      Update pass fnction
-        } else {
-          return false;
-        }
-      });
-    },
-
     async projectState(projectID) {
       await axios
         .put(`http://localhost:3000/api/projects/${projectID}`, {
@@ -468,13 +461,41 @@ export default {
         })
         .then(this.$emit("refreshData"));
     },
-     updatePassSuccess() {
+      //making sure form fields are required and cannot be bypassed
+      validateUpdatePassword(formName) {
+        this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.isValidPassword();
+          if (this.isValidPassword() === true) {
+            //   this.updatePassword()      Update pass fnction
+          } else {
+            return false;
+          }
+          this.updatePassSuccess(); //move this to updatePassword() once done
+        } else {
+          return false;
+        }
+      });
+    },
+    //validating if the password is equal to 6 or more char
+    isValidPassword() {
+      return this.changePassValidate.oldPassword == ""
+        ? ""
+        : this.changePassValidate.oldPassword.length >= 6 &&
+          this.changePassValidate.newPassword.length >= 6 &&
+          this.changePassValidate.newPassword2.length >= 6
+        ? true
+        : false;
+    },
+    //popup - success pass change
+    updatePassSuccess() {
       this.$notify({
         title: "Password Updated",
         message: "Password was successfully updated!",
         type: "success",
       });
     },
+
     openFullScreen1() {
       this.fullscreenLoading = true;
       setTimeout(() => {
@@ -568,5 +589,9 @@ p {
 .moreDropdown {
   background-color: #121318 !important;
   border: none;
+}
+#passwordWarning {
+  color: red;
+  font-size: 12px;
 }
 </style>
