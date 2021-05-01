@@ -1,6 +1,7 @@
 <template>
   <div class="template">
     <el-main>
+      <el-affix position="top" :offset="0.1">
       <el-row type="flex" align="middle" justify="space-around" class="header">
         <el-col :span="7">
           <el-button
@@ -175,6 +176,8 @@
           </el-row>
         </el-col>
       </el-row>
+
+      </el-affix>
       <el-row type="flex" justify="center">
         <el-col :span="8">
           <div>
