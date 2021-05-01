@@ -175,7 +175,7 @@
           </el-row>
         </el-col>
       </el-row>
-      <el-row type="flex" align="middle" justify="center">
+      <el-row type="flex" justify="center">
         <el-col :span="8">
           <div>
             <h3 class="ml-1 mt-5" v-if="projectsData.length">
@@ -593,5 +593,9 @@ p {
 #passwordWarning {
   color: red;
   font-size: 12px;
+}
+.el-row--flex.is-justify-center {
+  border-top: 1px solid #8112ea;
+  background-color: #191a1f !important;
 }
 </style>
