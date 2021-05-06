@@ -229,7 +229,7 @@
                       ></i>
                     </div>
                   </el-col>
-                  <el-col v-if="element.task_priority" :span="2">
+                  <el-col v-if="element.task_priority" :span="4">
                     <div class="mt-05 flag">
                       <el-tooltip
                         class="item"
@@ -242,9 +242,20 @@
                           :style="taskFlagColor(element.task_priority)"
                         ></i>
                       </el-tooltip>
+                      <el-tooltip
+                        class="item"
+                        effect="dark"
+                        :content="element.task_state"
+                        placement="top"
+                      >
+                        <i
+                          class="mdi mdi-pause-circle-outline"
+                          style="color:white"
+                        ></i>
+                      </el-tooltip>
                     </div>
                   </el-col>
-                  <el-col :span="16">
+                  <el-col :span="15">
                     <div style="text-align: right">
                       <span
                         v-for="user in usersAddedToTask(element)"
