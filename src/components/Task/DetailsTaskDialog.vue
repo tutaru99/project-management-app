@@ -190,6 +190,7 @@ export default {
       return arr
     },
     usersNotAddedToTask() {
+      // console.log(this.users.filter(user => !this.detailsTaskDialogData.asignee.includes(user.id)))
       return this.users.filter(user => !this.detailsTaskDialogData.asignee.includes(user.id))
     }
   },
