@@ -228,10 +228,17 @@
                         v-if="element.task_description"
                         class="mt-05 flag pl-1"
                       >
+                        <el-tooltip
+                          class="item"
+                          effect="dark"
+                          content="Task Description"
+                          placement="top"
+                        >
                         <i
                           style="color: white"
-                          class="mdi mdi-comment-text-outline"
+                          class="mdi mdi-chat-alert-outline"
                         ></i>
+                      </el-tooltip>
                       </div>
 
                       <div v-if="element.task_priority" class="mt-05 flag pl-1">
@@ -248,7 +255,10 @@
                         </el-tooltip>
                       </div>
 
-                      <div v-if="element.task_state" class="mt-05 flag pl-1">
+                      <div
+                        v-if="element.task_state === 'On Hold'"
+                        class="mt-05 flag pl-1"
+                      >
                         <el-tooltip
                           class="item"
                           effect="dark"
@@ -257,7 +267,41 @@
                         >
                           <i
                             class="mdi mdi-pause-circle-outline"
+                            style="color:yellow"
+                          ></i>
+                        </el-tooltip>
+                      </div>
+
+                      <div
+                        v-if="element.task_state === 'In Progress'"
+                        class="mt-05 flag pl-1"
+                      >
+                        <el-tooltip
+                          class="item"
+                          effect="dark"
+                          :content="element.task_state"
+                          placement="top"
+                        >
+                          <i
+                            class="mdi mdi-progress-clock"
                             style="color:white"
+                          ></i>
+                        </el-tooltip>
+                      </div>
+
+                      <div
+                        v-if="element.task_state === 'Completed'"
+                        class="mt-05 flag pl-1"
+                      >
+                        <el-tooltip
+                          class="item"
+                          effect="dark"
+                          :content="element.task_state"
+                          placement="top"
+                        >
+                          <i
+                            class="mdi mdi-progress-check"
+                            style="color:green"
                           ></i>
                         </el-tooltip>
                       </div>
