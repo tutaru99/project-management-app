@@ -861,7 +861,7 @@ export default {
   }
   .el-avatar {
     margin-top: 7px;
-    background: rebeccapurple;
+    background: #8212eaad;
     width: 24px;
     margin-right: 4px;
     height: 24px;
