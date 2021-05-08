@@ -14,7 +14,6 @@ exports.create = async (req, res) => {
   const emailExist = await user.findOne({ email: req.body.email });
 
   if (emailExist) {
-    console.log(res.status)
     return res.status(400).json({ error: "Email already eists" });
   }
 
@@ -87,5 +86,29 @@ exports.getUsersData = async (req, res) => {
     res.status(200).json(usersDetails)
   } else {
     res.status(404)
+  }
+}
+
+exports.changePassword = async (req, res) => {
+  const newPassword = req.body.newPassword
+  const password = req.body.password
+  const userId = req.body.userId
+  
+  const userData = await user.findById(userId).catch(err => console.log(err));
+  if (!userData) {
+    return res.status(401).send('Incorrect E-mail');
+  }
+  const validPassword = await bcrypt.compare(
+    password,
+    userData.password
+  );
+  if (!validPassword) {
+    return res.status(401).send('Incorrect Password');
+  } else {
+    let salt = await bcrypt.genSalt(10);
+    let hashedPassword = await bcrypt.hash(newPassword, salt);
+    userData.password = hashedPassword
+    userData.save()
+    return res.status(200).send({ message: 'Password changed' })
   }
 }

@@ -167,7 +167,7 @@
                     <el-button
                       @click="validateUpdatePassword('changePassValidate')"
                       type="primary"
-                      >Create</el-button
+                      >Update</el-button
                     >
                   </span>
                 </template>
@@ -466,19 +466,37 @@ export default {
 
     //making sure form fields are required and cannot be bypassed
     validateUpdatePassword(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async valid => {
         if (valid) {
           this.isValidPassword();
           if (this.isValidPassword() === true) {
-            //   this.updatePassword()      Update pass fnction
+              await this.updatePassword().then(() => {
+                this.updatePassSuccess();
+              }).catch(err => {
+                console.log(err)
+              })
           } else {
             return false;
           }
-          this.updatePassSuccess(); //move this to updatePassword() once done
         } else {
           return false;
         }
       });
+    },
+    updatePassword() {
+      return new Promise (async (resolve, reject) => {
+        await axios.post('http://localhost:3000/api/user/change-password', {
+          userId: this.$store.state.auth.id,
+          password: this.changePassValidate.oldPassword,
+          newPassword: this.changePassValidate.newPassword
+        }).then(res => {
+          if (res.status === 200) {
+            resolve('PasswordChanged')
+          } else {
+            reject()
+          }
+        })
+      })
     },
     //validating if the password is equal to 6 or more char
     isValidPassword() {

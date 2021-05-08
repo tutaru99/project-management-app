@@ -14,6 +14,7 @@
     router.post('/register', user.create);
     router.post('/login', user.login);
     router.post('/info', user.getUsersData);
+    router.post('/change-password', user.changePassword);
     router.get('/logout', function (req, res) {
         req.logout();
         res.redirect('/');
