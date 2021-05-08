@@ -229,7 +229,7 @@
                       ></i>
                     </div>
                   </el-col>
-                  <el-col v-if="element.task_priority" :span="4">
+                  <el-col v-if="element.task_priority" :span="2">
                     <div class="mt-05 flag">
                       <el-tooltip
                         class="item"
@@ -242,6 +242,10 @@
                           :style="taskFlagColor(element.task_priority)"
                         ></i>
                       </el-tooltip>
+                    </div>
+                  </el-col>
+                                    <el-col v-if="element.task_state" :span="2">
+                                       <div class="mt-05 flag">
                       <el-tooltip
                         class="item"
                         effect="dark"
@@ -254,7 +258,7 @@
                         ></i>
                       </el-tooltip>
                     </div>
-                  </el-col>
+                                    </el-col>
                   <el-col :span="15">
                     <div style="text-align: right">
                       <span
