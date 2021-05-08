@@ -234,23 +234,9 @@
                           content="Task Description"
                           placement="top"
                         >
-                        <i
-                          style="color: white"
-                          class="mdi mdi-chat-alert-outline"
-                        ></i>
-                      </el-tooltip>
-                      </div>
-
-                      <div v-if="element.task_priority" class="mt-05 flag pl-1">
-                        <el-tooltip
-                          class="item"
-                          effect="dark"
-                          :content="taskFlagTooltopText(element.task_priority)"
-                          placement="top"
-                        >
                           <i
-                            class="mdi mdi-flag"
-                            :style="taskFlagColor(element.task_priority)"
+                            style="color: white"
+                            class="mdi mdi-chat-alert-outline"
                           ></i>
                         </el-tooltip>
                       </div>
@@ -302,6 +288,19 @@
                           <i
                             class="mdi mdi-progress-check"
                             style="color:green"
+                          ></i>
+                        </el-tooltip>
+                      </div>
+                      <div v-if="element.task_priority" class="mt-05 flag pl-1">
+                        <el-tooltip
+                          class="item"
+                          effect="dark"
+                          :content="taskFlagTooltopText(element.task_priority)"
+                          placement="top"
+                        >
+                          <i
+                            class="mdi mdi-flag"
+                            :style="taskFlagColor(element.task_priority)"
                           ></i>
                         </el-tooltip>
                       </div>
