@@ -240,7 +240,7 @@
                           ></i>
                         </el-tooltip>
                       </div>
-
+                      <!-- Task State -->
                       <div
                         v-if="element.task_state === 'On Hold'"
                         class="mt-05 flag pl-1"
@@ -291,7 +291,7 @@
                           ></i>
                         </el-tooltip>
                       </div>
-                      <div v-if="element.task_priority" class="mt-05 flag pl-1"> <!-- Testgit config --global --unset alias.YourAlias -->
+                      <div v-if="element.task_priority" class="mt-05 flag pl-1">
                         <el-tooltip
                           class="item"
                           effect="dark"
