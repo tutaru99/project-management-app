@@ -291,7 +291,7 @@
                           ></i>
                         </el-tooltip>
                       </div>
-                      <div v-if="element.task_priority" class="mt-05 flag pl-1">
+                      <div v-if="element.task_priority" class="mt-05 flag pl-1"> <!-- Testgit config --global --unset alias.YourAlias -->
                         <el-tooltip
                           class="item"
                           effect="dark"
