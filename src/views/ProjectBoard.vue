@@ -185,7 +185,10 @@
             "
           >
             <template #item="{ element }">
-              <li class="list-group-item card">
+              <li
+                @click="openDetailsTaskDialog(element)"
+                class="list-group-item card"
+              >
                 <DetailsTaskDialog
                   v-if="detailsTaskDialogData._id == element._id"
                   :detailsTaskDialog="true"
@@ -209,74 +212,77 @@
                 <el-row
                   class="mt-1"
                   type="flex"
-                  justify="space-between"
                   @click="openDetailsTaskDialog(element)"
                 >
-                  <el-col :span="3">
-                    <el-button
-                      class="details mt-05"
-                      size="mini"
-                      icon="el-icon-edit"
-                      circle
-                      @click.stop="openTaskDetailsModalDialog(element)"
-                    ></el-button>
-                  </el-col>
-                  <el-col v-if="element.task_description" :span="2">
-                    <div class="mt-05 flag">
-                      <i
-                        style="color: white"
-                        class="mdi mdi-comment-text-outline"
-                      ></i>
-                    </div>
-                  </el-col>
-                  <el-col v-if="element.task_priority" :span="2">
-                    <div class="mt-05 flag">
-                      <el-tooltip
-                        class="item"
-                        effect="dark"
-                        :content="taskFlagTooltopText(element.task_priority)"
-                        placement="top"
+                  <el-col :span="24">
+                    <el-row type="flex" justify="start">
+                      <el-button
+                        class="details mt-05"
+                        size="mini"
+                        icon="el-icon-edit"
+                        circle
+                        @click.stop="openTaskDetailsModalDialog(element)"
+                      ></el-button>
+
+                      <div
+                        v-if="element.task_description"
+                        class="mt-05 flag pl-1"
                       >
                         <i
-                          class="mdi mdi-flag"
-                          :style="taskFlagColor(element.task_priority)"
+                          style="color: white"
+                          class="mdi mdi-comment-text-outline"
                         ></i>
-                      </el-tooltip>
-                    </div>
-                  </el-col>
-                                    <el-col v-if="element.task_state" :span="2">
-                                       <div class="mt-05 flag">
-                      <el-tooltip
-                        class="item"
-                        effect="dark"
-                        :content="element.task_state"
-                        placement="top"
-                      >
-                        <i
-                          class="mdi mdi-pause-circle-outline"
-                          style="color:white"
-                        ></i>
-                      </el-tooltip>
-                    </div>
-                                    </el-col>
-                  <el-col :span="15">
-                    <div style="text-align: right">
-                      <span
-                        v-for="user in usersAddedToTask(element)"
-                        :key="user.id"
-                      >
+                      </div>
+
+                      <div v-if="element.task_priority" class="mt-05 flag pl-1">
                         <el-tooltip
                           class="item"
                           effect="dark"
-                          :content="user.username"
+                          :content="taskFlagTooltopText(element.task_priority)"
                           placement="top"
                         >
-                          <el-avatar size="small">
-                            {{ user.username.charAt(0).toUpperCase() }}
-                          </el-avatar>
+                          <i
+                            class="mdi mdi-flag"
+                            :style="taskFlagColor(element.task_priority)"
+                          ></i>
                         </el-tooltip>
-                      </span>
-                    </div>
+                      </div>
+
+                      <div v-if="element.task_state" class="mt-05 flag pl-1">
+                        <el-tooltip
+                          class="item"
+                          effect="dark"
+                          :content="element.task_state"
+                          placement="top"
+                        >
+                          <i
+                            class="mdi mdi-pause-circle-outline"
+                            style="color:white"
+                          ></i>
+                        </el-tooltip>
+                      </div>
+                    </el-row>
+                  </el-col>
+                  <el-col :span="24">
+                    <el-row type="flex" justify="end">
+                      <div style="text-align: right">
+                        <span
+                          v-for="user in usersAddedToTask(element)"
+                          :key="user.id"
+                        >
+                          <el-tooltip
+                            class="item"
+                            effect="dark"
+                            :content="user.username"
+                            placement="top"
+                          >
+                            <el-avatar size="small">
+                              {{ user.username.charAt(0).toUpperCase() }}
+                            </el-avatar>
+                          </el-tooltip>
+                        </span>
+                      </div>
+                    </el-row>
                   </el-col>
                 </el-row>
               </li>
