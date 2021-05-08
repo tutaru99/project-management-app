@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     :before-close="close"
+    append-to-body
     title="DETAILS"
     v-model="detailsTaskDialog"
     width="70%"
