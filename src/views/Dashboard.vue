@@ -90,6 +90,11 @@
                       @click="changePassDialog = true"
                       >Change Password</el-dropdown-item
                     >
+                    <el-dropdown-item
+                      icon="mdi mdi-logout"
+                      @click="logout"
+                      >Sign Out</el-dropdown-item
+                    >
                   </el-dropdown-menu>
                 </template>
               </el-dropdown>
@@ -516,7 +521,12 @@ export default {
         type: "success",
       });
     },
-
+    logout() {
+      this.$store.commit('logOut')
+      this.$cookies.remove('jwt');
+      axios.defaults.headers.common['Authorization'] = null;
+      this.$router.push('/login');
+    },
     openFullScreen1() {
       this.fullscreenLoading = true;
       setTimeout(() => {

@@ -781,7 +781,7 @@ export default {
     grid-gap: 10px;
     /* Chrome use a fixed height */
     height: 80vh;
-    padding: 10px;
+    padding: 3px;
   }
   .board-lists:last-child {
     margin-right: 15px;
