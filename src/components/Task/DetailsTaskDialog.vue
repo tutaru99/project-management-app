@@ -9,7 +9,7 @@
     <el-main>
       <el-row type="flex">
         <el-col :span="7" :offset="1">
-          <h1>Task Details</h1>
+          <h2>Task Details</h2>
           <p class="bold mt-2">Task name</p>
           <el-form :model="detailsEdit" ref="detailsEdit">
             <el-form-item
@@ -20,7 +20,7 @@
                 v-model="detailsEdit.editName"
                 type="textarea"
                 maxlength="120"
-                :rows="3"
+                :rows="4"
                 show-word-limit
                 autocomplete="off"
               ></el-input>
@@ -39,7 +39,7 @@
           </el-form>
         </el-col>
         <el-col :span="6" :offset="1">
-          <h1>Task Priority</h1>
+          <h2>Task Priority</h2>
           <p class="bold mt-2">Priority level</p>
           <el-select v-model="priorityValue" placeholder="Choose Priority">
             <el-option
@@ -67,7 +67,7 @@
           </el-radio-group>
         </el-col>
         <el-col :span="6" :offset="1">
-          <h1>Actions</h1>
+          <h2>Actions</h2>
           <p class="bold mt-2">Assign members to task</p>
           <AddMembers 
             :taskId="detailsTaskDialogData._id"
