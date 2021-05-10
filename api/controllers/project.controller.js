@@ -634,7 +634,7 @@ exports.deleteAll = (req, res) => {
 };
 
 // Find Projects by set Condition
-exports.findAllCompleted = (req, res) => {
+/* exports.findAllCompleted = (req, res) => {
 
     project.find({ completed: true })
         .then(data => {
@@ -646,4 +646,4 @@ exports.findAllCompleted = (req, res) => {
                     err.message || "Some error occurred while retrieving projects."
             });
         });
-};
+}; */

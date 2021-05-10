@@ -224,8 +224,8 @@
                     circle
                   ></el-button>
                 </el-row>
-                <p id="completed" v-if="project.completed == true">Completed</p>
-                <p id="inProgress" v-else>Ongoing</p>
+                <p id="completed" v-if="project.completed == true"><span id="projCompleted">Project is</span> Completed</p>
+                <p id="inProgress" v-else><span id="projCompleted">Project is</span> Ongoing</p>
                 <el-row>
                   <el-col :span="24">
                     <el-collapse>
@@ -301,8 +301,8 @@
                   circle
                 ></el-button>
               </el-row>
-              <p id="completed" v-if="project.completed == true">Completed</p>
-              <p id="inProgress" v-else>Ongoing</p>
+              <p id="completed" v-if="project.completed == true"><span id="projCompleted">Project is</span> Completed</p>
+              <p id="inProgress" v-else><span id="projCompleted">Project is</span> Ongoing</p>
               <el-row>
                 <el-col :span="24">
                   <el-collapse>
@@ -352,7 +352,6 @@
               </el-row>
             </div>
           </div>
-          <!-- <DashboardComponent /> -->
         </el-col>
       </el-row>
     </el-main>
@@ -361,13 +360,12 @@
 
 <script>
 // @ is an alias to /src
-import DashboardComponent from "@/components/DashboardComponent.vue";
 import axios from "axios";
 
 export default {
   name: "Dashboard",
   components: {
-    DashboardComponent,
+
   },
   emits: ["refreshData"],
   data() {
@@ -640,11 +638,11 @@ p {
 }
 
 #completed {
-  color: lightgreen;
+  color: rgb(82, 231, 82);
   font-weight: 700;
 }
 #inProgress {
-  color: gold;
+  color: yellow;
   font-weight: 700;
 }
 #dateCreated {
@@ -674,5 +672,8 @@ p {
 .el-row--flex.is-justify-center {
   border-top: 1px solid #8112ea;
   background-color: #191a1f !important;
+}
+#projCompleted{
+  color: white;
 }
 </style>

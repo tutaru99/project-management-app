@@ -1,0 +1,252 @@
+openapi: 3.0.0
+info:
+  title: Project Management Application API
+  description: MongoDB ExpressJS NodeJS REST API for the project management application
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api/ # live webserver location
+    description: Localhost Development Server
+components:
+  securitySchemes:
+    ApiKeyAuth:        # arbitrary name for the security scheme
+      type: apiKey
+      in: header       # can be "header", "query" or "cookie"
+      name: auth-token
+
+  schemas:
+    Project:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+        title:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
+        columns:
+          type: object
+          properties:
+            _id:
+              type: ObjectId
+            col_name:
+              type: string
+            tasks:
+              type: object
+              properties:
+                _id:
+                  type: ObjectId
+                task_name:
+                  type: string
+                task_description:
+                  type: string
+                task_time:
+                  type: number
+                task_state:
+                  type: string
+                task_priority:
+                  type: string
+                asignee:
+                  type: object
+                  properties:
+                    _id:
+                      type: ObjectId
+                    user:
+                      type: ref
+                owner:
+                  type: object
+                  properties:
+                    _id:
+                      type: ObjectId
+                    user:
+                      type: ref
+                users:
+                  type: object
+                  properties:
+                    _id:
+                      type: ObjectId
+                    user:
+                      type: ref
+                userRoles:
+                  type: object
+                  properties:
+                    _id:
+                      type: ObjectId
+                    user:
+                      type: ref
+                    role:
+                      type: string
+    
+    User:
+      type: object
+      properties:
+        _id:
+          type: ObjectId
+        username:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        date:
+          type: date
+
+paths:
+
+  /user/register:
+    post:
+      summary: Register a new User
+      description: Register a new User in the database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+
+      responses:
+        201:
+          description: User created succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  _id:
+                    type: string
+
+  /user/login:
+    post:
+      summary: Login a User
+      description: Login a User in order to get JWT token (auth-token)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      
+      responses:
+        200:
+          description: User logged in succesfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  data:
+                    type: string
+
+
+  /products:
+    get:
+      summary: Retrieves a list of Products
+      description: Retrieves a list of products as JSON objects.
+      responses:
+        200:
+          description: A list of product JSON objects in an array.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+    
+    post:
+      summary: Create a new Product
+      description: Create a new Product
+      security:
+        - ApiKeyAuth: []      
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+
+      responses:
+        201:
+          description: Product created succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+  
+  /products/{id}:
+    get:
+      summary: Specific Product
+      description: Retrieves a specific Product based on it id.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: MongoDB id
+          schema:
+            type: string
+      responses:
+        200:
+          description: A Product in the format of a JSON object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+   
+    put:
+      summary: Updates a specific Product
+      description: Updates a specific Product based on it id
+      security:
+        - ApiKeyAuth: []            
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: MongoDB id
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Product"
+
+      responses:
+        201:
+          description: Product updated succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+
+    delete:
+      summary: Deletes a specific Product
+      description: Deletes a specific Product based on it id
+      security:
+        - ApiKeyAuth: []            
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: MongoDB id
+          schema:
+            type: string      
+
+      responses:
+        201:
+          description: Product deleted succesfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"

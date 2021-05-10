@@ -18,7 +18,7 @@ module.exports = (app, passport) => {
   router.post("/", jsonParser, projects.create);
 
   // Retrieve all Projects by Condition
-  router.get("/completed",  projects.findAllCompleted);
+/*   router.get("/completed",  projects.findAllCompleted); */
 
 
   // TASKS

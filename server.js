@@ -8,6 +8,14 @@ const authRoutes = require("./api/routes/auth.js");
 
 const app = express();
 
+//swagger dependencies
+const swaggerUi = require('swagger-ui-express');
+const yaml = require('yamljs');
+
+//setup swagger
+const swaggerDefinition = yaml.load('api/swagger.yaml');
+app.use('/api/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDefinition));
+
 
 app.use(cors({
   origin: 'http://localhost:8080',
