@@ -9,7 +9,8 @@ servers:
 components:
   securitySchemes:
     ApiKeyAuth:        # arbitrary name for the security scheme
-      type: apiKey
+      type: http
+      scheme: bearer
       in: header       # can be "header", "query" or "cookie"
       name: auth-token
 
@@ -17,8 +18,6 @@ components:
     Project:
       type: object
       properties:
-        _id:
-          type: ObjectId
         title:
           type: string
         description:
@@ -28,15 +27,11 @@ components:
         columns:
           type: object
           properties:
-            _id:
-              type: ObjectId
             col_name:
               type: string
             tasks:
               type: object
               properties:
-                _id:
-                  type: ObjectId
                 task_name:
                   type: string
                 task_description:
@@ -50,31 +45,15 @@ components:
                 asignee:
                   type: object
                   properties:
-                    _id:
-                      type: ObjectId
-                    user:
-                      type: ref
                 owner:
                   type: object
                   properties:
-                    _id:
-                      type: ObjectId
-                    user:
-                      type: ref
                 users:
                   type: object
                   properties:
-                    _id:
-                      type: ObjectId
-                    user:
-                      type: ref
                 userRoles:
                   type: object
                   properties:
-                    _id:
-                      type: ObjectId
-                    user:
-                      type: ref
                     role:
                       type: string
 
@@ -111,8 +90,7 @@ paths:
                 properties:
                   error:
                     type: string
-                  _id:
-                    type: string
+                
 
   /user/login:
     post:
@@ -144,23 +122,25 @@ paths:
                     type: string
 
 
-  /products:
+  /projects:
     get:
-      summary: Retrieves a list of Products
-      description: Retrieves a list of products as JSON objects.
+      summary: Retrieves a list of Projects created and associated to the account
+      description: Retrieves a list of projects as JSON objects.
+      security:
+        - ApiKeyAuth: []      
       responses:
         200:
-          description: A list of product JSON objects in an array.
+          description: A list of projects JSON objects in an array.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Product"
+                  $ref: "#/components/schemas/Project"
     
     post:
-      summary: Create a new Product
-      description: Create a new Product
+      summary: Create a new Project
+      description: Create a new Project
       security:
         - ApiKeyAuth: []      
       requestBody:
@@ -168,15 +148,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Product"
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                user:
+                  type: string
 
       responses:
         201:
-          description: Product created succesfully
+          description: Project created succesfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
+                $ref: "#/components/schemas/Project"
   
   /products/{id}:
     get:
