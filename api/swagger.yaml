@@ -77,20 +77,16 @@ components:
                       type: ref
                     role:
                       type: string
-    
+
     User:
       type: object
       properties:
-        _id:
-          type: ObjectId
         username:
           type: string
         email:
           type: string
         password:
           type: string
-        date:
-          type: date
 
 paths:
 
