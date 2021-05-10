@@ -93,17 +93,17 @@ exports.changePassword = async (req, res) => {
   const newPassword = req.body.newPassword
   const password = req.body.password
   const userId = req.body.userId
-  
+
   const userData = await user.findById(userId).catch(err => console.log(err));
   if (!userData) {
-    return res.status(401).send('Incorrect E-mail');
+    return res.status(401).send({ message: 'Incorrect E-mail' });
   }
   const validPassword = await bcrypt.compare(
     password,
     userData.password
   );
   if (!validPassword) {
-    return res.status(401).send('Incorrect Password');
+    return res.status(401).send({ message: 'Incorrect Old Password' });
   } else {
     let salt = await bcrypt.genSalt(10);
     let hashedPassword = await bcrypt.hash(newPassword, salt);
