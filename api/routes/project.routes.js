@@ -24,6 +24,8 @@ module.exports = (app, passport) => {
   // TASKS
   // Update a TASK with ID
   router.put("/updatetask/:id", projects.updateTask);
+  // Update a TASK with ID
+  router.put("/updatetask-quick-edit/:id", projects.updateTaskQuickEdit);
   // Delete a TASK with ID
   router.put("/deletetask/:id", projects.deleteTask);
   // Add a new TASK by Column ID

@@ -443,6 +443,33 @@ exports.updateTask = (req, res) => {
             });
         });
 };
+// Update a TASK by the ID QUICKEDIT
+exports.updateTaskQuickEdit = (req, res) => {
+    const id = req.params.id;
+
+    project.update({ "columns.tasks._id": mongoose.Types.ObjectId(id) },
+        {
+            $set: {
+                "columns.$[].tasks.$[taskfield].task_name": req.body.task_name,
+                "columns.$[].tasks.$[taskfield].task_description": req.body.task_description,
+            }
+        },
+        { arrayFilters: [{ "taskfield._id": mongoose.Types.ObjectId(id) }] }
+    )
+        .then(data => {
+            if (!data) {
+                res.status(404).send({
+                    message: `Cannot update task with id=${id}.`
+                });
+            } else res.send({ message: "Task was Edited successfully!" + `${id}` });
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while Editing task-"
+            });
+        });
+};
 
 //Moving tasks to different columns
 exports.moveTask = async (req, res) => {
