@@ -539,15 +539,13 @@ export default {
         : this.changePassValidate.oldPassword.length >= 6 &&
           this.changePassValidate.newPassword.length >= 6 &&
           this.changePassValidate.newPassword2.length >= 6 &&
-          this.changePassValidate.newPassword ===
-            this.changePassValidate.newPassword2
+          this.changePassValidate.newPassword === this.changePassValidate.newPassword2
         ? true
         : false;
     },
     isPasswordMatching() {
       if (
-        this.changePassValidate.newPassword ===
-        this.changePassValidate.newPassword2
+        this.changePassValidate.newPassword === this.changePassValidate.newPassword2
       ) {
         return true;
       } else {
