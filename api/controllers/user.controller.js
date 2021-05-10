@@ -74,6 +74,7 @@ exports.getUsersData = async (req, res) => {
   for (let index = 0; index < req.body.length; index++){
     await db.users.findById(req.body[index]).then(result => {
       const data = {
+        id: result._id,
         username: result.username,
         email: result.email,
       }

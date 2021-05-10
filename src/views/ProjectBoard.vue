@@ -193,7 +193,7 @@
                   v-if="detailsTaskDialogData._id == element._id"
                   :detailsTaskDialog="true"
                   :detailsTaskDialogData="element"
-                  :users="projectData.users"
+                  
                   @submit="getProject"
                   @close="closeDetailsTaskDialog"
                 />
@@ -578,12 +578,27 @@ export default {
 
     usersAddedToTask: function(element) {
       let arr = [];
-      element.asignee.forEach((asignee) => {
+      element.asignee.forEach(async (asignee) => {
         const filteredArr = this.projectData.users.filter(function(user) {
           return user.id === asignee;
         });
-        arr.push(filteredArr[0]);
+        if(filteredArr.length) {
+          arr.push(filteredArr[0]);
+        }
+        if (this.projectData.owner[0] === asignee) {
+            await axios.post('http://localhost:3000/api/user/info', [this.projectData.owner[0]]).then(res => {
+            const ownerObj = {
+              id: res.data[0].id,
+              username: res.data[0].username,
+              email: res.data[0].email,
+              isOwner: true
+            }
+            arr.push(ownerObj)
+          })
+          // arr.push(this.projectData.owner[0])
+        }
       });
+        console.log(arr)
       return arr;
     },
     async getProject() {

@@ -69,6 +69,7 @@
         <el-col :span="6" :offset="1">
           <h2>Actions</h2>
           <p class="bold mt-2">Assign members to task</p>
+          {{usersNotAddedToTask}}
           <AddMembers 
             :taskId="detailsTaskDialogData._id"
             :users="usersNotAddedToTask"
@@ -132,7 +133,7 @@ export default {
   components: {
     AddMembers,
   },
-  props: ["detailsTaskDialog", "detailsTaskDialogData", "users"],
+  props: ["detailsTaskDialog", "detailsTaskDialogData", "users", "userRoles"],
   emits: ["submit", "close"],
 
   data: () => ({
@@ -191,8 +192,22 @@ export default {
       return arr
     },
     usersNotAddedToTask() {
-      console.log(this.users.filter(user => !this.detailsTaskDialogData.asignee.includes(user.id)))
-      return this.users.filter(user => !this.detailsTaskDialogData.asignee.includes(user.id))
+      // console.log(this.users.filter(user => !this.detailsTaskDialogData.asignee.includes(user.id)))
+      // return this.users.filter(user => !this.detailsTaskDialogData.asignee.includes(user.id))
+      let users = [];
+      users.push(this.users.filter(user => !this.detailsTaskDialogData.asignee.includes(user.id)))
+      axios.post('http://localhost:3000/api/user/info', [this.userRoles.owner[0]]).then(res => {
+        // console.log(res.data)
+        const ownerObj = {
+          id: res.data[0].id,
+          username: res.data[0].username,
+          email: res.data[0].email,
+          isOwner: true
+        }
+        users[0].push(ownerObj)
+      })
+      console.log(users)
+      return users[0]
     }
   },
 
