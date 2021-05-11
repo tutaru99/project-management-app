@@ -4,14 +4,16 @@ info:
   description: MongoDB ExpressJS NodeJS REST API for the project management application
   version: 1.0.0
 servers:
-  - url: http://localhost:3000/api/ # live webserver location
+  - url: http://localhost:3000/api/ # Local webserver location
     description: Localhost Development Server
+  - url: http://URLhere/api/ # live webserver location
+    description: Live Development Server
 components:
   securitySchemes:
-    ApiKeyAuth:        # arbitrary name for the security scheme
+    ApiKeyAuth:
       type: http
       scheme: bearer
-      in: header       # can be "header", "query" or "cookie"
+      in: header
       name: auth-token
 
   schemas:
@@ -66,11 +68,25 @@ components:
           type: string
         password:
           type: string
+tags:
+- name: "Access"
+  description: "Operations regarding the Access of application"
+  externalDocs:
+    description: "Front-End"
+    url: "http://swagger.io"
+- name: "Project"
+  description: "Operations regarding Projects"
+- name: "List"
+  description: "Operations regarding Lists"
+- name: "Task"
+  description: "Operations regarding Tasks"
 
 paths:
 
   /user/register:
     post:
+      tags:
+      - "Access"
       summary: Register a new User
       description: Register a new User in the database
       requestBody:
@@ -79,7 +95,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/User"
-
       responses:
         201:
           description: User created succesfully
@@ -93,6 +108,8 @@ paths:
 
   /user/login:
     post:
+      tags:
+      - "Access"
       summary: Login a User
       description: Login a User in order to get JWT token (auth-token)
       requestBody:
@@ -106,7 +123,6 @@ paths:
                   type: string
                 password:
                   type: string
-
       responses:
         200:
           description: User logged in succesfully
@@ -123,6 +139,8 @@ paths:
 
   /projects:
     get:
+      tags:
+      - "Project"
       summary: Retrieves a list of Projects created and associated to the account
       description: Retrieves a list of projects as JSON objects.
       security:
@@ -138,6 +156,8 @@ paths:
                   $ref: "#/components/schemas/Project"
 
     post:
+      tags:
+      - "Project"
       summary: Create a new Project
       description: Create a new Project
       security:
@@ -175,7 +195,6 @@ paths:
                           type: string
                         task_priority:
                           type: string
-
       responses:
         201:
           description: Project created succesfully
@@ -186,7 +205,9 @@ paths:
 
   /projects/{id}:
     get:
-      summary: Specific Project
+      tags:
+      - "Project"
+      summary: GET Specific Project
       description: Retrieve a specific Project based on its ID.
       security:
         - ApiKeyAuth: []
@@ -208,6 +229,8 @@ paths:
                   $ref: "#/components/schemas/Project"
 
     put:
+      tags:
+      - "Project"
       summary: Updates a specific Project
       description: Updates a specific Project based on its ID.
       security:
@@ -225,7 +248,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/Project"
-
       responses:
         201:
           description: Project updated succesfully
@@ -235,6 +257,8 @@ paths:
                 $ref: "#/components/schemas/Project"
 
     delete:
+      tags:
+      - "Project"
       summary: Deletes a specific Project
       description: Deletes a specific Project based on its ObjectId.
       security:
@@ -246,7 +270,6 @@ paths:
           description: MongoDB Project ObjectId
           schema:
             type: string
-
       responses:
         201:
           description: Project deleted succesfully
@@ -254,9 +277,118 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Project"
+  /projects/:
+    delete:
+      tags:
+      - "Project"
+      summary: Delete ALL PROJECTS from DB
+      description: Delete ALL PROJECTS from DB
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: A Project in the format of a JSON object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+      security:
+      deprecated: true
+
+  /projects/completed:
+    get:
+      tags:
+      - "Project"
+      summary: GET PROJECTS from DB that are completed
+      description: GET PROJECTS from DB are completed
+      security:
+        - ApiKeyAuth: []
+      responses:
+        200:
+          description: A Project in the format of a JSON object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+      security:
+      deprecated: true
+
+  /projects/addcolumn/{id}:
+      put:
+        tags:
+        - "List"
+        summary: Add New LIST by Project ID
+        description: Add New LIST by Project ID
+        security:
+          - ApiKeyAuth: []
+        parameters:
+          - in: path
+            name: id
+            required: true
+            description: MongoDB Project ObjectId
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  col_name:
+                    type: string
+        responses:
+          200:
+            description: A Project in the format of a JSON object.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Project"
+
+  /projects/editcolumn/{id}:
+      put:
+        tags:
+        - "List"
+        summary: EDIT LIST by Column ID
+        description: EDIT LIST by Column ID
+        security:
+          - ApiKeyAuth: []
+        parameters:
+          - in: path
+            name: id
+            required: true
+            description: MongoDB Column ObjectId
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  col_name:
+                    type: string
+        responses:
+          200:
+            description: A Project in the format of a JSON object.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Project"
 
   /projects/deletecolumn/{id}:
     put:
+      tags:
+      - "List"
       summary: Delete Specific card LIST in Project
       description: Delete Specific card LIST in Project by Column ID.
       security:
@@ -280,6 +412,8 @@ paths:
 
   /projects/addtask/{id}:
     put:
+      tags:
+      - "Task"
       summary: Add New Task inside List by ID
       description: Add New Task into LIST in Project by Column ID.
       security:
@@ -312,8 +446,77 @@ paths:
                 items:
                   $ref: "#/components/schemas/Project"
 
+  /projects/updatetask-quick-edit/{id}:
+      put:
+        tags:
+        - "Task"
+        summary: Update TASK by ID
+        description: Update Task by TASK ID.
+        security:
+          - ApiKeyAuth: []
+        parameters:
+          - in: path
+            name: id
+            required: true
+            description: MongoDB Task ObjectId
+            schema:
+              type: string
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  task_name:
+                    type: string
+                  task_description:
+                    type: string
+        responses:
+          200:
+            description: A Project in the format of a JSON object.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Project"
+
+  /projects/movetask/{id}/{id2}:
+      put:
+        tags:
+        - "Task"
+        summary: Move Task to a different Column
+        description: Move Task to a different Column
+        security:
+          - ApiKeyAuth: []
+        parameters:
+          - in: path
+            name: id
+            required: true
+            description: MongoDB Task ObjectId
+            schema:
+              type: string
+          - in: path
+            name: id2
+            required: true
+            description: MongoDB Column ObjectId
+            schema:
+              type: string
+        responses:
+          200:
+            description: A Project in the format of a JSON object.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Project"
+
   /projects/deletetask/{id}:
     put:
+      tags:
+      - "Task"
       summary: Delete Specific TASK inside LIST in Project
       description: Delete Specific TASK inside LIST in Project by TASK ID.
       security:
