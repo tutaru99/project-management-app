@@ -23,17 +23,17 @@ module.exports = (app, passport) => {
 
   // TASKS
   // Update a TASK with ID
-  router.put("/updatetask/:id", projects.updateTask);
+  router.put("/updatetask/:id", passport.authenticate('jwt', {session: false}), projects.updateTask);
   // Update a TASK with ID
-  router.put("/updatetask-quick-edit/:id", projects.updateTaskQuickEdit);
+  router.put("/updatetask-quick-edit/:id", passport.authenticate('jwt', {session: false}), projects.updateTaskQuickEdit);
   // Delete a TASK with ID
-  router.put("/deletetask/:id", projects.deleteTask);
+  router.put("/deletetask/:id", passport.authenticate('jwt', {session: false}), projects.deleteTask);
   // Add a new TASK by Column ID
-  router.put("/addtask/:id", projects.addTask);
+  router.put("/addtask/:id", passport.authenticate('jwt', {session: false}), projects.addTask);
   // Add a new TASK by Column ID
-  router.put("/movetask/:id/:columnId", projects.moveTask);
+  router.put("/movetask/:id/:columnId", passport.authenticate('jwt', {session: false}), projects.moveTask);
   // Move task in the same column
-  router.put("/movetasksamecolumn/:columnId", projects.moveTaskSameColumn);
+  router.put("/movetasksamecolumn/:columnId", passport.authenticate('jwt', {session: false}), projects.moveTaskSameColumn);
 
 
   //COLUMNS

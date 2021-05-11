@@ -265,7 +265,64 @@ paths:
         - in: path
           name: id
           required: true
+          description: MongoDB LIST ObjectId
+          schema:
+            type: string
+      responses:
+        200:
+          description: A Project in the format of a JSON object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+
+  /projects/addtask/{id}:
+    put:
+      summary: Add New Task inside List by ID
+      description: Add New Task into LIST in Project by Column ID.
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
           description: MongoDB columns ObjectId
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task_name:
+                  type: string
+                task_description:
+                  type: string
+      responses:
+        200:
+          description: A Project in the format of a JSON object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
+
+  /projects/deletetask/{id}:
+    put:
+      summary: Delete Specific TASK inside LIST in Project
+      description: Delete Specific TASK inside LIST in Project by TASK ID.
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: MongoDB TASK ObjectId
           schema:
             type: string
       responses:
