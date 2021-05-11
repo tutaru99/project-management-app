@@ -38,11 +38,11 @@ module.exports = (app, passport) => {
 
   //COLUMNS
   // Delete Column with ID
-  router.put("/deletecolumn/:id", projects.deleteColumn);
+  router.put("/deletecolumn/:id", passport.authenticate('jwt', {session: false}), projects.deleteColumn);
   // Add a new Column by Project ID
-  router.put("/addcolumn/:id", projects.addColumn);
+  router.put("/addcolumn/:id", passport.authenticate('jwt', {session: false}), projects.addColumn);
   // Edit column name by ID
-  router.put("/editcolumn/:id", projects.editColumn);
+  router.put("/editcolumn/:id", passport.authenticate('jwt', {session: false}), projects.editColumn);
 
   //PROJECTS
   // Add user to project
@@ -60,13 +60,16 @@ module.exports = (app, passport) => {
   // Retrieve all Projects a user is invited to
   router.get("/invited", passport.authenticate('jwt', {session: false}), projects.findAllInvited);
   // Retrieve a single Project by ID
-  router.get("/:id", projects.findOne);
+  router.get("/:id", passport.authenticate("jwt", { session: false }), projects.findOne);
   // Update a Project with ID
-  router.put("/:id", projects.update);
+  router.put("/:id", passport.authenticate("jwt", { session: false }), projects.update);
   // Delete a Project with ID
-  router.delete("/:id", projects.delete);
+  router.delete("/:id", passport.authenticate("jwt", { session: false }), projects.delete);
+
+
+
   // DELETE ALL Projects
-  router.delete("/", projects.deleteAll);
+  // router.delete("/", passport.authenticate("jwt", { session: false }), projects.deleteAll);
 
 
   app.use('/api/projects', router);

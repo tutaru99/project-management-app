@@ -183,38 +183,40 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Project"
-  
-  /products/{id}:
+
+  /projects/{id}:
     get:
-      summary: Specific Product
-      description: Retrieves a specific Product based on it id.
+      summary: Specific Project
+      description: Retrieve a specific Project based on its ID.
+      security:
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: id
           required: true
-          description: MongoDB id
+          description: MongoDB Project ObjectId
           schema:
             type: string
       responses:
         200:
-          description: A Product in the format of a JSON object.
+          description: A Project in the format of a JSON object.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Product"
-   
+                  $ref: "#/components/schemas/Project"
+
     put:
-      summary: Updates a specific Product
-      description: Updates a specific Product based on it id
+      summary: Updates a specific Project
+      description: Updates a specific Project based on its ID.
       security:
-        - ApiKeyAuth: []            
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: id
           required: true
-          description: MongoDB id
+          description: MongoDB Project ObjectId
           schema:
             type: string
       requestBody:
@@ -222,33 +224,56 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Product"
+              $ref: "#/components/schemas/Project"
 
       responses:
         201:
-          description: Product updated succesfully
+          description: Project updated succesfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
+                $ref: "#/components/schemas/Project"
 
     delete:
-      summary: Deletes a specific Product
-      description: Deletes a specific Product based on it id
+      summary: Deletes a specific Project
+      description: Deletes a specific Project based on its ObjectId.
       security:
-        - ApiKeyAuth: []            
+        - ApiKeyAuth: []
       parameters:
         - in: path
           name: id
           required: true
-          description: MongoDB id
+          description: MongoDB Project ObjectId
           schema:
-            type: string      
+            type: string
 
       responses:
         201:
-          description: Product deleted succesfully
+          description: Project deleted succesfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
+                $ref: "#/components/schemas/Project"
+
+  /projects/deletecolumn/{id}:
+    put:
+      summary: Delete Specific card LIST in Project
+      description: Delete Specific card LIST in Project by Column ID.
+      security:
+        - ApiKeyAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: MongoDB columns ObjectId
+          schema:
+            type: string
+      responses:
+        200:
+          description: A Project in the format of a JSON object.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Project"
