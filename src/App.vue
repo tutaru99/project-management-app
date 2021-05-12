@@ -1,7 +1,7 @@
 <template>
   <el-container id="app">
     <!-- undefined width style makes drawer responsive on minimize/maximize -->
-      <Navigation ref="nav"/>
+    <Navigation ref="nav" />
     <el-main>
       <el-row type="flex" justify="center">
         <el-col :span="24">
@@ -24,22 +24,35 @@ export default {
     Navigation,
   },
   data() {
-    return {
-    }
+    return {};
   },
   watch: {
-    '$route' (to, from) {
-      this.$refs.nav.getProjectsData()
-      this.$refs.nav.getInvitedProjectsData()
-    }
+    $route(to, from) {
+      this.refresh();
+    },
   },
-
+  created() {
+    this.refresh();
+  },
   methods: {
     async refresh() {
-      await this.$refs.nav.getProjectsData()
-      await this.$refs.nav.getInvitedProjectsData()
+      if (
+        !this.$cookies.get("jwt") &&
+        location.href.substring(location.href.lastIndexOf("/") + 1) !== "register"
+      ) {
+        this.$router.push("/login");
+        axios.defaults.headers.common["Authorization"] = null;
+      } else if (
+        !this.$cookies.get("jwt") &&
+        location.href.substring(location.href.lastIndexOf("/") + 1) === "register"
+      ) {
+        axios.defaults.headers.common["Authorization"] = null;
+      } else {
+        axios.defaults.headers.common["Authorization"] = `bearer ${this.$cookies.get("jwt")}`;
+        await this.$refs.nav.getProjectsData();
+        await this.$refs.nav.getInvitedProjectsData();
+      }
     },
-
   },
 };
 </script>

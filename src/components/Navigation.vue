@@ -5,7 +5,8 @@
     :collapse="$store.state.isCollapse"
     router
   >
-    <el-radio-group id="stuff"
+    <el-radio-group
+      id="stuff"
       :collapse="$store.commit('isCollapseState')"
       v-model="$store.state.isCollapse"
     >
@@ -31,7 +32,7 @@
       </template>
       <!-- Owned Projects -->
       <el-menu-item-group>
-         <template #title><span>Personal Projects</span></template>
+        <template #title><span>Personal Projects</span></template>
         <router-link
           v-for="project in projectsData.slice().reverse()"
           :key="project.key"
@@ -42,7 +43,7 @@
       </el-menu-item-group>
       <!-- Projects User is part of/invited to (collab)-->
       <el-menu-item-group>
-         <template #title><span>Shared Projects</span></template>
+        <template #title><span>Shared Projects</span></template>
         <router-link
           v-for="project in invitedProjectsData.slice().reverse()"
           :key="project.key"
@@ -52,9 +53,9 @@
         </router-link>
       </el-menu-item-group>
     </el-submenu>
-      <el-menu-item index="/login" v-if="$store.state.auth.id" @click="logout">
+    <el-menu-item index="/login" v-if="$store.state.auth.id" @click="logout">
       <i class="mdi mdi-logout"></i>
-        <template #title>Sign Out</template>
+      <template #title>Sign Out</template>
     </el-menu-item>
   </el-menu>
 </template>
@@ -69,45 +70,23 @@ export default {
       invitedProjectsData: [],
     };
   },
-  mounted() {
-    this.getProjectsData();
-    this.getInvitedProjectsData();
-  },
   methods: {
     async getProjectsData() {
-
-      if(!this.$cookies.get('jwt') && location.href.substring(location.href.lastIndexOf('/') + 1) !== 'register') {
-        this.$router.push('/login')
-        axios.defaults.headers.common['Authorization'] = null;
-      } else if (!this.$cookies.get('jwt') && location.href.substring(location.href.lastIndexOf('/') + 1) === 'register') {
-        axios.defaults.headers.common['Authorization'] = null;
-      } else {
-        axios.defaults.headers.common['Authorization'] = `bearer ${ this.$cookies.get('jwt') }`;
-        await axios
-          .get(`http://localhost:3000/api/projects`)
-          .then((response) => (this.projectsData = response.data));
-      }
+      await axios
+        .get(`http://localhost:3000/api/projects`)
+        .then((response) => (this.projectsData = response.data));
     },
-      async getInvitedProjectsData() {
-
-        if(!this.$cookies.get('jwt') && location.href.substring(location.href.lastIndexOf('/') + 1) !== 'register') {
-        this.$router.push('/login')
-        axios.defaults.headers.common['Authorization'] = null;
-      } else if (!this.$cookies.get('jwt') && location.href.substring(location.href.lastIndexOf('/') + 1) === 'register') {
-        axios.defaults.headers.common['Authorization'] = null;
-      } else {
-        axios.defaults.headers.common['Authorization'] = `bearer ${ this.$cookies.get('jwt') }`;
-        await axios
-        .get(`${ process.env.VUE_APP_BASE_URL_API }/api/projects/invited`)
+    async getInvitedProjectsData() {
+      await axios
+        .get(`${process.env.VUE_APP_BASE_URL_API}/api/projects/invited`)
         .then((response) => (this.invitedProjectsData = response.data));
-      }
     },
     logout() {
-      this.$store.commit('logOut')
-      this.$cookies.remove('jwt');
-      axios.defaults.headers.common['Authorization'] = null;
-      this.$router.push('/login');
-    }
+      this.$store.commit("logOut");
+      this.$cookies.remove("jwt");
+      axios.defaults.headers.common["Authorization"] = null;
+      this.$router.push("/login");
+    },
   },
 };
 </script>
@@ -124,9 +103,8 @@ export default {
 a {
   text-decoration: none;
 }
-#stuff{
+#stuff {
   margin-top: 10px;
   margin-left: 7%;
 }
-
 </style>
