@@ -68,7 +68,7 @@ module.exports = (app, passport) => {
 
 
 
-  // DELETE ALL Projects
+  // DELETE ALL Projectsasdasdasd
   // router.delete("/", passport.authenticate("jwt", { session: false }), projects.deleteAll);
 
 
