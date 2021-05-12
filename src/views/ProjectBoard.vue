@@ -3,7 +3,7 @@
     <!-- v-if acts as a loader otherwise data doesnt show -->
     <div class="board-layout" v-if="projectData" v-dragscroll.x>
       <div class="left" data-no-dragscroll>
-        <div id="boardTitle" class="board-text ml-1" data-no-dragscroll>
+        <div id="boardTitle" class="board-text ml-05" data-no-dragscroll>
           <el-row type="flex" align="middle" data-no-dragscroll>
             {{ projectData.title }}
             <el-button
@@ -20,7 +20,7 @@
         <div data-no-dragscroll>
           <!-- Invite User to project -->
           <el-button
-            class="ml-1"
+            class="ml-05"
             icon="el-icon-plus"
             type="primary"
             @click="inviteUserDialog = true"
@@ -846,6 +846,7 @@ export default {
 
   #boardTitle {
     color: #fff;
+    padding: 0 0 5px 0;
   }
 }
 
