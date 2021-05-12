@@ -735,13 +735,13 @@ export default {
     },
 
     async moveTask(columnId, event) {
-      if (event.moved) {
-        var projectTasks;
-        for (const column of this.projectData.columns) {
-          if (column._id === columnId) {
-            projectTasks = column.tasks;
-          }
+      var projectTasks;
+      for (const column of this.projectData.columns) {
+        if (column._id === columnId) {
+          projectTasks = column.tasks;
         }
+      }
+      if (event.moved) {
         await axios.put(
           `http://localhost:3000/api/projects/movetasksamecolumn/${columnId}`,
           {
@@ -752,8 +752,12 @@ export default {
       }
       if (event.added) {
         await axios.put(
-          `http://localhost:3000/api/projects/movetask/${event.added.element._id}/${columnId}`
-        );
+          `http://localhost:3000/api/projects/movetask/${event.added.element._id}/${columnId}`,
+          {
+            projectId: this.projectData._id,
+            tasks: projectTasks
+          }
+        )
       }
     },
 

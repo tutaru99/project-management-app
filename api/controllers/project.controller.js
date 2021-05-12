@@ -506,23 +506,19 @@ exports.moveTask = async (req, res) => {
             });
         });
 
-    await project.update({ "columns._id": mongoose.Types.ObjectId(columnId) },
-        {
-            $push: {
-                'columns.$.tasks': taskData
-            }
-        }).then(result => {
-            if (result.nModified === 1) {
-                return res.status(200).send({
-                    message: "Task was Moved Successfully!"
-                })
-            }
-        })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || "Some error occurred while MOVING TASK"
-            });
+    const newProjectData = await project.findById(req.body.projectId)
+    for await (const column of newProjectData.columns) {
+        if (column._id.equals(columnId)) {
+            column.tasks = req.body.tasks
+        }
+    }
+    newProjectData.save().then(() => {
+        return res.status(200).send({message: 'Task moved!'})
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while MOVING TASK"
         });
+    })
 };
 
 //Move task same Column
@@ -534,7 +530,13 @@ exports.moveTaskSameColumn = async (req, res) => {
             column.tasks = req.body.tasks
         }
     }
-    projectData.save().catch(err => console.error(err))
+    projectData.save().then(() => {
+        return res.status(200).send({message: 'Task moved!'})
+    }).catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while MOVING TASK"
+        });
+    })
 }
 
 
