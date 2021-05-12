@@ -1,10 +1,10 @@
 <template>
   <div class="template">
     <!-- v-if acts as a loader otherwise data doesnt show -->
-    <div class="board-layout" v-if="projectData">
-      <div class="left">
-        <div id="boardTitle" class="board-text ml-1">
-          <el-row type="flex" align="middle">
+    <div class="board-layout" v-if="projectData" v-dragscroll>
+      <div class="left" data-no-dragscroll>
+        <div id="boardTitle" class="board-text ml-1" data-no-dragscroll>
+          <el-row type="flex" align="middle" data-no-dragscroll>
             {{ projectData.title }}
             <el-button
               v-if="projectRoleOwner === true"
@@ -13,70 +13,19 @@
               size="mini"
               icon="el-icon-edit"
               circle
+              data-no-dragscroll
             ></el-button>
-            <!-- Change Project's name and descr Dialog -->
-            <el-dialog
-              title="Update Project Information"
-              v-model="updateProjectDialog"
-              width="30%"
-            >
-              <el-form
-                :model="updateProjectValidate"
-                ref="updateProjectValidate"
-              >
-                <el-form-item
-                  label="Project Name"
-                  prop="title"
-                  :rules="[
-                    { required: true, message: 'Project name is required' },
-                  ]"
-                >
-                  <el-input
-                    maxlength="40"
-                    show-word-limit
-                    v-model="updateProjectValidate.title"
-                    autocomplete="off"
-                  ></el-input>
-                </el-form-item>
-                <el-form-item label="Short Description">
-                  <el-input
-                    type="textarea"
-                    maxlength="200"
-                    minlength="1"
-                    :rows="5"
-                    show-word-limit
-                    v-model="updateProjectValidate.description"
-                    autocomplete="off"
-                  ></el-input>
-                </el-form-item>
-              </el-form>
-              <template #footer>
-                <span class="dialog-footer">
-                  <el-button @click="updateProjectDialog = false"
-                    >Cancel</el-button
-                  >
-                  <el-button
-                    type="primary"
-                    @click="
-                      validateProjectUpdate(
-                        'updateProjectValidate',
-                        projectData._id
-                      )
-                    "
-                    >Create</el-button
-                  >
-                </span>
-              </template>
-            </el-dialog>
+
           </el-row>
         </div>
-        <div>
+        <div data-no-dragscroll>
           <!-- Invite User to project -->
           <el-button
             class="ml-1"
             icon="el-icon-plus"
             type="primary"
             @click="inviteUserDialog = true"
+            data-no-dragscroll
           >
             Invite
           </el-button>
@@ -86,41 +35,22 @@
             type="primary"
             class="ml-5"
             closable
+            data-no-dragscroll
             >Members</el-button
           >
-          <span class="ml-7" id="totalTaskTime">
+          <span class="ml-7" id="totalTaskTime" data-no-dragscroll>
             Total Time: {{ addTime }}
           </span>
-          <el-dialog
-            :before-close="closeInviteUserDialog"
-            title="Invite User to Join the Project"
-            v-model="inviteUserDialog"
-            width="30%"
-          >
-            <el-form ref="inviteForm">
-              <el-form-item label="Email">
-                <el-input v-model="email" autocomplete="off"></el-input>
-              </el-form-item>
-              <p class="pb-2 has-text-danger">
-                {{ inviteErrors }}
-              </p>
-            </el-form>
-            <template #footer>
-              <span class="dialog-footer">
-                <el-button @click="closeInviteUserDialog()">Cancel</el-button>
-                <el-button @click="addUserToProject()" type="primary"
-                  >Add user</el-button
-                >
-              </span>
-            </template>
-          </el-dialog>
+          <div data-no-dragscroll>
+
+        </div>
         </div>
       </div>
       <!-- whole board element -->
-      <div class="board-lists">
+      <div class="board-lists" >
         <!-- whole card holder -->
         <div
-          class="board-list cardList"
+          class="board-list cardList grabbable"
           v-for="column in projectData.columns"
           :key="column.id"
         >
@@ -183,11 +113,12 @@
                 moveTask(column._id, $e);
               }
             "
-          >
-            <template #item="{ element }">
+          data-no-dragscroll>
+            <template #item="{ element }" data-no-dragscroll>
               <li
                 @click="openDetailsTaskDialog(element)"
                 class="list-group-item card"
+                data-no-dragscroll
               >
                 <DetailsTaskDialog
                   v-if="detailsTaskDialogData._id == element._id"
@@ -196,6 +127,7 @@
                   :users="projectData.users"
                   @submit="getProject"
                   @close="closeDetailsTaskDialog"
+                  data-no-dragscroll
                 />
                 <i
                   :class="
@@ -205,38 +137,44 @@
                   "
                   @click="element.fixed = !element.fixed"
                   aria-hidden="true"
+                  data-no-dragscroll
                 ></i>
-                <div @click.self="openDetailsTaskDialog(element)">
-                  <p id="taskName">{{ element.task_name }}</p>
+                <div @click.self="openDetailsTaskDialog(element)" data-no-dragscroll>
+                  <p id="taskName" data-no-dragscroll>{{ element.task_name }}</p>
                 </div>
                 <el-row
                   class="mt-1"
                   type="flex"
                   @click="openDetailsTaskDialog(element)"
+                  data-no-dragscroll
                 >
-                  <el-col :span="24">
-                    <el-row type="flex" justify="start">
+                  <el-col :span="24" data-no-dragscroll>
+                    <el-row type="flex" justify="start" data-no-dragscroll>
                       <el-button
                         class="details mt-05"
                         size="mini"
                         icon="el-icon-edit"
                         circle
                         @click.stop="openTaskDetailsModalDialog(element)"
+                        data-no-dragscroll
                       ></el-button>
 
                       <div
                         v-if="element.task_description"
                         class="mt-05 flag pl-1"
+                        data-no-dragscroll
                       >
                         <el-tooltip
                           class="item"
                           effect="dark"
                           content="Task Description"
                           placement="top"
+                          data-no-dragscroll
                         >
                           <i
                             style="color: white"
                             class="mdi mdi-chat-alert-outline"
+                            data-no-dragscroll
                           ></i>
                         </el-tooltip>
                       </div>
@@ -244,6 +182,7 @@
                       <div
                         v-if="element.task_state === 'On Hold'"
                         class="mt-05 flag pl-1"
+                        data-no-dragscroll
                       >
                         <el-tooltip
                           class="item"
@@ -254,6 +193,7 @@
                           <i
                             class="mdi mdi-pause-circle-outline"
                             style="color:yellow"
+                            data-no-dragscroll
                           ></i>
                         </el-tooltip>
                       </div>
@@ -261,6 +201,7 @@
                       <div
                         v-if="element.task_state === 'In Progress'"
                         class="mt-05 flag pl-1"
+                        data-no-dragscroll
                       >
                         <el-tooltip
                           class="item"
@@ -271,6 +212,7 @@
                           <i
                             class="mdi mdi-progress-clock"
                             style="color:white"
+                            data-no-dragscroll
                           ></i>
                         </el-tooltip>
                       </div>
@@ -278,6 +220,7 @@
                       <div
                         v-if="element.task_state === 'Completed'"
                         class="mt-05 flag pl-1"
+                        data-no-dragscroll
                       >
                         <el-tooltip
                           class="item"
@@ -288,10 +231,11 @@
                           <i
                             class="mdi mdi-progress-check"
                             style="color:green"
+                            data-no-dragscroll
                           ></i>
                         </el-tooltip>
                       </div>
-                      <div v-if="element.task_priority" class="mt-05 flag pl-1">
+                      <div v-if="element.task_priority" class="mt-05 flag pl-1" data-no-dragscroll>
                         <el-tooltip
                           class="item"
                           effect="dark"
@@ -301,17 +245,19 @@
                           <i
                             class="mdi mdi-flag"
                             :style="taskFlagColor(element.task_priority)"
+                            data-no-dragscroll
                           ></i>
                         </el-tooltip>
                       </div>
                     </el-row>
                   </el-col>
-                  <el-col :span="24">
-                    <el-row type="flex" justify="end">
-                      <div style="text-align: right">
+                  <el-col :span="24" data-no-dragscroll>
+                    <el-row type="flex" justify="end" data-no-dragscroll>
+                      <div style="text-align: right" data-no-dragscroll>
                         <span
                           v-for="user in usersAddedToTask(element)"
                           :key="user.id"
+                          data-no-dragscroll
                         >
                           <el-tooltip
                             class="item"
@@ -319,7 +265,7 @@
                             :content="user.username"
                             placement="top"
                           >
-                            <el-avatar size="small">
+                            <el-avatar size="small" data-no-dragscroll>
                               {{ user.username.charAt(0).toUpperCase() }}
                             </el-avatar>
                           </el-tooltip>
@@ -331,15 +277,16 @@
               </li>
             </template>
           </draggable>
-          <div>
+          <div data-no-dragscroll>
             <el-button
               icon="el-icon-plus"
               type="primary"
               plain
               class="addNewTask"
               @click="openTaskModalDialog(column)"
+              data-no-dragscroll
             >
-              New Task
+             <span data-no-dragscroll>New Task</span>
             </el-button>
           </div>
         </div>
@@ -386,6 +333,7 @@
         </el-dialog>
       </div>
     </div>
+    </div>
     <!-- Dialog Components -->
     <NewTaskDialogComponent
       v-if="taskModalDialog"
@@ -419,7 +367,93 @@
         @close="viewPeopleDialog = false"
       />
     </el-dialog>
-  </div>
+                <!-- Change Project's name and descr Dialog -->
+            <el-dialog
+              title="Update Project Information"
+              v-model="updateProjectDialog"
+              width="30%"
+              data-no-dragscroll
+            >
+              <el-form
+                :model="updateProjectValidate"
+                ref="updateProjectValidate"
+                data-no-dragscroll
+              >
+                <el-form-item
+                  label="Project Name"
+                  prop="title"
+                  :rules="[
+                    { required: true, message: 'Project name is required' },
+                  ]"
+                  data-no-dragscroll
+                >
+                  <el-input
+                    maxlength="40"
+                    show-word-limit
+                    v-model="updateProjectValidate.title"
+                    autocomplete="off"
+                    data-no-dragscroll
+                  ></el-input>
+                </el-form-item>
+                <el-form-item label="Short Description" data-no-dragscroll>
+                  <el-input
+                    type="textarea"
+                    maxlength="200"
+                    minlength="1"
+                    :rows="5"
+                    show-word-limit
+                    v-model="updateProjectValidate.description"
+                    autocomplete="off"
+                    data-no-dragscroll
+                  ></el-input>
+                </el-form-item>
+              </el-form>
+              <template #footer data-no-dragscroll>
+                <span class="dialog-footer" data-no-dragscroll>
+                  <el-button @click="updateProjectDialog = false"
+                  data-no-dragscroll
+                    >Cancel</el-button
+                  >
+                  <el-button
+                    type="primary"
+                    @click="
+                      validateProjectUpdate(
+                        'updateProjectValidate',
+                        projectData._id
+                      )
+                    "
+                    data-no-dragscroll
+                    >Create</el-button
+                  >
+                </span>
+              </template>
+            </el-dialog>
+<!-- Invite user to project dialog -->
+                      <el-dialog
+            :before-close="closeInviteUserDialog"
+            title="Invite User to Join the Project"
+            v-model="inviteUserDialog"
+            width="30%"
+            data-no-dragscroll
+          >
+            <el-form ref="inviteForm" data-no-dragscroll>
+              <el-form-item label="Email" data-no-dragscroll>
+                <el-input v-model="email" autocomplete="off" data-no-dragscroll></el-input>
+              </el-form-item>
+              <p class="pb-2 has-text-danger" data-no-dragscroll>
+                {{ inviteErrors }}
+              </p>
+            </el-form>
+            <template #footer data-no-dragscroll>
+              <span class="dialog-footer" data-no-dragscroll>
+                <el-button @click="closeInviteUserDialog()" data-no-dragscroll>Cancel</el-button>
+                <el-button @click="addUserToProject()" type="primary"
+                data-no-dragscroll
+                  >Add user</el-button
+                >
+              </span>
+            </template>
+          </el-dialog>
 </template>
 
 <script>
@@ -433,6 +467,7 @@ import PeopleInProjectDialog from "@/components/Task/PeopleInProjectDialog.vue";
 import draggable from "vuedraggable";
 
 export default {
+
   components: {
     NewTaskDialogComponent,
     EditColumnNameDialog,
@@ -827,6 +862,18 @@ export default {
     font-size: 28px;
     padding: 5px;
   }
+  .grabbable {
+    cursor: move; /* fallback if grab cursor is unsupported */
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+    .grabbable:active {
+      cursor: grabbing;
+      cursor: -moz-grabbing;
+      cursor: -webkit-grabbing;
+  }
+
   .board-list {
     border-radius: 3px;
     display: grid;
