@@ -23,26 +23,26 @@ module.exports = (app, passport) => {
 
   // TASKS
   // Update a TASK with ID
-  router.put("/updatetask/:id", projects.updateTask);
+  router.put("/updatetask/:id", passport.authenticate('jwt', {session: false}), projects.updateTask);
   // Update a TASK with ID
-  router.put("/updatetask-quick-edit/:id", projects.updateTaskQuickEdit);
+  router.put("/updatetask-quick-edit/:id", passport.authenticate('jwt', {session: false}), projects.updateTaskQuickEdit);
   // Delete a TASK with ID
-  router.put("/deletetask/:id", projects.deleteTask);
+  router.put("/deletetask/:id", passport.authenticate('jwt', {session: false}), projects.deleteTask);
   // Add a new TASK by Column ID
-  router.put("/addtask/:id", projects.addTask);
+  router.put("/addtask/:id", passport.authenticate('jwt', {session: false}), projects.addTask);
   // Add a new TASK by Column ID
-  router.put("/movetask/:id/:columnId", projects.moveTask);
+  router.put("/movetask/:id/:columnId", passport.authenticate('jwt', {session: false}), projects.moveTask);
   // Move task in the same column
-  router.put("/movetasksamecolumn/:columnId", projects.moveTaskSameColumn);
+  router.put("/movetasksamecolumn/:columnId", passport.authenticate('jwt', {session: false}), projects.moveTaskSameColumn);
 
 
   //COLUMNS
   // Delete Column with ID
-  router.put("/deletecolumn/:id", projects.deleteColumn);
+  router.put("/deletecolumn/:id", passport.authenticate('jwt', {session: false}), projects.deleteColumn);
   // Add a new Column by Project ID
-  router.put("/addcolumn/:id", projects.addColumn);
+  router.put("/addcolumn/:id", passport.authenticate('jwt', {session: false}), projects.addColumn);
   // Edit column name by ID
-  router.put("/editcolumn/:id", projects.editColumn);
+  router.put("/editcolumn/:id", passport.authenticate('jwt', {session: false}), projects.editColumn);
 
   //PROJECTS
   // Add user to project
@@ -60,13 +60,16 @@ module.exports = (app, passport) => {
   // Retrieve all Projects a user is invited to
   router.get("/invited", passport.authenticate('jwt', {session: false}), projects.findAllInvited);
   // Retrieve a single Project by ID
-  router.get("/:id", projects.findOne);
+  router.get("/:id", passport.authenticate("jwt", { session: false }), projects.findOne);
   // Update a Project with ID
-  router.put("/:id", projects.update);
+  router.put("/:id", passport.authenticate("jwt", { session: false }), projects.update);
   // Delete a Project with ID
-  router.delete("/:id", projects.delete);
+  router.delete("/:id", passport.authenticate("jwt", { session: false }), projects.delete);
+
+
+
   // DELETE ALL Projects
-  router.delete("/", projects.deleteAll);
+  // router.delete("/", passport.authenticate("jwt", { session: false }), projects.deleteAll);
 
 
   app.use('/api/projects', router);

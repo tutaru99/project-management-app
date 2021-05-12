@@ -24,6 +24,7 @@
     "passport-local": "^1.0.0",
     "swagger-ui-express": "^4.1.6",
     "vue": "^3.0.0",
+    "vue-dragscroll": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vue3-cookies": "^1.0.1",
     "vuedraggable": "^4.0.1",
