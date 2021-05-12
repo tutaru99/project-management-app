@@ -1,7 +1,7 @@
 <template>
   <div class="template">
     <!-- v-if acts as a loader otherwise data doesnt show -->
-    <div class="board-layout" v-if="projectData" v-dragscroll>
+    <div class="board-layout" v-if="projectData" v-dragscroll.x>
       <div class="left" data-no-dragscroll>
         <div id="boardTitle" class="board-text ml-1" data-no-dragscroll>
           <el-row type="flex" align="middle" data-no-dragscroll>
@@ -72,6 +72,7 @@
                     icon="el-icon-more"
                     size="mini"
                     circle
+                    data-no-dragscroll
                   ></el-button>
                   <template #dropdown>
                     <el-dropdown-menu>
@@ -296,41 +297,9 @@
           type="primary"
           outlined
           @click="colDialogFormVisible = true"
+          data-no-dragscroll
           >NEW LIST</el-button
         >
-        <el-dialog
-          :before-close="closeColDialog"
-          title="New List"
-          v-model="colDialogFormVisible"
-          width="30%"
-        >
-          <el-form :model="col_nameValidateForm" ref="col_nameValidateForm">
-            <el-form-item
-              label="List name"
-              prop="col_name"
-              :rules="[{ required: true, message: 'List name is required' }]"
-            >
-              <el-input
-                v-model="col_nameValidateForm.col_name"
-                maxlength="70"
-                show-word-limit
-                autocomplete="off"
-              ></el-input>
-            </el-form-item>
-          </el-form>
-          <template #footer>
-            <span class="dialog-footer">
-              <el-button @click="closeColDialog()">Cancel</el-button>
-              <el-button
-                type="primary"
-                @click="
-                  validateColSubmit('col_nameValidateForm', projectData._id)
-                "
-                >Add List</el-button
-              >
-            </span>
-          </template>
-        </el-dialog>
       </div>
     </div>
     </div>
@@ -454,6 +423,41 @@
               </span>
             </template>
           </el-dialog>
+
+          <!-- New List/column dialog -->
+                  <el-dialog
+          :before-close="closeColDialog"
+          title="New List"
+          v-model="colDialogFormVisible"
+          width="30%"
+        >
+          <el-form :model="col_nameValidateForm" ref="col_nameValidateForm">
+            <el-form-item
+              label="List name"
+              prop="col_name"
+              :rules="[{ required: true, message: 'List name is required' }]"
+            >
+              <el-input
+                v-model="col_nameValidateForm.col_name"
+                maxlength="70"
+                show-word-limit
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+          </el-form>
+          <template #footer>
+            <span class="dialog-footer">
+              <el-button @click="closeColDialog()">Cancel</el-button>
+              <el-button
+                type="primary"
+                @click="
+                  validateColSubmit('col_nameValidateForm', projectData._id)
+                "
+                >Add List</el-button
+              >
+            </span>
+          </template>
+        </el-dialog>
 </template>
 
 <script>
@@ -893,7 +897,7 @@ export default {
   border-radius: 7px;
   box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
   padding: 10px;
-  cursor: grab;
+  cursor: pointer;
   box-shadow: 0 0 2px #8112ea;
 
   #taskName {
@@ -969,7 +973,7 @@ ul li:nth-child(n + 2) {
 }
 .colButton {
   max-height: 40px;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 .addNewTask {
   width: 100%;
