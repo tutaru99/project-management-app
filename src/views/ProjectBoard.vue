@@ -15,7 +15,6 @@
               circle
               data-no-dragscroll
             ></el-button>
-
           </el-row>
         </div>
         <div data-no-dragscroll>
@@ -41,13 +40,11 @@
           <span class="ml-7" id="totalTaskTime" data-no-dragscroll>
             Total Time: {{ addTime }}
           </span>
-          <div data-no-dragscroll>
-
-        </div>
+          <div data-no-dragscroll></div>
         </div>
       </div>
       <!-- whole board element -->
-      <div class="board-lists" >
+      <div class="board-lists">
         <!-- whole card holder -->
         <div
           class="board-list cardList grabbable"
@@ -114,7 +111,8 @@
                 moveTask(column._id, $e);
               }
             "
-          data-no-dragscroll>
+            data-no-dragscroll
+          >
             <template #item="{ element }" data-no-dragscroll>
               <li
                 @click="openDetailsTaskDialog(element)"
@@ -140,8 +138,13 @@
                   aria-hidden="true"
                   data-no-dragscroll
                 ></i>
-                <div @click.self="openDetailsTaskDialog(element)" data-no-dragscroll>
-                  <p id="taskName" data-no-dragscroll>{{ element.task_name }}</p>
+                <div
+                  @click.self="openDetailsTaskDialog(element)"
+                  data-no-dragscroll
+                >
+                  <p id="taskName" data-no-dragscroll>
+                    {{ element.task_name }}
+                  </p>
                 </div>
                 <el-row
                   class="mt-1"
@@ -236,7 +239,11 @@
                           ></i>
                         </el-tooltip>
                       </div>
-                      <div v-if="element.task_priority" class="mt-05 flag pl-1" data-no-dragscroll>
+                      <div
+                        v-if="element.task_priority"
+                        class="mt-05 flag pl-1"
+                        data-no-dragscroll
+                      >
                         <el-tooltip
                           class="item"
                           effect="dark"
@@ -287,7 +294,7 @@
               @click="openTaskModalDialog(column)"
               data-no-dragscroll
             >
-             <span data-no-dragscroll>New Task</span>
+              <span data-no-dragscroll>New Task</span>
             </el-button>
           </div>
         </div>
@@ -302,162 +309,159 @@
         >
       </div>
     </div>
-    </div>
-    <!-- Dialog Components -->
-    <NewTaskDialogComponent
-      v-if="taskModalDialog"
-      :taskModalDialog="taskModalDialog"
-      :dialogData="taskDialogData"
-      @create="getProject"
-      @close="closeTaskModalDialog"
+  </div>
+  <!-- Dialog Components -->
+  <NewTaskDialogComponent
+    v-if="taskModalDialog"
+    :taskModalDialog="taskModalDialog"
+    :dialogData="taskDialogData"
+    @create="getProject"
+    @close="closeTaskModalDialog"
+  />
+  <EditColumnNameDialog
+    v-if="editColumnNameModalDialog"
+    :editColumnNameModalDialog="editColumnNameModalDialog"
+    :editColumnNameModalDialogData="editColumnNameModalDialogData"
+    @create="getProject"
+    @close="closeEditColumnNameModalDialog"
+  />
+  <TaskDetailsDialog
+    v-if="editTaskModalDialog"
+    :editTaskModalDialog="editTaskModalDialog"
+    :editTaskDialogData="editTaskDialogData"
+    @close="closeEditTaskModalDialog"
+    @edit="getProject"
+  />
+  <el-dialog title="Invited Members" v-model="viewPeopleDialog" width="50%">
+    <PeopleInProjectDialog
+      v-if="viewPeopleDialog"
+      :users="projectData.users"
+      :usersRoles="projectUserRoles"
+      :currentUserRole="userRole()"
+      :projectId="projectData._id"
+      @removed="getProject"
+      @close="viewPeopleDialog = false"
     />
-    <EditColumnNameDialog
-      v-if="editColumnNameModalDialog"
-      :editColumnNameModalDialog="editColumnNameModalDialog"
-      :editColumnNameModalDialogData="editColumnNameModalDialogData"
-      @create="getProject"
-      @close="closeEditColumnNameModalDialog"
-    />
-    <TaskDetailsDialog
-      v-if="editTaskModalDialog"
-      :editTaskModalDialog="editTaskModalDialog"
-      :editTaskDialogData="editTaskDialogData"
-      @close="closeEditTaskModalDialog"
-      @edit="getProject"
-    />
-    <el-dialog title="Invited Members" v-model="viewPeopleDialog" width="50%">
-      <PeopleInProjectDialog
-        v-if="viewPeopleDialog"
-        :users="projectData.users"
-        :usersRoles="projectUserRoles"
-        :currentUserRole="userRole()"
-        :projectId="projectData._id"
-        @removed="getProject"
-        @close="viewPeopleDialog = false"
-      />
-    </el-dialog>
-                <!-- Change Project's name and descr Dialog -->
-            <el-dialog
-              title="Update Project Information"
-              v-model="updateProjectDialog"
-              width="30%"
-              data-no-dragscroll
-            >
-              <el-form
-                :model="updateProjectValidate"
-                ref="updateProjectValidate"
-                data-no-dragscroll
-              >
-                <el-form-item
-                  label="Project Name"
-                  prop="title"
-                  :rules="[
-                    { required: true, message: 'Project name is required' },
-                  ]"
-                  data-no-dragscroll
-                >
-                  <el-input
-                    maxlength="40"
-                    show-word-limit
-                    v-model="updateProjectValidate.title"
-                    autocomplete="off"
-                    data-no-dragscroll
-                  ></el-input>
-                </el-form-item>
-                <el-form-item label="Short Description" data-no-dragscroll>
-                  <el-input
-                    type="textarea"
-                    maxlength="200"
-                    minlength="1"
-                    :rows="5"
-                    show-word-limit
-                    v-model="updateProjectValidate.description"
-                    autocomplete="off"
-                    data-no-dragscroll
-                  ></el-input>
-                </el-form-item>
-              </el-form>
-              <template #footer data-no-dragscroll>
-                <span class="dialog-footer" data-no-dragscroll>
-                  <el-button @click="updateProjectDialog = false"
-                  data-no-dragscroll
-                    >Cancel</el-button
-                  >
-                  <el-button
-                    type="primary"
-                    @click="
-                      validateProjectUpdate(
-                        'updateProjectValidate',
-                        projectData._id
-                      )
-                    "
-                    data-no-dragscroll
-                    >Create</el-button
-                  >
-                </span>
-              </template>
-            </el-dialog>
-<!-- Invite user to project dialog -->
-                      <el-dialog
-            :before-close="closeInviteUserDialog"
-            title="Invite User to Join the Project"
-            v-model="inviteUserDialog"
-            width="30%"
-            data-no-dragscroll
-          >
-            <el-form ref="inviteForm" data-no-dragscroll>
-              <el-form-item label="Email" data-no-dragscroll>
-                <el-input v-model="email" autocomplete="off" data-no-dragscroll></el-input>
-              </el-form-item>
-              <p class="pb-2 has-text-danger" data-no-dragscroll>
-                {{ inviteErrors }}
-              </p>
-            </el-form>
-            <template #footer data-no-dragscroll>
-              <span class="dialog-footer" data-no-dragscroll>
-                <el-button @click="closeInviteUserDialog()" data-no-dragscroll>Cancel</el-button>
-                <el-button @click="addUserToProject()" type="primary"
-                data-no-dragscroll
-                  >Add user</el-button
-                >
-              </span>
-            </template>
-          </el-dialog>
-
-          <!-- New List/column dialog -->
-                  <el-dialog
-          :before-close="closeColDialog"
-          title="New List"
-          v-model="colDialogFormVisible"
-          width="30%"
+  </el-dialog>
+  <!-- Change Project's name and descr Dialog -->
+  <el-dialog
+    title="Update Project Information"
+    v-model="updateProjectDialog"
+    width="30%"
+    data-no-dragscroll
+  >
+    <el-form
+      :model="updateProjectValidate"
+      ref="updateProjectValidate"
+      data-no-dragscroll
+    >
+      <el-form-item
+        label="Project Name"
+        prop="title"
+        :rules="[{ required: true, message: 'Project name is required' }]"
+        data-no-dragscroll
+      >
+        <el-input
+          maxlength="40"
+          show-word-limit
+          v-model="updateProjectValidate.title"
+          autocomplete="off"
+          data-no-dragscroll
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="Short Description" data-no-dragscroll>
+        <el-input
+          type="textarea"
+          maxlength="200"
+          minlength="1"
+          :rows="5"
+          show-word-limit
+          v-model="updateProjectValidate.description"
+          autocomplete="off"
+          data-no-dragscroll
+        ></el-input>
+      </el-form-item>
+    </el-form>
+    <template #footer data-no-dragscroll>
+      <span class="dialog-footer" data-no-dragscroll>
+        <el-button @click="updateProjectDialog = false" data-no-dragscroll
+          >Cancel</el-button
         >
-          <el-form :model="col_nameValidateForm" ref="col_nameValidateForm">
-            <el-form-item
-              label="List name"
-              prop="col_name"
-              :rules="[{ required: true, message: 'List name is required' }]"
-            >
-              <el-input
-                v-model="col_nameValidateForm.col_name"
-                maxlength="70"
-                show-word-limit
-                autocomplete="off"
-              ></el-input>
-            </el-form-item>
-          </el-form>
-          <template #footer>
-            <span class="dialog-footer">
-              <el-button @click="closeColDialog()">Cancel</el-button>
-              <el-button
-                type="primary"
-                @click="
-                  validateColSubmit('col_nameValidateForm', projectData._id)
-                "
-                >Add List</el-button
-              >
-            </span>
-          </template>
-        </el-dialog>
+        <el-button
+          type="primary"
+          @click="
+            validateProjectUpdate('updateProjectValidate', projectData._id)
+          "
+          data-no-dragscroll
+          >Create</el-button
+        >
+      </span>
+    </template>
+  </el-dialog>
+  <!-- Invite user to project dialog -->
+  <el-dialog
+    :before-close="closeInviteUserDialog"
+    title="Invite User to Join the Project"
+    v-model="inviteUserDialog"
+    width="30%"
+    data-no-dragscroll
+  >
+    <el-form ref="inviteForm" data-no-dragscroll>
+      <el-form-item label="Email" data-no-dragscroll>
+        <el-input
+          v-model="email"
+          autocomplete="off"
+          data-no-dragscroll
+        ></el-input>
+      </el-form-item>
+      <p class="pb-2 has-text-danger" data-no-dragscroll>
+        {{ inviteErrors }}
+      </p>
+    </el-form>
+    <template #footer data-no-dragscroll>
+      <span class="dialog-footer" data-no-dragscroll>
+        <el-button @click="closeInviteUserDialog()" data-no-dragscroll
+          >Cancel</el-button
+        >
+        <el-button @click="addUserToProject()" type="primary" data-no-dragscroll
+          >Add user</el-button
+        >
+      </span>
+    </template>
+  </el-dialog>
+
+  <!-- New List/column dialog -->
+  <el-dialog
+    :before-close="closeColDialog"
+    title="New List"
+    v-model="colDialogFormVisible"
+    width="30%"
+  >
+    <el-form :model="col_nameValidateForm" ref="col_nameValidateForm">
+      <el-form-item
+        label="List name"
+        prop="col_name"
+        :rules="[{ required: true, message: 'List name is required' }]"
+      >
+        <el-input
+          v-model="col_nameValidateForm.col_name"
+          maxlength="70"
+          show-word-limit
+          autocomplete="off"
+        ></el-input>
+      </el-form-item>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="closeColDialog()">Cancel</el-button>
+        <el-button
+          type="primary"
+          @click="validateColSubmit('col_nameValidateForm', projectData._id)"
+          >Add List</el-button
+        >
+      </span>
+    </template>
+  </el-dialog>
 </template>
 
 <script>
@@ -471,7 +475,6 @@ import PeopleInProjectDialog from "@/components/Task/PeopleInProjectDialog.vue";
 import draggable from "vuedraggable";
 
 export default {
-
   components: {
     NewTaskDialogComponent,
     EditColumnNameDialog,
@@ -871,11 +874,11 @@ export default {
     cursor: grab;
     cursor: -moz-grab;
     cursor: -webkit-grab;
-}
-    .grabbable:active {
-      cursor: grabbing;
-      cursor: -moz-grabbing;
-      cursor: -webkit-grabbing;
+  }
+  .grabbable:active {
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
   }
 
   .board-list {
