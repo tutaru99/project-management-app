@@ -50,7 +50,7 @@
             >
             </el-option>
           </el-select>
-            <p class="bold mt-3">Estimate time to complete (minutes)</p>
+          <p class="bold mt-3">Estimate time to complete (minutes)</p>
           <el-input-number
             v-model="timeSelect"
             :model-value="timeSelect"
@@ -69,39 +69,47 @@
         <el-col :span="6" :offset="1">
           <h2>Actions</h2>
           <p class="bold mt-2">Assign members to task</p>
-          {{usersNotAddedToTask}}
-          <AddMembers 
+          <AddMembers
             :taskId="detailsTaskDialogData._id"
-            :users="usersNotAddedToTask"
+            :users="usersNotAddedToTaskArr"
             @refresh="$emit('submit')"
           />
           <br />
-          <div v-if="usersAddedToTask.length">
-           <p class="bold mt-1 pb-1">Members:</p>
-            <p  v-for="user in usersAddedToTask" :key="user.id">
-              <el-row class="mt-1" type="flex" align="middle" justify="space-between">
+          <div v-if="usersAddedToTaskArr">
+            <p class="bold mt-1 pb-1">Members:</p>
+            <p v-for="user in usersAddedToTaskArr" :key="user.id">
+              <el-row
+                class="mt-1"
+                type="flex"
+                align="middle"
+                justify="space-between"
+              >
                 <b>
                   <el-col class="mt-1">
-                    <i class="el-icon-user" style="font-size: 28px;"></i>
+                    <i class="el-icon-user" style="font-size: 28px"></i>
                   </el-col>
                   <el-col>
-                    {{user.username}}
-                    <br/>
+                    {{ user.username }}
+                    <br />
                     <small>
-                      {{user.email}}
+                      {{ user.email }}
                     </small>
                   </el-col>
                 </b>
-                <el-button class="ml-1" type="danger"
-                  plain icon="el-icon-delete" size="mini"
-                  circle @click="removeUserFromTask(user.email)">
+                <el-button
+                  class="ml-1"
+                  type="danger"
+                  plain
+                  icon="el-icon-delete"
+                  size="mini"
+                  circle
+                  @click="removeUserFromTask(user.email)"
+                >
                 </el-button>
               </el-row>
             </p>
           </div>
-          <p v-else>
-            No Members Assigned to this Task.
-          </p>
+          <p v-else>No Members Assigned to this Task.</p>
 
           <el-button
             class="mt-4"
@@ -118,7 +126,9 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="close()">Cancel</el-button>
-        <el-button type="primary" @click="validateSubmitTask('detailsEdit', detailsTaskDialogData._id)"
+        <el-button
+          type="primary"
+          @click="validateSubmitTask('detailsEdit', detailsTaskDialogData._id)"
           >Submit</el-button
         >
       </span>
@@ -133,16 +143,22 @@ export default {
   components: {
     AddMembers,
   },
-  props: ["detailsTaskDialog", "detailsTaskDialogData", "users", "userRoles"],
+  props: [
+    "detailsTaskDialog",
+    "detailsTaskDialogData",
+    "projectOwner",
+    "users",
+  ],
   emits: ["submit", "close"],
 
   data: () => ({
-
     email: null,
     detailsEdit: {
       editName: "",
-      editDescription: ""
+      editDescription: "",
     },
+    usersAddedToTaskArr: null,
+    usersNotAddedToTaskArr: null,
 
     taskId: "",
 
@@ -169,6 +185,13 @@ export default {
     priorityValue: "",
   }),
 
+  watch: {
+    users: function(newVal, oldVal) {
+      this.usersAddedToTask();
+      this.usersNotAddedToTask();
+    },
+  },
+
   mounted() {
     this.detailsEdit.editName = this.detailsTaskDialogData.task_name;
     this.detailsEdit.editDescription = this.detailsTaskDialogData.task_description;
@@ -178,40 +201,71 @@ export default {
     this.taskProgress = this.detailsTaskDialogData.task_state;
 
     this.priorityValue = this.detailsTaskDialogData.task_priority;
-  },
-
-  computed: {
-    usersAddedToTask: function () {
-      let arr = [];
-      this.detailsTaskDialogData.asignee.forEach(asignee => {
-        const filteredArr = this.users.filter(function (user) {
-          return user.id === asignee
-        })
-        arr.push(filteredArr[0])
-      })
-      return arr
-    },
-    usersNotAddedToTask() {
-      // console.log(this.users.filter(user => !this.detailsTaskDialogData.asignee.includes(user.id)))
-      // return this.users.filter(user => !this.detailsTaskDialogData.asignee.includes(user.id))
-      let users = [];
-      users.push(this.users.filter(user => !this.detailsTaskDialogData.asignee.includes(user.id)))
-      axios.post('http://localhost:3000/api/user/info', [this.userRoles.owner[0]]).then(res => {
-        // console.log(res.data)
-        const ownerObj = {
-          id: res.data[0].id,
-          username: res.data[0].username,
-          email: res.data[0].email,
-          isOwner: true
-        }
-        users[0].push(ownerObj)
-      })
-      console.log(users)
-      return users[0]
-    }
+    this.usersAddedToTask();
+    this.usersNotAddedToTask();
   },
 
   methods: {
+    async usersNotAddedToTask() {
+      let usersArr = [];
+      usersArr.push(
+        this.users.filter(
+          (user) => !this.detailsTaskDialogData.asignee.includes(user.id)
+        )
+      );
+      function checkArrayForValue(arr, value) {
+        return value.some((val) => arr.includes(val));
+      }
+      if (!checkArrayForValue(this.detailsTaskDialogData.asignee, this.projectOwner)) {
+        await axios
+          .post("http://localhost:3000/api/user/info", this.projectOwner)
+          .then((res) => {
+            usersArr[0].push(
+              new Proxy(
+                {
+                  id: res.data[0].id,
+                  username: res.data[0].username,
+                  email: res.data[0].email,
+                  isOwner: true,
+                },
+                {}
+              )
+            );
+          });
+      }
+      this.usersNotAddedToTaskArr = usersArr[0];
+    },
+
+    async usersAddedToTask() {
+      let arr = [];
+      for (const asignee of this.detailsTaskDialogData.asignee) {
+        const filteredArr = this.users.filter(function(user) {
+          return user.id === asignee;
+        });
+        if (filteredArr[0]) {
+          arr.push(filteredArr[0]);
+        }
+        if (asignee == this.projectOwner) {
+          await axios
+            .post("http://localhost:3000/api/user/info", this.projectOwner)
+            .then((res) => {
+              arr.push(
+                new Proxy(
+                  {
+                    id: res.data[0].id,
+                    username: res.data[0].username,
+                    email: res.data[0].email,
+                    isOwner: true,
+                  },
+                  {}
+                )
+              );
+            });
+        }
+      }
+      return (this.usersAddedToTaskArr = arr);
+    },
+
     async submitTask(taskId) {
       await axios
         .put(`http://localhost:3000/api/projects/updatetask/${taskId}`, {
@@ -229,7 +283,7 @@ export default {
     validateSubmitTask(formName, taskId) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.submitTask(taskId)
+          this.submitTask(taskId);
         } else {
           return false;
         }
@@ -245,12 +299,13 @@ export default {
     },
 
     async removeUserFromTask(email) {
-      await axios.put(`http://localhost:3000/api/projects/task/remove-user/`,{
+      await axios
+        .put(`http://localhost:3000/api/projects/task/remove-user/`, {
           taskId: this.detailsTaskDialogData._id,
-          userEmail: email
+          userEmail: email,
         })
-        .then(response => {
-          this.tasks = response.data, this.$emit("submit");
+        .then((response) => {
+          (this.tasks = response.data), this.$emit("submit");
         });
     },
 
@@ -262,13 +317,13 @@ export default {
 </script>
 
 <style scoped>
-  .bold {
-    font-weight: bold;
-  }
-.mt-1{
+.bold {
+  font-weight: bold;
+}
+.mt-1 {
   margin-top: 5px;
 }
-.ml-1{
+.ml-1 {
   margin-left: 5px;
 }
 .mt-2 {

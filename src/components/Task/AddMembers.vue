@@ -40,11 +40,11 @@ export default defineComponent({
       };
     };
     const handleSelect = (item) => {
-      console.log(item);
+      // console.log(item);
     };
 
     const handleIconClick = (ev) => {
-      console.log(ev);
+      // console.log(ev);
     };
 
     onMounted(() => {

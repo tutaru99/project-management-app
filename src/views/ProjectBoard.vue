@@ -193,7 +193,8 @@
                   v-if="detailsTaskDialogData._id == element._id"
                   :detailsTaskDialog="true"
                   :detailsTaskDialogData="element"
-                  
+                  :projectOwner="projectData.owner"
+                  :users="projectData.users"
                   @submit="getProject"
                   @close="closeDetailsTaskDialog"
                 />
@@ -595,10 +596,8 @@ export default {
             }
             arr.push(ownerObj)
           })
-          // arr.push(this.projectData.owner[0])
         }
       });
-        console.log(arr)
       return arr;
     },
     async getProject() {
