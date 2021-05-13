@@ -31,7 +31,7 @@ export default {
       this.refresh();
     },
   },
-  created() {
+  mounted() {
     this.refresh();
   },
   methods: {
