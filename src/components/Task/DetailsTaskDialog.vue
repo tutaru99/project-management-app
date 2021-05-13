@@ -218,7 +218,7 @@ export default {
       }
       if (!checkArrayForValue(this.detailsTaskDialogData.asignee, this.projectOwner)) {
         await axios
-          .post("http://localhost:3000/api/user/info", this.projectOwner)
+          .post(`${process.env.VUE_APP_BASE_URL_API}/api/user/info`, this.projectOwner)
           .then((res) => {
             usersArr[0].push(
               new Proxy(
@@ -247,7 +247,7 @@ export default {
         }
         if (asignee == this.projectOwner) {
           await axios
-            .post("http://localhost:3000/api/user/info", this.projectOwner)
+            .post(`${process.env.VUE_APP_BASE_URL_API}/api/user/info`, this.projectOwner)
             .then((res) => {
               arr.push(
                 new Proxy(
@@ -268,7 +268,7 @@ export default {
 
     async submitTask(taskId) {
       await axios
-        .put(`http://localhost:3000/api/projects/updatetask/${taskId}`, {
+        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/updatetask/${taskId}`, {
           task_name: this.detailsEdit.editName,
           task_description: this.detailsEdit.editDescription,
           task_time: this.timeSelect,
@@ -292,7 +292,7 @@ export default {
 
     async removeTask(taskid) {
       await axios
-        .put(`http://localhost:3000/api/projects/deletetask/${taskid}`)
+        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/deletetask/${taskid}`)
         .then((response) => {
           (this.tasks = response.data), this.close(), this.$emit("submit");
         });
@@ -300,7 +300,7 @@ export default {
 
     async removeUserFromTask(email) {
       await axios
-        .put(`http://localhost:3000/api/projects/task/remove-user/`, {
+        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/task/remove-user/`, {
           taskId: this.detailsTaskDialogData._id,
           userEmail: email,
         })

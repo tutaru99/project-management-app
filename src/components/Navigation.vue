@@ -73,7 +73,7 @@ export default {
   methods: {
     async getProjectsData() {
       await axios
-        .get(`http://localhost:3000/api/projects`)
+        .get(`${process.env.VUE_APP_BASE_URL_API}/api/projects`)
         .then((response) => (this.projectsData = response.data));
     },
     async getInvitedProjectsData() {

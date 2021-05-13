@@ -602,7 +602,7 @@ export default {
     //Update Project Information
     async updateProjectInfo(projectID) {
       await axios
-        .put(`http://localhost:3000/api/projects/${projectID}`, {
+        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}`, {
           title: this.updateProjectValidate.title,
           description: this.updateProjectValidate.description,
         })
@@ -629,7 +629,7 @@ export default {
           arr.push(filteredArr[0]);
         }
         if (this.projectData.owner[0] === asignee) {
-            await axios.post('http://localhost:3000/api/user/info', [this.projectData.owner[0]]).then(res => {
+            await axios.post('${process.env.VUE_APP_BASE_URL_API}/api/user/info', [this.projectData.owner[0]]).then(res => {
             const ownerObj = {
               id: res.data[0].id,
               username: res.data[0].username,
@@ -644,7 +644,7 @@ export default {
     },
     async getProject() {
       await axios
-        .get(`http://localhost:3000/api/projects/${this.$route.params.id}`)
+        .get(`${process.env.VUE_APP_BASE_URL_API}/api/projects/${this.$route.params.id}`)
         .then((response) => {
           this.projectData = response.data;
         });
@@ -671,7 +671,7 @@ export default {
 
     async removeTask(taskid) {
       await axios
-        .put(`http://localhost:3000/api/projects/deletetask/${taskid}`)
+        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/deletetask/${taskid}`)
         .then((response) => {
           (this.tasks = response.data), this.getProject();
         });
@@ -679,7 +679,7 @@ export default {
 
     async deleteColumn(colID) {
       await axios
-        .put(`http://localhost:3000/api/projects/deletecolumn/${colID}`)
+        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/deletecolumn/${colID}`)
         .then((response) => {
           (this.tasks = response.data), this.getProject();
         });
@@ -697,7 +697,7 @@ export default {
 
     async addNewColumn(projectID) {
       await axios
-        .put(`http://localhost:3000/api/projects/addcolumn/${projectID}`, {
+        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/addcolumn/${projectID}`, {
           col_name: this.col_nameValidateForm.col_name,
         })
         .then((response) => {
@@ -711,7 +711,7 @@ export default {
       const role = this.userRole();
       await axios
         .post(
-          "http://localhost:3000/api/projects/add-user",
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/add-user`,
           {
             projectId: this.projectData._id,
             userEmail: this.email,
@@ -743,7 +743,7 @@ export default {
       }
       if (event.moved) {
         await axios.put(
-          `http://localhost:3000/api/projects/movetasksamecolumn/${columnId}`,
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/movetasksamecolumn/${columnId}`,
           {
             projectId: this.projectData._id,
             tasks: projectTasks,
@@ -752,7 +752,7 @@ export default {
       }
       if (event.added) {
         await axios.put(
-          `http://localhost:3000/api/projects/movetask/${event.added.element._id}/${columnId}`,
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/movetask/${event.added.element._id}/${columnId}`,
           {
             projectId: this.projectData._id,
             tasks: projectTasks

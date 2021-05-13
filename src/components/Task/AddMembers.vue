@@ -66,7 +66,7 @@ export default defineComponent({
   },
   methods: {
     async addUser (email) {
-      await axios.put(`http://localhost:3000/api/projects/task/add-user`, {
+      await axios.put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/task/add-user`, {
           taskId: this.taskId,
           userEmail: email
         })

@@ -29,7 +29,7 @@ app.use(bodyParser.json());
 // app.use('/api/user', passport.authenticate('jwt', {session: false}), authRoutes)
 app.use('/api/user', authRoutes)
 // simple route
-app.get("/", (req, res) => {
+app.get("/api/", (req, res) => {
   res.json({ message: "Welcome to the Project Management Application" });
 });
 
@@ -52,5 +52,5 @@ db.mongoose
     console.log("Cannot connect to the database!", err);
     process.exit();
   });
-    
+
 require("./api/routes/project.routes.js")(app, passport);

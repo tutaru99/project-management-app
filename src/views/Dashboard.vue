@@ -419,7 +419,7 @@ export default {
 
     async getProjectsData() {
       await axios
-        .get("http://localhost:3000/api/projects")
+        .get(`${process.env.VUE_APP_BASE_URL_API}/api/projects`)
         .then(
           (response) => (
             (this.projectsData = response.data),
@@ -440,7 +440,7 @@ export default {
 
     async createProject() {
       await axios
-        .post("http://localhost:3000/api/projects", {
+        .post(`${process.env.VUE_APP_BASE_URL_API}/api/projects`, {
           title: this.newProjectValidate.title,
           description: this.newProjectValidate.description,
           user: this.$store.state.auth.id,
@@ -465,7 +465,7 @@ export default {
 
     async projectState(projectID) {
       await axios
-        .put(`http://localhost:3000/api/projects/${projectID}`, {
+        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}`, {
           completed: (this.projectStatus = !this.projectStatus),
         })
         .then((response) => {
@@ -475,7 +475,7 @@ export default {
 
     async deleteProject(projectID) {
       await axios
-        .delete(`http://localhost:3000/api/projects/${projectID}`)
+        .delete(`${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}`)
         .then((response) => {
           (this.projects = response.data),
             this.getProjectsData(),
@@ -508,7 +508,7 @@ export default {
     updatePassword() {
       return new Promise(async (resolve, reject) => {
         await axios
-          .post("http://localhost:3000/api/user/change-password", {
+          .post(`${process.env.VUE_APP_BASE_URL_API}/api/user/change-password`, {
             userId: this.$store.state.auth.id,
             password: this.changePassValidate.oldPassword,
             newPassword: this.changePassValidate.newPassword,

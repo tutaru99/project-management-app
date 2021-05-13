@@ -67,7 +67,7 @@ export default {
     },
     async submitTask(colid) {
       await axios
-        .put(`http://localhost:3000/api/projects/addtask/${colid}`, {
+        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/addtask/${colid}`, {
           task_name: this.newTask.name,
           task_description: this.newTask.description,
         })

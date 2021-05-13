@@ -66,7 +66,7 @@ export default {
   methods: {
     async submitTask(taskId) {
       await axios
-        .put(`http://localhost:3000/api/projects/updatetask-quick-edit/${taskId}`, {
+        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/updatetask-quick-edit/${taskId}`, {
           task_name: this.editTask.editName,
           task_description: this.editTask.editDescription,
         })

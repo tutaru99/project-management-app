@@ -116,7 +116,7 @@ export default {
         password: this.formInline.password,
       };
       await axios
-        .post("http://localhost:3000/api/user/register", user)
+        .post(`${process.env.VUE_APP_BASE_URL_API}/api/user/register`, user)
         .catch((err) => {
           this.errors = err.response.data.error;
         })

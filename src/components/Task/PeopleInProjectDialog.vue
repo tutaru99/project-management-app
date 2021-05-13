@@ -64,7 +64,7 @@ export default {
 
   methods: {
     async removeUser(user) {
-      await axios.post('http://localhost:3000/api/projects/remove-user', {
+      await axios.post(`${process.env.VUE_APP_BASE_URL_API}/api/projects/remove-user`, {
         userEmail: user.email,
         projectId: this.projectId
       }).then(() => {
@@ -74,7 +74,7 @@ export default {
       )
     },
     async changeUserPermission(user, permission) {
-      await axios.put('http://localhost:3000/api/projects/change-user-permission', {
+      await axios.put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/change-user-permission`, {
         userId: user._id,
         projectId: this.projectId,
         newPermission: permission
@@ -104,7 +104,7 @@ export default {
         }
       }
       //get owner details
-      axios.post('http://localhost:3000/api/user/info', [this.usersRoles.owner[0]]).then(res => {
+      axios.post(`${process.env.VUE_APP_BASE_URL_API}/api/user/info`, [this.usersRoles.owner[0]]).then(res => {
         const ownerObj = {
           username: res.data[0].username,
           email: res.data[0].email,

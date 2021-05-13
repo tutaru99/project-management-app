@@ -58,7 +58,7 @@ export default {
     },
     async submitColName(colid) {
       await axios
-        .put(`http://localhost:3000/api/projects/editcolumn/${colid}`, {
+        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/editcolumn/${colid}`, {
           col_name: this.editListName.name,
         })
         .then((response) => {

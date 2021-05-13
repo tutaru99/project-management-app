@@ -56,7 +56,7 @@ export default {
         password: this.formInline.password,
       };
       await axios
-        .post("http://localhost:3000/api/user/login", user, {
+        .post(`${process.env.VUE_APP_BASE_URL_API}/api/user/login`, user, {
           withCredentials: true,
         })
         .then((response) => {
