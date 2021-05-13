@@ -3,6 +3,12 @@
 (MEVN) Project Management Application
     Like Trello, but better!
 ```
+```
+.env file
+TOKEN_SECRET="jwts3kr37"
+JWT_EXPIRES_IN="24h"
+VUE_APP_BASE_URL_API="http://localhost:3000"
+```
 ## Project setup
 ```
 npm install
