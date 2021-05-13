@@ -1,28 +1,18 @@
 {
   "name": "project-management-app",
-  "version": "0.1.0",
+  "version": "1.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "api": "nodemon server.js"
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "bcrypt": "^5.0.1",
     "body-parser": "^1.19.0",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "element-plus": "^1.0.2-beta.32",
-    "express": "^4.17.1",
-    "joi": "^17.4.0",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.11.17",
-    "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0",
-    "passport-local": "^1.0.0",
-    "swagger-ui-express": "^4.1.6",
     "vue": "^3.0.0",
     "vue-dragscroll": "^3.0.0",
     "vue-router": "^4.0.0-0",
