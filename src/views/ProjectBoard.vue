@@ -629,7 +629,7 @@ export default {
           arr.push(filteredArr[0]);
         }
         if (this.projectData.owner[0] === asignee) {
-            await axios.post('${process.env.VUE_APP_BASE_URL_API}/api/user/info', [this.projectData.owner[0]]).then(res => {
+            await axios.post(`${process.env.VUE_APP_BASE_URL_API}/api/user/info`, [this.projectData.owner[0]]).then(res => {
             const ownerObj = {
               id: res.data[0].id,
               username: res.data[0].username,
