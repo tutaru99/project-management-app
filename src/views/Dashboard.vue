@@ -218,7 +218,6 @@
                   <el-button
                     class="more"
                     type="danger"
-                    plain
                     icon="el-icon-delete"
                     @click="deleteProject(project._id)"
                     circle
@@ -296,7 +295,6 @@
                   class="more"
                   icon="el-icon-delete"
                   type="danger"
-                  plain
                   @click="deleteProject(project._id)"
                   circle
                   disabled
