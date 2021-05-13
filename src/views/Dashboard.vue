@@ -299,6 +299,7 @@
                   plain
                   @click="deleteProject(project._id)"
                   circle
+                  disabled
                 ></el-button>
               </el-row>
               <p id="completed" v-if="project.completed == true"><span id="projCompleted">Project is</span> Completed</p>
