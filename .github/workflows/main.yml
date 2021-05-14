@@ -28,6 +28,7 @@ jobs:
         run: |
           npm install
           npm test
+          npm run build
         env:
           privateKey: ${{ secrets.TOKEN_SECRET }}
           publicKey: ${{ secrets.JWT_EXPIRES_IN }}
