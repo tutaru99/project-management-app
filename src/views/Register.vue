@@ -4,7 +4,7 @@
       <el-col :span="7">
         <div id="login">
           <h2>Register Account</h2>
-          <el-form :model="formInline" class="mt-1" ref="formInline">
+          <el-form :model="formInline" class="mt-2" ref="formInline">
             <span id="inputName">E-mail</span>
             <el-form-item
               class="mt-1"
@@ -179,6 +179,9 @@ export default {
 }
 .mt-1 {
   margin-top: 10px;
+}
+.mt-2 {
+   margin-top: 15px;
 }
 .pb-2 {
   padding-bottom: 15px;

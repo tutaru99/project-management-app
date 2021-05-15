@@ -9,7 +9,6 @@
               <span id="inputName">E-mail</span>
               <el-input
                 placeholder="E-mail"
-                width="20%"
                 v-model="formInline.email"
                 type="text"
                 name="username"
