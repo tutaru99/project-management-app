@@ -25,14 +25,18 @@
         <el-button @click="close()">Cancel</el-button>
         <el-button
           type="primary"
-          @click="validateSubmitColName('editListName', editColumnNameModalDialogData._id)"
+          @click="
+            validateSubmitColName(
+              'editListName',
+              editColumnNameModalDialogData._id
+            )
+          "
           >Update List Name</el-button
         >
       </span>
     </template>
   </el-dialog>
 </template>
-
 
 <script>
 import axios from "axios";
@@ -48,9 +52,9 @@ export default {
     colid: "",
   }),
 
-    mounted() {
-        this.editListName.name = this.editColumnNameModalDialogData.col_name
-    },
+  mounted() {
+    this.editListName.name = this.editColumnNameModalDialogData.col_name;
+  },
 
   methods: {
     close() {
@@ -58,9 +62,12 @@ export default {
     },
     async submitColName(colid) {
       await axios
-        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/editcolumn/${colid}`, {
-          col_name: this.editListName.name,
-        })
+        .put(
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/editcolumn/${colid}`,
+          {
+            col_name: this.editListName.name,
+          }
+        )
         .then((response) => {
           (this.tasks = response.data), this.close(), this.$emit("create");
         });

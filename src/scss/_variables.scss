@@ -1,59 +1,48 @@
 /* Main Color Palette */
-$greybg: #F0F2F6;
-$compbg: #FFFFFF;
-$icolor: #D0DBE5;
+$compbg: #ffffff;
 $text: #333333;
-$blueopp: #4791ff38;
-$cookie: #D0DBE5;
-$acordBtnBG: #679ff2;
 
-/* Secondary/Warnings Color Palette */
-$completed-text: #068139;
-$completed-bg: #E3F8EC;
-$incomplete-text: #8B7010;
-$incomplete-bg: #F9F1D6;
-$draft-text: #930301;
-$draft-bg: #FCE4E4;
-
-/* Default Font for now */
 /* We have 2 main font families to use from: Rajdhani and Montserrat */
-*{
-    font-family: "Montserrat", sans-serif;
-
-      /* text styling */
-      overflow-wrap: break-word;
-      word-wrap: break-word;
-      /* word-breaking does the same but one or the other might not for some browsers*/
-      word-break: break-all;
-      word-break: break-word;
-      /* Adds a hyphen where the word breaks if supported */
-      -ms-hyphens: auto;
-      -moz-hyphens: auto;
-      -webkit-hyphens: auto;
-      hyphens: auto;
-      text-justify: inter-word;
+* {
+  font-family: "Montserrat", sans-serif;
+  /* text styling */
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  /* word-breaking does the same but one or the other might not for some browsers*/
+  word-break: break-all;
+  word-break: break-word;
+  /* Adds a hyphen where the word breaks if supported */
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  text-justify: inter-word;
 }
-.el-main{
-    padding: 0 !important;
-    margin: 0 !important;
-    overflow-x: hidden !important;
-  }
+.el-main {
+  padding: 0 !important;
+  margin: 0 !important;
+  overflow-x: hidden !important;
+}
 
 /* Default Style of buttons */
-.btn{
-    background-color: white !important;
-    color: $text !important;
-    outline: $text !important;
-    }
-    .btn:hover{
-    background-color: $text !important;
-    color: $compbg !important;
-    }
-
+.btn {
+  background-color: white !important;
+  color: $text !important;
+  outline: $text !important;
+}
+.btn:hover {
+  background-color: $text !important;
+  color: $compbg !important;
+}
 
 /* General styling rules */
-h1,h2,h3,h4,h5, p {
-    color: $text;
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+  color: $text;
 }
 
 .title {
@@ -61,95 +50,91 @@ h1,h2,h3,h4,h5, p {
   font-weight: 700;
   font-size: 2rem;
 }
-ul li{
-    list-style:none;
- }
+ul li {
+  list-style: none;
+}
 .has-text-danger {
   color: red !important;
 }
 
- /* Vuetify-like classes */
-.mt-05{
+/* Vuetify-like classes */
+.mt-05 {
   margin-top: 5px;
 }
-.ml-05{
+.ml-05 {
   margin-left: 5px;
 }
-.mt-1{
+.mt-1 {
   margin-top: 10px;
 }
-.mb-1{
- margin-bottom: 10px;
+.mb-1 {
+  margin-bottom: 10px;
 }
-.ml-1{
- margin-left: 10px;
+.ml-1 {
+  margin-left: 10px;
 }
-.mr-1{
+.mr-1 {
   margin-right: 10px;
 }
 
-
- .mt-1{
-   margin-top: 20px;
- }
- .mb-2{
+.mt-1 {
+  margin-top: 20px;
+}
+.mb-2 {
   margin-bottom: 20px;
- }
- .ml-2{
+}
+.ml-2 {
   margin-left: 20px;
- }
- .mr-2{
-   margin-right: 20px;
- }
+}
+.mr-2 {
+  margin-right: 20px;
+}
 
-.mt-3{
+.mt-3 {
   margin-top: 30px;
 }
-.mb-3{
- margin-bottom: 30px;
+.mb-3 {
+  margin-bottom: 30px;
 }
-.ml-3{
- margin-left: 28px;
+.ml-3 {
+  margin-left: 28px;
 }
-.mr-3{
+.mr-3 {
   margin-right: 30px;
 }
 
-.mt-4{
+.mt-4 {
   margin-top: 40px;
 }
-.mb-4{
- margin-bottom: 40px;
+.mb-4 {
+  margin-bottom: 40px;
 }
-.ml-4{
- margin-left: 40px;
+.ml-4 {
+  margin-left: 40px;
 }
-.mr-4{
+.mr-4 {
   margin-right: 40px;
 }
 
-
-
-/* Custom ones/ edit however you need */
-.mt-5{
+/* Custom */
+.mt-5 {
   margin-top: 60px;
 }
-.mb-5{
- margin-bottom: 60px;
+.mb-5 {
+  margin-bottom: 60px;
 }
-.ml-5{
- margin-left: 35px;
+.ml-5 {
+  margin-left: 35px;
 }
-.mr-5{
+.mr-5 {
   margin-right: 60px;
 }
-.ml-7{
+.ml-7 {
   margin-left: 78px;
 }
-.pl-1{
+.pl-1 {
   padding-left: 4px;
 }
-
 
 /* Project Board CARDS */
 /* CARD LIB CSS */
@@ -172,13 +157,14 @@ ul li{
 .list-group-item i {
   cursor: pointer;
 }
-.vueDraggable{
-  background-color: #EBECF0;
+.vueDraggable {
+  background-color: #ebecf0;
 }
-.vueDraggable2{
-  background-color: #FFFFFF;
+.vueDraggable2 {
+  background-color: #ffffff;
 }
 
-.mdi{
+/* mdi icons */
+.mdi {
   font-size: 20px;
 }

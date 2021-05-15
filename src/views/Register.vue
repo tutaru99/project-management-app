@@ -1,71 +1,80 @@
 <template>
   <div class="template">
-    <el-row class="RegisterForm" justify="center" align="middle" type="flex">
-      <el-col :span="8">
-        <h2>Register User</h2>
-        <el-form :model="formInline" class="mt-1 demo-form" ref="formInline">
-          <el-form-item
-            prop="email"
-            :rules="[{ required: true, message: 'Email is required' }]"
-            label="E-mail"
-          >
-            <el-input
-              placeholder="E-mail"
-              v-model="formInline.email"
-              @keydown.space.prevent
-              @paste.prevent
-              maxlength="40"
-              minlength="6"
-              type="email"
-              name="email"
-              @input="isEmailValid"
-            />
-          </el-form-item>
-          <el-form-item
-            prop="username"
-            :rules="[{ required: true, message: 'Username is required' }]"
-            label="Username"
-          >
-            <el-input
-              placeholder="Username"
-              v-model="formInline.username"
-              @keydown.space.prevent
-              @paste.prevent
-              maxlength="30"
-              minlength="6"
-              type="text"
-              name="username"
-            />
-          </el-form-item>
-          <el-form-item
-            prop="password"
-            :rules="[{ required: true, message: 'Password is required' }]"
-            label="Password"
-          >
-            <el-input
-              v-model="formInline.password"
-              @keydown.space.prevent
-              @paste.prevent
-              type="password"
-              maxlength="30"
-              minlength="6"
-              show-password
-              placeholder="Password"
-            />
-          </el-form-item>
-          <p v-if="errors" class="pb-2">
-            {{ errors }}
-          </p>
-          <div class="pb-2" v-if="!isEmailValid()">
-            <p id="email">Enter a valid email address (format: xxx@xxx.xxx)</p>
-          </div>
-          <el-form-item>
-            <el-button type="primary" @click="validateRegister('formInline')"
-              >Register</el-button
+    <el-row justify="center" align="middle" type="flex">
+      <el-col :span="7">
+        <div id="login">
+          <h2>Register Account</h2>
+          <el-form :model="formInline" class="mt-1" ref="formInline">
+            <span id="inputName">E-mail</span>
+            <el-form-item
+              class="mt-1"
+              prop="email"
+              :rules="[{ required: true, message: 'Email is required' }]"
             >
-          </el-form-item>
-          <router-link to="/login">Click here to login</router-link>
-        </el-form>
+              <el-input
+                placeholder="E-mail"
+                v-model="formInline.email"
+                @keydown.space.prevent
+                @paste.prevent
+                maxlength="40"
+                minlength="6"
+                type="email"
+                name="email"
+                @input="isEmailValid"
+              />
+            </el-form-item>
+            <span id="inputName">Username</span>
+            <el-form-item
+              class="mt-1"
+              prop="username"
+              :rules="[{ required: true, message: 'Username is required' }]"
+            >
+              <el-input
+                placeholder="Username"
+                v-model="formInline.username"
+                @keydown.space.prevent
+                @paste.prevent
+                maxlength="30"
+                minlength="6"
+                type="text"
+                name="username"
+              />
+            </el-form-item>
+            <span id="inputName">Password</span>
+            <el-form-item
+              class="mt-1"
+              prop="password"
+              :rules="[{ required: true, message: 'Password is required' }]"
+            >
+              <el-input
+                v-model="formInline.password"
+                @keydown.space.prevent
+                @paste.prevent
+                type="password"
+                maxlength="30"
+                minlength="6"
+                show-password
+                placeholder="Password"
+              />
+            </el-form-item>
+            <p v-if="errors" class="pb-2">
+              {{ errors }}
+            </p>
+            <div class="pb-2" v-if="!isEmailValid()">
+              <p id="email">
+                Enter a valid email address (format: xxx@xxx.xxx)
+              </p>
+            </div>
+            <el-form-item>
+              <el-button type="primary" @click="validateRegister('formInline')"
+                >Register</el-button
+              >
+            </el-form-item>
+            <router-link id="register" to="/login"
+              >Click here to login</router-link
+            >
+          </el-form>
+        </div>
       </el-col>
     </el-row>
   </div>
@@ -87,7 +96,7 @@ export default {
     };
   },
   methods: {
-    isEmailValid: function () {
+    isEmailValid: function() {
       return this.formInline.email == ""
         ? ""
         : this.formInline.reg.test(this.formInline.email)
@@ -140,22 +149,38 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-p {
-  color: red;
+* {
+  color: #8112ea;
 }
-.pb-2 {
-  padding-bottom: 15px;
-}
+
 .template {
-  height: 80vh;
-}
-.RegisterForm {
-  margin-top: 12%;
+  background-color: #191a1f;
+  height: 100vh;
+
+  #login {
+    font-size: 18px;
+    background-color: #121318;
+    margin-top: 42%;
+    border: 1px solid #8112ea;
+    padding: 20px;
+    #register {
+      text-decoration: none;
+      border-bottom: 1px solid #8112ea;
+    }
+    #inputName {
+      font-size: 16px;
+      font-weight: 500;
+      padding-bottom: 5px;
+    }
+    p {
+      color: red;
+    }
+  }
 }
 .mt-1 {
   margin-top: 10px;
 }
-#email {
-  font-size: 14px;
+.pb-2 {
+  padding-bottom: 15px;
 }
 </style>

@@ -1,4 +1,3 @@
-
 <template>
   <el-autocomplete
     popper-class="my-autocomplete"
@@ -18,10 +17,10 @@
 
 <script>
 import { defineComponent, ref, onMounted, onUpdated } from "vue";
-import axios from 'axios'
+import axios from "axios";
 export default defineComponent({
-  props: ['taskId', 'users'],
-  emits: ['refresh'],
+  props: ["taskId", "users"],
+  emits: ["refresh"],
   setup(props) {
     const links = ref([]);
 
@@ -35,7 +34,8 @@ export default defineComponent({
     const createFilter = (queryString) => {
       return (restaurant) => {
         return (
-          restaurant.email.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+          restaurant.email.toLowerCase().indexOf(queryString.toLowerCase()) ===
+          0
         );
       };
     };
@@ -52,8 +52,8 @@ export default defineComponent({
     });
 
     onUpdated(() => {
-      links.email = props.users
-    })
+      links.email = props.users;
+    });
 
     return {
       state: ref(""),
@@ -61,20 +61,21 @@ export default defineComponent({
       querySearch,
       createFilter,
       handleSelect,
-      handleIconClick
+      handleIconClick,
     };
   },
   methods: {
-    async addUser (email) {
-      await axios.put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/task/add-user`, {
+    async addUser(email) {
+      await axios
+        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/task/add-user`, {
           taskId: this.taskId,
-          userEmail: email
+          userEmail: email,
         })
         .then(() => {
-          this.$emit('refresh')
+          this.$emit("refresh");
         });
     },
-  }
+  },
 });
 </script>
 

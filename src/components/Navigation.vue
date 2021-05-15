@@ -1,12 +1,12 @@
 <template>
   <el-menu
     default-active="2"
-    class="el-menu-vertical-demo"
     :collapse="$store.state.isCollapse"
     router
   >
+  <el-row justify="center" align="middle" type="flex">
     <el-radio-group
-      id="stuff"
+      id="arrow"
       :collapse="$store.commit('isCollapseState')"
       v-model="$store.state.isCollapse"
     >
@@ -20,6 +20,7 @@
         ><i class="el-icon-d-arrow-left"></i
       ></el-radio-button>
     </el-radio-group>
+  </el-row>
 
     <el-menu-item index="/">
       <i class="el-icon-menu"></i>
@@ -32,7 +33,9 @@
       </template>
       <!-- Owned Projects -->
       <el-menu-item-group>
-        <template #title><span>Personal Projects</span></template>
+        <template #title
+          ><span class="minititle">Personal Projects</span></template
+        >
         <router-link
           v-for="project in projectsData.slice().reverse()"
           :key="project.key"
@@ -43,7 +46,9 @@
       </el-menu-item-group>
       <!-- Projects User is part of/invited to (collab)-->
       <el-menu-item-group>
-        <template #title><span>Shared Projects</span></template>
+        <template #title
+          ><span class="minititle">Shared Projects</span></template
+        >
         <router-link
           v-for="project in invitedProjectsData.slice().reverse()"
           :key="project.key"
@@ -103,8 +108,21 @@ export default {
 a {
   text-decoration: none;
 }
-#stuff {
-  margin-top: 10px;
-  margin-left: 7%;
+
+.minititle {
+  color: #8112ea;
+  font-weight: 700;
+}
+.el-menu {
+  border: none !important;
+}
+.el-menu-item {
+  color: #8112ea !important;
+}
+.el-icon-menu:before {
+  color: #8112ea !important;
+}
+.el-menu--popup {
+  box-shadow: none !important;
 }
 </style>

@@ -861,7 +861,6 @@ export default {
 .template {
   height: 100vh;
   background-color: #191a1f;
-
   #boardTitle {
     color: #fff;
     padding: 0 0 5px 0;
@@ -921,7 +920,6 @@ export default {
   padding: 10px;
   cursor: pointer;
   box-shadow: 0 0 2px #8112ea;
-
   #taskName {
     font-size: 14px;
     font-weight: 600;
@@ -948,7 +946,6 @@ export default {
   grid-auto-columns: 315px;
   grid-auto-flow: column;
   grid-gap: 10px;
-
   .cardList {
     max-height: 700px;
     overflow: auto;
@@ -959,7 +956,6 @@ export default {
     display: block;
     margin-top: -21px !important;
   }
-
   .list-title {
     padding: 10px 10px !important;
     background-color: #121318;

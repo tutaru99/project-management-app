@@ -124,5 +124,4 @@ export default {
 .mt-1{
   margin-top: 20px;
 }
-
 </style>
