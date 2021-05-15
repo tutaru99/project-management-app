@@ -588,7 +588,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-/* Shitty CSS for now */
+
 .template {
   height: 100vh;
   background-color: #191a1f;
@@ -597,7 +597,12 @@ export default {
     background-color: #121318 !important;
     box-shadow: 0 0 2px #8112ea;
     height: 50px;
+    #passwordWarning {
+      color: red;
+      font-size: 12px;
+    }
   }
+
   .el-row--flex.is-align-middle {
     background-color: #191a1f;
   }
@@ -616,41 +621,48 @@ export default {
     padding: 10px;
     margin: 10px;
 
+    #linkProject {
+      font-size: 16px;
+    }
+    #completed {
+      color: #39FF14;
+      font-weight: 600;
+    }
+    #inProgress {
+      color: yellow;
+      font-weight: 600;
+    }
+    #projCompleted {
+      color: #d0cae5;
+    }
+    #dateCreated {
+      font-size: 13px;
+      color: #d0cae5;
+    }
     .users {
       padding-left: 7px;
       color: white;
     }
   }
-}
 
-.textTitle {
+  .moreDropdown {
+    background-color: #121318 !important;
+    border: none;
+  }
+  p {
+    color: #d0cae5;
+    letter-spacing: 0.3px;
+    font-weight: 500;
+    word-break: break-all;
+  }
+  .textTitle {
   color: #d0cae5;
-}
-h3 {
-  color: white;
-}
-p {
-  color: white;
-  letter-spacing: 0.3px;
-  font-weight: 500;
-  word-break: break-all;
+  }
+  h3 {
+    color: white;
+  }
 }
 
-#completed {
-  color: rgb(82, 231, 82);
-  font-weight: 700;
-}
-#inProgress {
-  color: yellow;
-  font-weight: 700;
-}
-#dateCreated {
-  font-size: 13px;
-  color: white;
-}
-#linkProject {
-  font-size: 16px;
-}
 .mt-1 {
   margin-top: 10px;
 }
@@ -660,19 +672,8 @@ p {
 .bold {
   font-weight: 700;
 }
-.moreDropdown {
-  background-color: #121318 !important;
-  border: none;
-}
-#passwordWarning {
-  color: red;
-  font-size: 12px;
-}
 .el-row--flex.is-justify-center {
   border-top: 1px solid #8112ea;
   background-color: #191a1f !important;
-}
-#projCompleted{
-  color: white;
 }
 </style>
