@@ -222,13 +222,14 @@
                     placement="top"
                   >
                     <el-button
-                      class="more"
-                      type="danger"
-                      size="small"
-                      icon="el-icon-delete"
+                      class="leaveProject"
+                      type="primary"
+                      size="mini"
                       @click="deleteProject(project._id)"
                       circle
-                    ></el-button>
+                    >
+                    <i class="mdi mdi-trash-can-outline" style="color:white"></i>
+                    </el-button>
                   </el-tooltip>
                 </el-row>
                 <p id="completed" v-if="project.completed == true">
