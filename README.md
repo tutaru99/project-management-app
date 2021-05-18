@@ -1,13 +1,13 @@
 # project-management-app
 ```
-(MEVN) Project Management Application
-    Like Trello, but better!
+(MEVN) Project Management Application!
+Live ver. - https://sn-project-management-app.herokuapp.com
 ```
 ```
 .env
 VUE_APP_BASE_URL_API="http://localhost:3000"
 
-HEROKU_API_KEY = 21cabeb3-a85c-4d25-8d1c-0583c8be1681
+HEROKU_API_KEY = **************************
 HEROKU_APP_NAME = sn-project-management-app
 ```
 ```
