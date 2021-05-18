@@ -8,7 +8,7 @@
           justify="space-around"
           class="header"
         >
-          <el-col :span="7">
+          <el-col :xs="8" :sm="6" :md="7">
             <el-button
               type="primary"
               icon="el-icon-plus"
@@ -62,10 +62,10 @@
               </template>
             </el-dialog>
           </el-col>
-          <el-col :span="8">
+          <el-col :xs="11" :sm="11" :md="8">
             <h3>Project Management Application</h3>
           </el-col>
-          <el-col :span="4">
+          <el-col :xs="5" :span="4">
             <el-row type="flex" justify="end">
               <div style="text-align: right">
                 <el-tooltip
@@ -201,9 +201,9 @@
         </el-row>
       </el-affix>
       <el-row type="flex" justify="center">
-        <el-col :span="8">
+        <el-col :sm="24" :md="8" >
           <div>
-            <h3 class="ml-1 mt-5" v-if="projectsData.length">
+            <h3 class="projTitle ml-1 mt-5" v-if="projectsData.length">
               Personal Projects
             </h3>
             <h3 class="ml-1 mt-5" v-else>No Projects Created..</h3>
@@ -279,8 +279,8 @@
             </div>
           </div>
         </el-col>
-        <el-col :span="8" :offset="1">
-          <h3 class="ml-1 mt-5" v-if="invitedProjectsData.length">
+        <el-col :sm="24" :md="8" :offset="1">
+          <h3 class="projTitle ml-1 mt-5" v-if="invitedProjectsData.length">
             Shared Projects
           </h3>
           <h3 class="ml-1 mt-5" v-else>No Shared Projects Added..</h3>
@@ -592,7 +592,10 @@ export default {
 .template {
   height: 100vh;
   background-color: #191a1f;
-
+  .projTitle{
+    font-size: 22px;
+    font-weight:400;
+  }
   .header {
     background-color: #121318 !important;
     box-shadow: 0 0 2px #8112ea;
