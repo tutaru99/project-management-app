@@ -1,7 +1,7 @@
 <template>
   <div class="template">
     <el-main>
-      <el-affix position="top" :offset="0.1">
+      <el-affix position="top" target=".template" :offset="0.1">
         <el-row
           type="flex"
           align="middle"

@@ -25,6 +25,9 @@ $--color-primary: #8112ea;
 .el-switch__label {
   color: white !important;
 }
+.el-affix{
+  width: 101% !important;
+}
 
 /* icon font path, required */
 $--font-path: "~element-plus/lib/theme-chalk/fonts";
