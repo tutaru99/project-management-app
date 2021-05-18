@@ -201,7 +201,7 @@
         </el-row>
       </el-affix>
       <el-row type="flex" justify="center">
-        <el-col :sm="24" :md="8" >
+        <el-col :sm="24" :md="8">
           <div>
             <h3 class="projTitle ml-1 mt-5" v-if="projectsData.length">
               Personal Projects
@@ -215,16 +215,28 @@
               <div class="projectsWrapper">
                 <el-row type="flex" justify="space-between">
                   <h3 class="textTitle">{{ project.title }}</h3>
-                  <el-button
-                    class="more"
-                    type="danger"
-                    icon="el-icon-delete"
-                    @click="deleteProject(project._id)"
-                    circle
-                  ></el-button>
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    content="Delete Project"
+                    placement="top"
+                  >
+                    <el-button
+                      class="more"
+                      type="danger"
+                      size="small"
+                      icon="el-icon-delete"
+                      @click="deleteProject(project._id)"
+                      circle
+                    ></el-button>
+                  </el-tooltip>
                 </el-row>
-                <p id="completed" v-if="project.completed == true"><span id="projCompleted">Project is</span> Completed</p>
-                <p id="inProgress" v-else><span id="projCompleted">Project is</span> Ongoing</p>
+                <p id="completed" v-if="project.completed == true">
+                  <span id="projCompleted">Project is</span> Completed
+                </p>
+                <p id="inProgress" v-else>
+                  <span id="projCompleted">Project is</span> Ongoing
+                </p>
                 <el-row>
                   <el-col :span="24">
                     <el-collapse>
@@ -291,17 +303,29 @@
             <div class="projectsWrapper">
               <el-row type="flex" justify="space-between">
                 <h3 class="textTitle">{{ project.title }}</h3>
-                <el-button
-                  class="more"
-                  icon="el-icon-delete"
-                  type="danger"
-                  @click="deleteProject(project._id)"
-                  circle
-                  disabled
-                ></el-button>
+                <el-tooltip
+                  class="item"
+                  effect="dark"
+                  content="Leave Project"
+                  placement="top"
+                >
+                  <el-button
+                    class="leaveProject"
+                    type="primary"
+                    size="mini"
+                    circle
+                    
+                  >
+                    <i class="mdi mdi-logout" style="color:white"></i>
+                  </el-button>
+                </el-tooltip>
               </el-row>
-              <p id="completed" v-if="project.completed == true"><span id="projCompleted">Project is</span> Completed</p>
-              <p id="inProgress" v-else><span id="projCompleted">Project is</span> Ongoing</p>
+              <p id="completed" v-if="project.completed == true">
+                <span id="projCompleted">Project is</span> Completed
+              </p>
+              <p id="inProgress" v-else>
+                <span id="projCompleted">Project is</span> Ongoing
+              </p>
               <el-row>
                 <el-col :span="24">
                   <el-collapse>
@@ -363,9 +387,7 @@ import axios from "axios";
 
 export default {
   name: "Dashboard",
-  components: {
-
-  },
+  components: {},
   emits: ["refreshData"],
   data() {
     return {
@@ -508,11 +530,14 @@ export default {
     updatePassword() {
       return new Promise(async (resolve, reject) => {
         await axios
-          .post(`${process.env.VUE_APP_BASE_URL_API}/api/user/change-password`, {
-            userId: this.$store.state.auth.id,
-            password: this.changePassValidate.oldPassword,
-            newPassword: this.changePassValidate.newPassword,
-          })
+          .post(
+            `${process.env.VUE_APP_BASE_URL_API}/api/user/change-password`,
+            {
+              userId: this.$store.state.auth.id,
+              password: this.changePassValidate.oldPassword,
+              newPassword: this.changePassValidate.newPassword,
+            }
+          )
           .then((res) => {
             if (res.status === 200) {
               resolve("PasswordChanged");
@@ -536,13 +561,15 @@ export default {
         : this.changePassValidate.oldPassword.length >= 6 &&
           this.changePassValidate.newPassword.length >= 6 &&
           this.changePassValidate.newPassword2.length >= 6 &&
-          this.changePassValidate.newPassword === this.changePassValidate.newPassword2
+          this.changePassValidate.newPassword ===
+            this.changePassValidate.newPassword2
         ? true
         : false;
     },
     isPasswordMatching() {
       if (
-        this.changePassValidate.newPassword === this.changePassValidate.newPassword2
+        this.changePassValidate.newPassword ===
+        this.changePassValidate.newPassword2
       ) {
         return true;
       } else {
@@ -588,13 +615,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .template {
   height: 100vh;
   background-color: #191a1f;
-  .projTitle{
+
+  .projTitle {
     font-size: 22px;
-    font-weight:400;
+    font-weight: 400;
   }
   .header {
     background-color: #121318 !important;
@@ -628,7 +655,7 @@ export default {
       font-size: 16px;
     }
     #completed {
-      color: #39FF14;
+      color: #39ff14;
       font-weight: 600;
     }
     #inProgress {
@@ -659,7 +686,7 @@ export default {
     word-break: break-all;
   }
   .textTitle {
-  color: #d0cae5;
+    color: #d0cae5;
   }
   h3 {
     color: white;
@@ -678,5 +705,10 @@ export default {
 .el-row--flex.is-justify-center {
   border-top: 1px solid #8112ea;
   background-color: #191a1f !important;
+}
+.leaveProject {
+  padding: 5px !important;
+  background-color: #8212ea00;
+  border: none;
 }
 </style>
