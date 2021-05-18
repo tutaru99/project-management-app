@@ -4,7 +4,7 @@
 Live ver. - https://sn-project-management-app.herokuapp.com
 ```
 ```
-.env
+    .env
 VUE_APP_BASE_URL_API="http://localhost:3000"
 
 HEROKU_API_KEY = **************************
