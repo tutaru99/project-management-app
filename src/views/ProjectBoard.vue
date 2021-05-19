@@ -628,6 +628,7 @@ export default {
         })
         .then(
           this.closeUpdateProjDialog(),
+          this.getProject(),
           this.$notify({
             title: "Project Updated",
             type: "success",
@@ -695,8 +696,7 @@ export default {
           `${process.env.VUE_APP_BASE_URL_API}/api/projects/deletetask/${taskid}`
         )
         .then((response) => {
-          (this.tasks = response.data),
-          this.getProject();
+          (this.tasks = response.data), this.getProject();
         });
     },
 
