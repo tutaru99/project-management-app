@@ -70,6 +70,10 @@ export default {
         )
         .then((response) => {
           (this.tasks = response.data), this.close(), this.$emit("create");
+                      this.$notify({
+              title: "List name updated",
+              type: "success",
+            });
         });
     },
 

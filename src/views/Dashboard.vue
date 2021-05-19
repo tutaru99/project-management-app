@@ -228,7 +228,10 @@
                       @click="deleteProject(project._id)"
                       circle
                     >
-                    <i class="mdi mdi-trash-can-outline" style="color:white"></i>
+                      <i
+                        class="mdi mdi-trash-can-outline"
+                        style="color:white"
+                      ></i>
                     </el-button>
                   </el-tooltip>
                 </el-row>
@@ -315,7 +318,7 @@
                     type="primary"
                     size="mini"
                     circle
-                    
+                    @click="leaveProject()"
                   >
                     <i class="mdi mdi-logout" style="color:white"></i>
                   </el-button>
@@ -470,7 +473,13 @@ export default {
         })
         .then(
           (response) => (
-            (this.projects = response.data), this.closeProjDialog()
+            (this.projects = response.data),
+            this.closeProjDialog(),
+            this.$notify({
+              title: "Project Created",
+              message: "New Project has been created!",
+              type: "success",
+            })
           )
         )
         .then(this.$emit("refreshData"));
@@ -502,9 +511,22 @@ export default {
         .then((response) => {
           (this.projects = response.data),
             this.getProjectsData(),
-            this.getInvitedProjectsData();
+            this.getInvitedProjectsData(),
+            this.$notify({
+              title: "Project Deleted",
+              message: "Project has been deleted!",
+              type: "error",
+            });
         })
         .then(this.$emit("refreshData"));
+    },
+
+    //Leave project.. add fnction later
+    leaveProject() {
+      this.$notify({
+        title: "Left the Project",
+        type: "error",
+      });
     },
 
     //making sure form fields are required and cannot be bypassed
@@ -577,15 +599,6 @@ export default {
         return false;
       }
     },
-    //popup - success pass change
-    updatePassSuccess() {
-      this.closePassDialog();
-      this.$notify({
-        title: "Password Updated",
-        message: "Password was successfully updated!",
-        type: "success",
-      });
-    },
     logout() {
       this.$store.commit("logOut");
       this.$cookies.remove("jwt");
@@ -610,6 +623,16 @@ export default {
       (this.changePassValidate.oldPassword = ""),
         (this.changePassValidate.newPassword = ""),
         (this.changePassValidate.newPassword2 = "");
+    },
+
+    //Notification popups
+    updatePassSuccess() {
+      this.closePassDialog();
+      this.$notify({
+        title: "Password Updated",
+        message: "Password was successfully updated!",
+        type: "success",
+      });
     },
   },
 };

@@ -181,7 +181,7 @@ export default {
   margin-top: 10px;
 }
 .mt-2 {
-   margin-top: 15px;
+  margin-top: 15px;
 }
 .pb-2 {
   padding-bottom: 15px;

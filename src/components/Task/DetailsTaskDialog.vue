@@ -216,9 +216,17 @@ export default {
       function checkArrayForValue(arr, value) {
         return value.some((val) => arr.includes(val));
       }
-      if (!checkArrayForValue(this.detailsTaskDialogData.asignee, this.projectOwner)) {
+      if (
+        !checkArrayForValue(
+          this.detailsTaskDialogData.asignee,
+          this.projectOwner
+        )
+      ) {
         await axios
-          .post(`${process.env.VUE_APP_BASE_URL_API}/api/user/info`, this.projectOwner)
+          .post(
+            `${process.env.VUE_APP_BASE_URL_API}/api/user/info`,
+            this.projectOwner
+          )
           .then((res) => {
             usersArr[0].push(
               new Proxy(
@@ -247,7 +255,10 @@ export default {
         }
         if (asignee == this.projectOwner) {
           await axios
-            .post(`${process.env.VUE_APP_BASE_URL_API}/api/user/info`, this.projectOwner)
+            .post(
+              `${process.env.VUE_APP_BASE_URL_API}/api/user/info`,
+              this.projectOwner
+            )
             .then((res) => {
               arr.push(
                 new Proxy(
@@ -268,15 +279,23 @@ export default {
 
     async submitTask(taskId) {
       await axios
-        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/updatetask/${taskId}`, {
-          task_name: this.detailsEdit.editName,
-          task_description: this.detailsEdit.editDescription,
-          task_time: this.timeSelect,
-          task_state: this.taskProgress,
-          task_priority: this.priorityValue,
-        })
+        .put(
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/updatetask/${taskId}`,
+          {
+            task_name: this.detailsEdit.editName,
+            task_description: this.detailsEdit.editDescription,
+            task_time: this.timeSelect,
+            task_state: this.taskProgress,
+            task_priority: this.priorityValue,
+          }
+        )
         .then((response) => {
-          (this.tasks = response.data), this.close(), this.$emit("submit");
+          (this.tasks = response.data),
+            this.$notify({
+              title: "Task Details Updated",
+              type: "success",
+            });
+          this.close(), this.$emit("submit");
         });
     },
 
@@ -292,18 +311,28 @@ export default {
 
     async removeTask(taskid) {
       await axios
-        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/deletetask/${taskid}`)
+        .put(
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/deletetask/${taskid}`
+        )
         .then((response) => {
-          (this.tasks = response.data), this.close(), this.$emit("submit");
+          (this.tasks = response.data),
+            this.$notify({
+              title: "Task Removed",
+              type: "error",
+            });
+          this.close(), this.$emit("submit");
         });
     },
 
     async removeUserFromTask(email) {
       await axios
-        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/task/remove-user/`, {
-          taskId: this.detailsTaskDialogData._id,
-          userEmail: email,
-        })
+        .put(
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/task/remove-user/`,
+          {
+            taskId: this.detailsTaskDialogData._id,
+            userEmail: email,
+          }
+        )
         .then((response) => {
           (this.tasks = response.data), this.$emit("submit");
         });

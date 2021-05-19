@@ -262,7 +262,11 @@
                   </el-col>
                   <el-col :span="24" data-no-dragscroll>
                     <el-row type="flex" justify="end" data-no-dragscroll>
-                      <div v-if="usersAddedToTask(element).length > 0" style="text-align: right" data-no-dragscroll>
+                      <div
+                        v-if="usersAddedToTask(element).length > 0"
+                        style="text-align: right"
+                        data-no-dragscroll
+                      >
                         <span
                           v-for="user in usersAddedToTask(element)"
                           :key="user.id"
@@ -394,7 +398,7 @@
             validateProjectUpdate('updateProjectValidate', projectData._id)
           "
           data-no-dragscroll
-          >Create</el-button
+          >Update</el-button
         >
       </span>
     </template>
@@ -523,13 +527,13 @@ export default {
 
       drag: false,
       inviteErrors: null,
-      ownerObj: null
+      ownerObj: null,
     };
   },
 
   created() {
     this.getProject().then(() => {
-      this.getOwner()
+      this.getOwner();
       this.userRole();
     });
   },
@@ -596,14 +600,18 @@ export default {
 
   methods: {
     getOwner() {
-      axios.post(`${process.env.VUE_APP_BASE_URL_API}/api/user/info`, [this.projectData.owner[0]]).then(res => {
-        this.ownerObj = {
-          id: res.data[0].id,
-          username: res.data[0].username,
-          email: res.data[0].email,
-          isOwner: true
-        }
-      })
+      axios
+        .post(`${process.env.VUE_APP_BASE_URL_API}/api/user/info`, [
+          this.projectData.owner[0],
+        ])
+        .then((res) => {
+          this.ownerObj = {
+            id: res.data[0].id,
+            username: res.data[0].username,
+            email: res.data[0].email,
+            isOwner: true,
+          };
+        });
     },
     openUpdateProjDialog() {
       (this.updateProjectDialog = true),
@@ -618,7 +626,13 @@ export default {
           title: this.updateProjectValidate.title,
           description: this.updateProjectValidate.description,
         })
-        .then(this.closeUpdateProjDialog());
+        .then(
+          this.closeUpdateProjDialog(),
+          this.$notify({
+            title: "Project Updated",
+            type: "success",
+          })
+        );
     },
     //Validate Project Input field
     validateProjectUpdate(formName, projectID) {
@@ -632,23 +646,25 @@ export default {
     },
 
     usersAddedToTask: function(element) {
-      const arr = []
+      const arr = [];
       element.asignee.forEach((asignee) => {
         const filteredArr = this.projectData.users.filter(function(user) {
           return user.id === asignee;
         });
-        if(filteredArr.length) {
+        if (filteredArr.length) {
           arr.push(filteredArr[0]);
         }
         if (this.projectData.owner[0] === asignee && this.ownerObj != null) {
-          arr.push(this.ownerObj)
+          arr.push(this.ownerObj);
         }
       });
       return arr;
     },
     async getProject() {
       await axios
-        .get(`${process.env.VUE_APP_BASE_URL_API}/api/projects/${this.$route.params.id}`)
+        .get(
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/${this.$route.params.id}`
+        )
         .then((response) => {
           this.projectData = response.data;
         });
@@ -675,17 +691,28 @@ export default {
 
     async removeTask(taskid) {
       await axios
-        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/deletetask/${taskid}`)
+        .put(
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/deletetask/${taskid}`
+        )
         .then((response) => {
-          (this.tasks = response.data), this.getProject();
+          (this.tasks = response.data),
+          this.getProject();
         });
     },
 
     async deleteColumn(colID) {
       await axios
-        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/deletecolumn/${colID}`)
+        .put(
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/deletecolumn/${colID}`
+        )
         .then((response) => {
-          (this.tasks = response.data), this.getProject();
+          (this.tasks = response.data),
+            this.$notify({
+              title: "List Removed",
+              message: "List has been removed!",
+              type: "error",
+            });
+          this.getProject();
         });
     },
 
@@ -701,13 +728,20 @@ export default {
 
     async addNewColumn(projectID) {
       await axios
-        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/addcolumn/${projectID}`, {
-          col_name: this.col_nameValidateForm.col_name,
-        })
+        .put(
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/addcolumn/${projectID}`,
+          {
+            col_name: this.col_nameValidateForm.col_name,
+          }
+        )
         .then((response) => {
           (this.tasks = response.data),
-            this.getProject(),
-            this.closeColDialog();
+            this.$notify({
+              title: "List Created",
+              message: "List successfully created!",
+              type: "success",
+            });
+          this.getProject(), this.closeColDialog();
         });
     },
 
@@ -729,6 +763,11 @@ export default {
         .then(async () => {
           this.inviteUserDialog = false;
           this.email = null;
+          this.$notify({
+            title: "Member Invited",
+            message: "New Member has been invited to the project!",
+            type: "success",
+          });
           await this.getProject();
         })
         .catch((err) => {
@@ -759,9 +798,9 @@ export default {
           `${process.env.VUE_APP_BASE_URL_API}/api/projects/movetask/${event.added.element._id}/${columnId}`,
           {
             projectId: this.projectData._id,
-            tasks: projectTasks
+            tasks: projectTasks,
           }
-        )
+        );
       }
     },
 

@@ -34,7 +34,9 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="close()">Cancel</el-button>
-        <el-button type="primary" @click="validateSubmitTask('editTask', editTaskDialogData._id)"
+        <el-button
+          type="primary"
+          @click="validateSubmitTask('editTask', editTaskDialogData._id)"
           >Update Task</el-button
         >
       </span>
@@ -66,24 +68,32 @@ export default {
   methods: {
     async submitTask(taskId) {
       await axios
-        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/updatetask-quick-edit/${taskId}`, {
-          task_name: this.editTask.editName,
-          task_description: this.editTask.editDescription,
-        })
+        .put(
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/updatetask-quick-edit/${taskId}`,
+          {
+            task_name: this.editTask.editName,
+            task_description: this.editTask.editDescription,
+          }
+        )
         .then((response) => {
-          (this.tasks = response.data), this.close(), this.$emit("edit");
+          (this.tasks = response.data),
+            this.$notify({
+              title: "Task Updated",
+              type: "success",
+            });
+          this.close(), this.$emit("edit");
         });
     },
 
-     validateSubmitTask(formName, taskId) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.submitTask(taskId)
-          } else {
-            return false;
-          }
-        });
-      },
+    validateSubmitTask(formName, taskId) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.submitTask(taskId);
+        } else {
+          return false;
+        }
+      });
+    },
 
     close() {
       this.$emit("close");
