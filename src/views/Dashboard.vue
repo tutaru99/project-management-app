@@ -236,10 +236,10 @@
                   </el-tooltip>
                 </el-row>
                 <p id="completed" v-if="project.completed == true">
-                  <span id="projCompleted">Project is</span> Completed
+                  <span id="projCompleted">Project is set as</span> Completed
                 </p>
                 <p id="inProgress" v-else>
-                  <span id="projCompleted">Project is</span> Ongoing
+                  <span id="projCompleted">Project is set as</span> Ongoing
                 </p>
                 <el-row>
                   <el-col :span="24">
@@ -271,7 +271,7 @@
                           v-model="project.completed"
                           active-text="Completed"
                           inactive-text="Ongoing"
-                          @click="projectState(project._id)"
+                          @click="projectState(project._id, project.completed)"
                         >
                         </el-switch>
                       </el-collapse-item>
@@ -325,10 +325,10 @@
                 </el-tooltip>
               </el-row>
               <p id="completed" v-if="project.completed == true">
-                <span id="projCompleted">Project is</span> Completed
+                <span id="projCompleted">Project is set as</span> Completed
               </p>
               <p id="inProgress" v-else>
-                <span id="projCompleted">Project is</span> Ongoing
+                <span id="projCompleted">Project is set as</span> Ongoing
               </p>
               <el-row>
                 <el-col :span="24">
@@ -358,7 +358,7 @@
                         v-model="project.completed"
                         active-text="Completed"
                         inactive-text="Ongoing"
-                        @click="projectState(project._id)"
+                        @click="projectState(project._id, project.completed)"
                       >
                       </el-switch>
                     </el-collapse-item>
@@ -495,14 +495,32 @@ export default {
       });
     },
 
-    async projectState(projectID) {
-      await axios
-        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}`, {
-          completed: (this.projectStatus = !this.projectStatus),
-        })
-        .then((response) => {
-          (this.projects = response.data), this.getProjectsData();
-        });
+    async projectState(projectID, projectState) {
+      if (projectState === true) {
+        await axios
+          .put(
+            `${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}`,
+            {
+              completed: (this.projectStatus = true),
+            }
+          )
+          .then((response) => {
+            (this.projects = response.data), this.getProjectsData();
+          });
+        console.log("Project State true");
+      } else {
+        await axios
+          .put(
+            `${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}`,
+            {
+              completed: (this.projectStatus = false),
+            }
+          )
+          .then((response) => {
+            (this.projects = response.data), this.getProjectsData();
+          });
+        console.log("Project State false");
+      }
     },
 
     async deleteProject(projectID) {
