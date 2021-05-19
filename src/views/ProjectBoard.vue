@@ -628,7 +628,6 @@ export default {
         })
         .then(
           this.closeUpdateProjDialog(),
-          this.getProject(),
           this.$notify({
             title: "Project Updated",
             type: "success",
