@@ -318,7 +318,7 @@
                     type="primary"
                     size="mini"
                     circle
-                    @click="leaveProject()"
+                    @click="leaveProject($store.state.auth.email, project._id)"
                   >
                     <i class="mdi mdi-logout" style="color:white"></i>
                   </el-button>
@@ -540,11 +540,18 @@ export default {
     },
 
     //Leave project.. add fnction later
-    leaveProject() {
-      this.$notify({
-        title: "Left the Project",
-        type: "error",
-      });
+    async leaveProject(email, projectId) {
+      await axios
+        .post(`${process.env.VUE_APP_BASE_URL_API}/api/projects/remove-user`, {
+          userEmail: email,
+          projectId: projectId,
+        }).then(() => {
+          this.$notify({
+            title: "Left the Project",
+            type: "error",
+          });
+          this.getInvitedProjectsData();
+        })
     },
 
     //making sure form fields are required and cannot be bypassed
