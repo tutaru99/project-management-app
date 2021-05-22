@@ -539,7 +539,7 @@ export default {
         .then(this.$emit("refreshData"));
     },
 
-    //Leave project.. add fnction later
+    //Leave project
     async leaveProject(email, projectId) {
       await axios
         .post(`${process.env.VUE_APP_BASE_URL_API}/api/projects/remove-user`, {
@@ -552,6 +552,7 @@ export default {
           });
           this.getInvitedProjectsData();
         })
+        .then(this.$emit("refreshData"));
     },
 
     //making sure form fields are required and cannot be bypassed
