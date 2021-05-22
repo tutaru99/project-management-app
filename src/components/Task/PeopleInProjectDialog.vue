@@ -88,6 +88,7 @@ export default {
         .post(`${process.env.VUE_APP_BASE_URL_API}/api/projects/remove-user`, {
           userEmail: user.email,
           projectId: this.projectId,
+          userMakingRequestId: this.$store.state.auth.id
         })
         .then(() => {
           this.$notify({

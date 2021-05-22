@@ -499,7 +499,7 @@ export default {
       if (projectState === true) {
         await axios
           .put(
-            `${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}`,
+            `${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}?userId=${this.$store.state.auth.id}`,
             {
               completed: (this.projectStatus = true),
             }
@@ -511,7 +511,7 @@ export default {
       } else {
         await axios
           .put(
-            `${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}`,
+            `${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}?userId=${this.$store.state.auth.id}`,
             {
               completed: (this.projectStatus = false),
             }
@@ -521,11 +521,12 @@ export default {
           });
         console.log("Project State false");
       }
+      this.getProjectsData()
     },
 
     async deleteProject(projectID) {
       await axios
-        .delete(`${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}`)
+        .delete(`${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}?userId=${this.$store.state.auth.id}`)
         .then((response) => {
           (this.projects = response.data),
             this.getProjectsData(),

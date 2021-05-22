@@ -622,17 +622,24 @@ export default {
     //Update Project Information
     async updateProjectInfo(projectID) {
       await axios
-        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}`, {
+        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}?userId=${this.$store.state.auth.id}`, {
           title: this.updateProjectValidate.title,
           description: this.updateProjectValidate.description,
         })
-        .then(
+        .then(() => {
           this.closeUpdateProjDialog(),
+          this.getProject(),
           this.$notify({
             title: "Project Updated",
             type: "success",
           })
-        );
+        })
+        .catch(err => {
+          this.$notify({
+            title: "Project failed to update",
+            type: "error",
+          })
+        })
     },
     //Validate Project Input field
     validateProjectUpdate(formName, projectID) {
@@ -663,7 +670,7 @@ export default {
     async getProject() {
       await axios
         .get(
-          `${process.env.VUE_APP_BASE_URL_API}/api/projects/${this.$route.params.id}`
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/${this.$route.params.id}?userId=${this.$store.state.auth.id}`
         )
         .then((response) => {
           this.projectData = response.data;
@@ -702,7 +709,7 @@ export default {
     async deleteColumn(colID) {
       await axios
         .put(
-          `${process.env.VUE_APP_BASE_URL_API}/api/projects/deletecolumn/${colID}`
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/deletecolumn/${colID}?user=${this.$store.state.auth.id}&project=${this.projectData._id}`
         )
         .then((response) => {
           (this.tasks = response.data),
@@ -731,6 +738,7 @@ export default {
           `${process.env.VUE_APP_BASE_URL_API}/api/projects/addcolumn/${projectID}`,
           {
             col_name: this.col_nameValidateForm.col_name,
+            userId: this.$store.state.auth.id
           }
         )
         .then((response) => {
@@ -789,6 +797,7 @@ export default {
           {
             projectId: this.projectData._id,
             tasks: projectTasks,
+            userId: this.$store.state.auth.id
           }
         );
       }
@@ -798,6 +807,7 @@ export default {
           {
             projectId: this.projectData._id,
             tasks: projectTasks,
+            userId: this.$store.state.auth.id
           }
         );
       }
