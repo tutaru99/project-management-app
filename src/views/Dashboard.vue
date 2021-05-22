@@ -461,7 +461,8 @@ export default {
         .then((response) => {
           (this.invitedProjectsData = response.data),
             (this.fullscreenLoading = false);
-        });
+        })
+                .then(this.$emit("refreshData"));
     },
 
     async createProject() {

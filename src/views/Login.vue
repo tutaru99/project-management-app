@@ -34,9 +34,6 @@
         </div>
       </el-col>
     </el-row>
-    Use these <br />
-    email: nikoTestUser@nikosad.cdasda <br />
-    password: 123456
   </div>
 </template>
 
