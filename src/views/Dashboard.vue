@@ -462,7 +462,7 @@ export default {
           (this.invitedProjectsData = response.data),
             (this.fullscreenLoading = false);
         })
-                .then(this.$emit("refreshData"));
+        .then(this.$emit("refreshData"));
     },
 
     async createProject() {
@@ -522,12 +522,14 @@ export default {
           });
         console.log("Project State false");
       }
-      this.getProjectsData()
+      this.getProjectsData();
     },
 
     async deleteProject(projectID) {
       await axios
-        .delete(`${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}?userId=${this.$store.state.auth.id}`)
+        .delete(
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}?userId=${this.$store.state.auth.id}`
+        )
         .then((response) => {
           (this.projects = response.data),
             this.getProjectsData(),
@@ -547,8 +549,9 @@ export default {
         .post(`${process.env.VUE_APP_BASE_URL_API}/api/projects/remove-user`, {
           userEmail: email,
           projectId: projectId,
-          userMakingRequestId: this.$store.state.auth.id
-        }).then(() => {
+          userMakingRequestId: this.$store.state.auth.id,
+        })
+        .then(() => {
           this.$notify({
             title: "Left the Project",
             type: "error",
