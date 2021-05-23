@@ -537,7 +537,7 @@ export default {
             this.$notify({
               title: "Project Deleted",
               message: "Project has been deleted!",
-              type: "error",
+              type: "success",
             });
         })
         .then(this.$emit("refreshData"));
@@ -554,7 +554,7 @@ export default {
         .then(() => {
           this.$notify({
             title: "Left the Project",
-            type: "error",
+            type: "success",
           });
           this.getInvitedProjectsData();
         })

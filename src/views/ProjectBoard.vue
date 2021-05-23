@@ -716,7 +716,7 @@ export default {
             this.$notify({
               title: "List Removed",
               message: "List has been removed!",
-              type: "error",
+              type: "success",
             });
           this.getProject();
         });

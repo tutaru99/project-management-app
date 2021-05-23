@@ -318,7 +318,7 @@ export default {
           (this.tasks = response.data),
             this.$notify({
               title: "Task Removed",
-              type: "error",
+              type: "success",
             });
           this.close(), this.$emit("submit");
         });

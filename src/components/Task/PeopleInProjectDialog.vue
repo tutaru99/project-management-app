@@ -94,7 +94,7 @@ export default {
           this.$notify({
             title: "Member Removed",
             message: "Member has been removed from the project!",
-            type: "error",
+            type: "success",
           });
           this.$emit("removed");
           this.$emit("close");
