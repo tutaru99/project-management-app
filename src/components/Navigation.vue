@@ -46,9 +46,16 @@
       </el-menu-item-group>
       <!-- Projects User is part of/invited to (collab)-->
       <el-menu-item-group>
-        <template #title
-          ><span class="minititle">Shared Projects</span></template
-        >
+        <template #title >
+          <span class="minititle" 
+            v-if="invitedProjectsData.length"
+          >
+            Shared Projects
+          </span>
+          <p class="minititle" v-else>
+            No shared projects
+          </p>
+        </template>
         <router-link
           v-for="project in invitedProjectsData.slice().reverse()"
           :key="project.key"
