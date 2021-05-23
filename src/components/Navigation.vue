@@ -1,10 +1,6 @@
 <template>
-  <el-menu
-    default-active="2"
-    :collapse="true"
-    router
-  >
-  <!-- <el-row justify="center" align="middle" type="flex">
+  <el-menu default-active="2" :collapse="true" router>
+    <!-- <el-row justify="center" align="middle" type="flex">
     <el-radio-group
       id="arrow"
       :collapse="$store.commit('isCollapseState')"
@@ -33,8 +29,14 @@
       </template>
       <!-- Owned Projects -->
       <el-menu-item-group>
-        <template #title
-          ><span class="minititle">Personal Projects</span></template
+        <template #title>
+          <span class="minititle" v-if="projectsData.length">
+            Personal Projects
+          </span>
+                    <p class="minititle" v-else>
+            No Personal Projects
+          </p>
+        </template
         >
         <router-link
           v-for="project in projectsData.slice().reverse()"
@@ -46,14 +48,12 @@
       </el-menu-item-group>
       <!-- Projects User is part of/invited to (collab)-->
       <el-menu-item-group>
-        <template #title >
-          <span class="minititle" 
-            v-if="invitedProjectsData.length"
-          >
+        <template #title>
+          <span class="minititle" v-if="invitedProjectsData.length">
             Shared Projects
           </span>
           <p class="minititle" v-else>
-            No shared projects
+            No Shared Projects
           </p>
         </template>
         <router-link
