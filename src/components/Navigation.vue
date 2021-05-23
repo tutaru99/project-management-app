@@ -1,10 +1,10 @@
 <template>
   <el-menu
     default-active="2"
-    :collapse="$store.state.isCollapse"
+    :collapse="true"
     router
   >
-  <el-row justify="center" align="middle" type="flex">
+  <!-- <el-row justify="center" align="middle" type="flex">
     <el-radio-group
       id="arrow"
       :collapse="$store.commit('isCollapseState')"
@@ -20,7 +20,7 @@
         ><i class="el-icon-d-arrow-left"></i
       ></el-radio-button>
     </el-radio-group>
-  </el-row>
+  </el-row> -->
 
     <el-menu-item index="/">
       <i class="el-icon-menu"></i>
@@ -46,9 +46,16 @@
       </el-menu-item-group>
       <!-- Projects User is part of/invited to (collab)-->
       <el-menu-item-group>
-        <template #title
-          ><span class="minititle">Shared Projects</span></template
-        >
+        <template #title >
+          <span class="minititle" 
+            v-if="invitedProjectsData.length"
+          >
+            Shared Projects
+          </span>
+          <p class="minititle" v-else>
+            No shared projects
+          </p>
+        </template>
         <router-link
           v-for="project in invitedProjectsData.slice().reverse()"
           :key="project.key"

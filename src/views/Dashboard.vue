@@ -1,6 +1,19 @@
 <template>
   <div class="template">
-    <el-main>
+    <el-row
+      v-if="loading"
+      type="flex"
+      justify="center"
+      align="middle"
+      style="height: 95vh"
+    >
+      <breeding-rhombus-spinner
+        :animation-duration="2000"
+        :size="65"
+        color="#8112ea"
+      />
+    </el-row>
+    <el-main v-else>
       <el-affix position="top" target=".template" :offset="0.1">
         <el-row
           type="flex"
@@ -168,9 +181,9 @@
                       <p
                         v-if="
                           !isValidPassword() &&
-                            changePassValidate.oldPassword.length >= 1 &&
-                            changePassValidate.newPassword.length >= 1 &&
-                            changePassValidate.newPassword2.length >= 1
+                          changePassValidate.oldPassword.length >= 1 &&
+                          changePassValidate.newPassword.length >= 1 &&
+                          changePassValidate.newPassword2.length >= 1
                         "
                         id="passwordWarning"
                       >
@@ -230,7 +243,7 @@
                     >
                       <i
                         class="mdi mdi-trash-can-outline"
-                        style="color:white"
+                        style="color: white"
                       ></i>
                     </el-button>
                   </el-tooltip>
@@ -320,7 +333,7 @@
                     circle
                     @click="leaveProject($store.state.auth.email, project._id)"
                   >
-                    <i class="mdi mdi-logout" style="color:white"></i>
+                    <i class="mdi mdi-logout" style="color: white"></i>
                   </el-button>
                 </el-tooltip>
               </el-row>
@@ -388,16 +401,20 @@
 <script>
 // @ is an alias to /src
 import axios from "axios";
+import { BreedingRhombusSpinner } from 'epic-spinners';
 
 export default {
   name: "Dashboard",
-  components: {},
+  components: {
+    BreedingRhombusSpinner
+  },
   emits: ["refreshData"],
   data() {
     return {
       projectsData: [],
       invitedProjectsData: [],
       fullscreenLoading: true,
+      loading: false,
       isNewProjectDialog: false,
       changePassDialog: false,
       newProjectValidate: {
@@ -415,9 +432,13 @@ export default {
     };
   },
   mounted() {
-    this.getProjectsData();
-    this.getInvitedProjectsData();
-    this.projectStatus = this.projectsData.completed;
+    this.loading = true;
+    this.getProjectsData().then(() => {
+      this.getInvitedProjectsData().then(() => {
+        setTimeout(() => (this.loading = false), 1200);
+      });
+      this.projectStatus = this.projectsData.completed;
+    });
   },
 
   methods: {

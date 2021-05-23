@@ -1,7 +1,20 @@
 <template>
   <div class="template">
     <!-- v-if acts as a loader otherwise data doesnt show -->
-    <div class="board-layout" v-if="projectData" v-dragscroll.x>
+    <el-row
+      v-if="loading"
+      type="flex"
+      justify="center"
+      align="middle"
+      style="height: 95vh"
+    >
+      <breeding-rhombus-spinner
+        :animation-duration="2000"
+        :size="65"
+        color="#8112ea"
+      />
+    </el-row>
+    <div class="board-layout" v-else v-dragscroll.x>
       <div class="left" data-no-dragscroll>
         <div id="boardTitle" class="board-text ml-05" data-no-dragscroll>
           <el-row type="flex" align="middle" data-no-dragscroll>
@@ -197,7 +210,7 @@
                         >
                           <i
                             class="mdi mdi-pause-circle-outline"
-                            style="color:yellow"
+                            style="color: yellow"
                             data-no-dragscroll
                           ></i>
                         </el-tooltip>
@@ -216,7 +229,7 @@
                         >
                           <i
                             class="mdi mdi-progress-clock"
-                            style="color:white"
+                            style="color: white"
                             data-no-dragscroll
                           ></i>
                         </el-tooltip>
@@ -235,7 +248,7 @@
                         >
                           <i
                             class="mdi mdi-progress-check"
-                            style="color:green"
+                            style="color: green"
                             data-no-dragscroll
                           ></i>
                         </el-tooltip>
@@ -476,6 +489,7 @@ import EditColumnNameDialog from "@/components/Column/EditColumnNameDialog.vue";
 import TaskDetailsDialog from "@/components/Task/EditTaskDialog.vue";
 import DetailsTaskDialog from "@/components/Task/DetailsTaskDialog.vue";
 import PeopleInProjectDialog from "@/components/Task/PeopleInProjectDialog.vue";
+import { BreedingRhombusSpinner } from "epic-spinners";
 
 import draggable from "vuedraggable";
 
@@ -487,6 +501,7 @@ export default {
     DetailsTaskDialog,
     PeopleInProjectDialog,
     draggable,
+    BreedingRhombusSpinner,
   },
   data() {
     return {
@@ -501,6 +516,7 @@ export default {
       email: "",
 
       projectData: {},
+      loading: false,
       visible: false,
       taskid: "",
       taskModalDialog: false,
@@ -532,9 +548,11 @@ export default {
   },
 
   created() {
+    this.loading = true;
     this.getProject().then(() => {
       this.getOwner();
       this.userRole();
+      setTimeout(() => (this.loading = false), 2000);
     });
   },
 
@@ -622,24 +640,27 @@ export default {
     //Update Project Information
     async updateProjectInfo(projectID) {
       await axios
-        .put(`${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}?userId=${this.$store.state.auth.id}`, {
-          title: this.updateProjectValidate.title,
-          description: this.updateProjectValidate.description,
-        })
+        .put(
+          `${process.env.VUE_APP_BASE_URL_API}/api/projects/${projectID}?userId=${this.$store.state.auth.id}`,
+          {
+            title: this.updateProjectValidate.title,
+            description: this.updateProjectValidate.description,
+          }
+        )
         .then(() => {
           this.closeUpdateProjDialog(),
-          this.getProject(),
-          this.$notify({
-            title: "Project Updated",
-            type: "success",
-          })
+            this.getProject(),
+            this.$notify({
+              title: "Project Updated",
+              type: "success",
+            });
         })
-        .catch(err => {
+        .catch((err) => {
           this.$notify({
             title: "Project failed to update",
             type: "error",
-          })
-        })
+          });
+        });
     },
     //Validate Project Input field
     validateProjectUpdate(formName, projectID) {
@@ -652,10 +673,10 @@ export default {
       });
     },
 
-    usersAddedToTask: function(element) {
+    usersAddedToTask: function (element) {
       const arr = [];
       element.asignee.forEach((asignee) => {
-        const filteredArr = this.projectData.users.filter(function(user) {
+        const filteredArr = this.projectData.users.filter(function (user) {
           return user.id === asignee;
         });
         if (filteredArr.length) {
@@ -738,7 +759,7 @@ export default {
           `${process.env.VUE_APP_BASE_URL_API}/api/projects/addcolumn/${projectID}`,
           {
             col_name: this.col_nameValidateForm.col_name,
-            userId: this.$store.state.auth.id
+            userId: this.$store.state.auth.id,
           }
         )
         .then((response) => {
@@ -797,7 +818,7 @@ export default {
           {
             projectId: this.projectData._id,
             tasks: projectTasks,
-            userId: this.$store.state.auth.id
+            userId: this.$store.state.auth.id,
           }
         );
       }
@@ -807,7 +828,7 @@ export default {
           {
             projectId: this.projectData._id,
             tasks: projectTasks,
-            userId: this.$store.state.auth.id
+            userId: this.$store.state.auth.id,
           }
         );
       }
