@@ -734,7 +734,8 @@ export default {
 
 .template {
   height: 100vh;
-  background-color: #191a1f; /* move this later */
+  /* move this later */
+ /*  background-color: #191a1f; */
 
   .projTitle {
     font-size: 22px;

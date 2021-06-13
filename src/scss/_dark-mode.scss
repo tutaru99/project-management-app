@@ -2,7 +2,7 @@
 
 body {
     &.dark-mode {
-        background-color: lighten($dark, 5%);
+        background-color: $dark;
         .flex {
             h1 {
                 color: #fff;
