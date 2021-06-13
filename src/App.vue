@@ -69,6 +69,7 @@ export default {
 @import "src/scss/_variables.scss";
 @import "src/scss/_dark-mode.scss";
 @import "src/scss/_mode-toggle.scss";
+@import "src/scss/light-mode.scss";
 
 #app {
   font-family: "Montserrat", sans-serif;

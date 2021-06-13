@@ -1,5 +1,3 @@
-// _dark-mode.scss
-
 body {
     &.dark-mode {
         background-color: $dark;
@@ -7,6 +5,9 @@ body {
             h1 {
                 color: #fff;
             }
+        }
+        .el-row--flex.is-justify-center{
+             background-color: $dark !important; /* background */
         }
     }
 }

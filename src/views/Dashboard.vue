@@ -1,5 +1,5 @@
 <template>
-  <div class="template dark-mode">
+  <div class="template">
     <el-row
       v-if="loading"
       type="flex"
@@ -15,21 +15,18 @@
     </el-row>
     <el-main v-else>
       <el-affix position="top" target=".template" :offset="0.1">
-       
-
-       <!-- Dark Mode Slider -->
+        <!-- Dark Mode Slider -->
         <div class="flex">
-        <h1>Dark Mode toggle</h1>
-        <div class="mode-toggle" @click="modeToggle" :class="darkDark">
+          <h1>Dark Mode toggle</h1>
+          <div class="mode-toggle" @click="modeToggle" :class="darkDark">
             <div class="toggle">
-                <div id="dark-mode" type="checkbox"></div>
+              <div id="dark-mode" type="checkbox"></div>
             </div>
+          </div>
         </div>
-    </div>
-    <!-- end of the slider -->
+        <!-- end of the slider -->
 
-
-    <el-row
+        <el-row
           type="flex"
           align="middle"
           justify="space-around"
@@ -195,9 +192,9 @@
                       <p
                         v-if="
                           !isValidPassword() &&
-                          changePassValidate.oldPassword.length >= 1 &&
-                          changePassValidate.newPassword.length >= 1 &&
-                          changePassValidate.newPassword2.length >= 1
+                            changePassValidate.oldPassword.length >= 1 &&
+                            changePassValidate.newPassword.length >= 1 &&
+                            changePassValidate.newPassword2.length >= 1
                         "
                         id="passwordWarning"
                       >
@@ -415,12 +412,12 @@
 <script>
 // @ is an alias to /src
 import axios from "axios";
-import { BreedingRhombusSpinner } from 'epic-spinners';
+import { BreedingRhombusSpinner } from "epic-spinners";
 
 export default {
   name: "Dashboard",
   components: {
-    BreedingRhombusSpinner
+    BreedingRhombusSpinner,
   },
   emits: ["refreshData"],
   data() {
@@ -457,25 +454,31 @@ export default {
   },
 
   methods: {
-     dark() {
-            document.querySelector('body').classList.add('dark-mode')
-            this.darkMode = true
-            this.$emit('dark')
-        },
+    /* Theme toggle */
+    dark() {
+      document.querySelector("body").classList.add("dark-mode");
+      this.darkMode = true;
+      this.$emit("dark");
+    },
 
-        light() {
-            document.querySelector('body').classList.remove('dark-mode')
-            this.darkMode = false
-            this.$emit('light')
-        },
+    light() {
+      document.querySelector("body").classList.remove("dark-mode");
+      this.darkMode = false;
+      this.$emit("light");
+    },
 
-        modeToggle() {
-            if(this.darkMode || document.querySelector('body').classList.contains('dark-mode')) {
-                this.light()
-            } else {
-                this.dark()
-            }
-        },
+    modeToggle() {
+      if (
+        this.darkMode ||
+        document.querySelector("body").classList.contains("dark-mode")
+      ) {
+        this.light();
+      } else {
+        this.dark();
+      }
+    },
+
+    /* Task time counter */
     addTime(project) {
       let total = 0;
       project.columns.forEach((column) => {
@@ -722,20 +725,19 @@ export default {
       });
     },
   },
-   computed: {
-        darkDark() {
-            return this.darkMode && 'darkmode-toggled'
-        }
-    }
+  computed: {
+    darkDark() {
+      return this.darkMode && "darkmode-toggled";
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-
 .template {
   height: 100vh;
   /* move this later */
- /*  background-color: #191a1f; */
+  /*  background-color: #191a1f; */
 
   .projTitle {
     font-size: 22px;
@@ -765,7 +767,7 @@ export default {
   .projectsWrapper {
     border-radius: 4px;
     box-shadow: 0 0 2px #8112ea;
-    background-color: #121318;
+    background-color: #121318; /* cards */
     padding: 10px;
     margin: 10px;
 
@@ -822,7 +824,6 @@ export default {
 }
 .el-row--flex.is-justify-center {
   border-top: 1px solid #8112ea;
-  background-color: #191a1f !important;
 }
 .leaveProject {
   padding: 5px !important;
