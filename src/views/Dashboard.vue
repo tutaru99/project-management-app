@@ -1,5 +1,5 @@
 <template>
-  <div class="template">
+  <div class="template dark-mode">
     <el-row
       v-if="loading"
       type="flex"
@@ -15,7 +15,21 @@
     </el-row>
     <el-main v-else>
       <el-affix position="top" target=".template" :offset="0.1">
-        <el-row
+       
+
+       <!-- Dark Mode Slider -->
+        <div class="flex">
+        <h1>Dark Mode toggle</h1>
+        <div class="mode-toggle" @click="modeToggle" :class="darkDark">
+            <div class="toggle">
+                <div id="dark-mode" type="checkbox"></div>
+            </div>
+        </div>
+    </div>
+    <!-- end of the slider -->
+
+
+    <el-row
           type="flex"
           align="middle"
           justify="space-around"
@@ -411,6 +425,7 @@ export default {
   emits: ["refreshData"],
   data() {
     return {
+      darkMode: false,
       projectsData: [],
       invitedProjectsData: [],
       fullscreenLoading: true,
@@ -442,6 +457,25 @@ export default {
   },
 
   methods: {
+     dark() {
+            document.querySelector('body').classList.add('dark-mode')
+            this.darkMode = true
+            this.$emit('dark')
+        },
+
+        light() {
+            document.querySelector('body').classList.remove('dark-mode')
+            this.darkMode = false
+            this.$emit('light')
+        },
+
+        modeToggle() {
+            if(this.darkMode || document.querySelector('body').classList.contains('dark-mode')) {
+                this.light()
+            } else {
+                this.dark()
+            }
+        },
     addTime(project) {
       let total = 0;
       project.columns.forEach((column) => {
@@ -688,13 +722,19 @@ export default {
       });
     },
   },
+   computed: {
+        darkDark() {
+            return this.darkMode && 'darkmode-toggled'
+        }
+    }
 };
 </script>
 
 <style lang="scss" scoped>
+
 .template {
   height: 100vh;
-  background-color: #191a1f;
+  background-color: #191a1f; /* move this later */
 
   .projTitle {
     font-size: 22px;

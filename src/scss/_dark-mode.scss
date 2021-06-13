@@ -1,0 +1,12 @@
+// _dark-mode.scss
+
+body {
+    &.dark-mode {
+        background-color: lighten($dark, 5%);
+        .flex {
+            h1 {
+                color: #fff;
+            }
+        }
+    }
+}

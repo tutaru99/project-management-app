@@ -35,20 +35,28 @@ export default {
     this.refresh();
   },
   methods: {
+    /*
+     * User authorization check that is being called by
+     * emmit event - refreshData everytime user changes a route.
+     */
     async refresh() {
       if (
         !this.$cookies.get("jwt") &&
-        location.href.substring(location.href.lastIndexOf("/") + 1) !== "register"
+        location.href.substring(location.href.lastIndexOf("/") + 1) !==
+          "register"
       ) {
         this.$router.push("/login");
         axios.defaults.headers.common["Authorization"] = null;
       } else if (
         !this.$cookies.get("jwt") &&
-        location.href.substring(location.href.lastIndexOf("/") + 1) === "register"
+        location.href.substring(location.href.lastIndexOf("/") + 1) ===
+          "register"
       ) {
         axios.defaults.headers.common["Authorization"] = null;
       } else {
-        axios.defaults.headers.common["Authorization"] = `bearer ${this.$cookies.get("jwt")}`;
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `bearer ${this.$cookies.get("jwt")}`;
         await this.$refs.nav.getProjectsData();
         await this.$refs.nav.getInvitedProjectsData();
       }
@@ -59,6 +67,8 @@ export default {
 
 <style lang="scss">
 @import "src/scss/_variables.scss";
+@import "src/scss/_dark-mode.scss";
+@import "src/scss/_mode-toggle.scss";
 
 #app {
   font-family: "Montserrat", sans-serif;
