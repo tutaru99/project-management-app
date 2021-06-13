@@ -15,17 +15,6 @@
     </el-row>
     <el-main v-else>
       <el-affix position="top" target=".template" :offset="0.1">
-        <!-- Dark Mode Slider -->
-        <div class="flex">
-          <h1>Dark Mode toggle</h1>
-          <div class="mode-toggle" @click="modeToggle" :class="darkDark">
-            <div class="toggle">
-              <div id="dark-mode" type="checkbox"></div>
-            </div>
-          </div>
-        </div>
-        <!-- end of the slider -->
-
         <el-row
           type="flex"
           align="middle"
@@ -125,6 +114,7 @@
                     </el-dropdown-menu>
                   </template>
                 </el-dropdown>
+
                 <el-dialog
                   :before-close="closePassDialog"
                   v-model="changePassDialog"
@@ -220,6 +210,13 @@
                   </template>
                 </el-dialog>
               </div>
+              <!-- Dark Mode Slider -->
+              <div class="mt-03 ml-1 mode-toggle" @click="modeToggle" :class="darkDark">
+                <div class="toggle">
+                  <div id="dark-mode" type="checkbox"></div>
+                </div>
+              </div>
+              <!-- The End of the slider -->
             </el-row>
           </el-col>
         </el-row>
@@ -812,7 +809,9 @@ export default {
     color: white;
   }
 }
-
+.mt-03{
+margin-top: 6px;
+}
 .mt-1 {
   margin-top: 10px;
 }

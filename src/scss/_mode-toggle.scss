@@ -1,3 +1,18 @@
+/* Slider style */
+h1 {
+    transition: color .5s ease;
+}
+/* slider position */
+.flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+
 .mode-toggle {
     position: relative;
     //margin: auto .5rem .5rem auto;
