@@ -210,13 +210,17 @@
                   </template>
                 </el-dialog>
               </div>
-              <!-- Dark Mode Slider -->
-              <div class="mt-03 ml-1 mode-toggle" @click="modeToggle" :class="darkDark">
+              <!-- DarkMode Slider -->
+              <div
+                class="mt-03 ml-1 mode-toggle"
+                @click="modeToggle"
+                :class="darkDark"
+              >
                 <div class="toggle">
                   <div id="dark-mode" type="checkbox"></div>
                 </div>
               </div>
-              <!-- The End of the slider -->
+              <!-- End of the Slider -->
             </el-row>
           </el-col>
         </el-row>
@@ -451,19 +455,20 @@ export default {
   },
 
   methods: {
-    /* Theme toggle */
-    dark() {
-      document.querySelector("body").classList.add("dark-mode");
-      this.darkMode = true;
-      this.$emit("dark");
-    },
-
+    /* Theme toggler */
+    /* Change to Light theme + emmit */
     light() {
       document.querySelector("body").classList.remove("dark-mode");
       this.darkMode = false;
       this.$emit("light");
     },
-
+    /* Change to Dark theme + emmit */
+    dark() {
+      document.querySelector("body").classList.add("dark-mode");
+      this.darkMode = true;
+      this.$emit("dark");~
+    },
+    /* Toggler */
     modeToggle() {
       if (
         this.darkMode ||
@@ -809,8 +814,8 @@ export default {
     color: white;
   }
 }
-.mt-03{
-margin-top: 6px;
+.mt-03 {
+  margin-top: 6px;
 }
 .mt-1 {
   margin-top: 10px;
