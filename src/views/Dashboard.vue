@@ -221,7 +221,6 @@
                 </div>
               </div>
               <!-- End of the Slider -->
-              <p style="color: red">{{ darkMode }}</p>
             </el-row>
           </el-col>
         </el-row>
