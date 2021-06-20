@@ -13,5 +13,50 @@ body {
       color: $light !important;
       transition: background-color 0.3s ease, color 0.3s ease;
     }
+    .el-collapse {
+      border-top: red !important;
+
+      .el-collapse-item__header {
+        background-color: $dark-card-bg !important;
+        border: 1px solid $dark-card-bg !important;
+        color: $light !important;
+        font-weight: 600 !important;
+        letter-spacing: 1px;
+      }
+      .el-collapse-item__wrap {
+        background-color: $dark-card-bg !important;
+        border-bottom: 1px solid $dark-card-bg !important;
+      }
+    }
+    .projectsWrapper {
+      border-radius: 4px;
+      box-shadow: 0 0 2px #8112ea;
+      background-color: $dark-card-bg; /* cards */
+      padding: 10px;
+      margin: 10px;
+
+      #linkProject {
+        font-size: 16px;
+      }
+      #completed {
+        color: #39ff14;
+        font-weight: 600;
+      }
+      #inProgress {
+        color: yellow;
+        font-weight: 600;
+      }
+      #projCompleted {
+        color: #d0cae5;
+      }
+      #dateCreated {
+        font-size: 13px;
+        color: #d0cae5;
+      }
+      .users {
+        padding-left: 7px;
+        color: $light;
+      }
+    }
   }
 }

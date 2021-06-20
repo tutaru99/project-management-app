@@ -6,4 +6,34 @@ body {
     color: $dark !important;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
+  .projectsWrapper {
+    border-radius: 4px;
+    box-shadow: 0 0 2px #8112ea;
+    background-color: $light; /* cards */
+    padding: 10px;
+    margin: 10px;
+
+    #linkProject {
+      font-size: 16px;
+    }
+    #completed {
+      color: #39ff14;
+      font-weight: 600;
+    }
+    #inProgress {
+      color: yellow;
+      font-weight: 600;
+    }
+    #projCompleted {
+      color: #d0cae5;
+    }
+    #dateCreated {
+      font-size: 13px;
+      color: #d0cae5;
+    }
+    .users {
+      padding-left: 7px;
+      color: $dark;
+    }
+  }
 }

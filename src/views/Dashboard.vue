@@ -776,36 +776,6 @@ export default {
     cursor: context-menu;
     font-weight: 500;
   }
-  .projectsWrapper {
-    border-radius: 4px;
-    box-shadow: 0 0 2px #8112ea;
-    background-color: #121318; /* cards */
-    padding: 10px;
-    margin: 10px;
-
-    #linkProject {
-      font-size: 16px;
-    }
-    #completed {
-      color: #39ff14;
-      font-weight: 600;
-    }
-    #inProgress {
-      color: yellow;
-      font-weight: 600;
-    }
-    #projCompleted {
-      color: #d0cae5;
-    }
-    #dateCreated {
-      font-size: 13px;
-      color: #d0cae5;
-    }
-    .users {
-      padding-left: 7px;
-      color: white;
-    }
-  }
 
   .moreDropdown {
     background-color: #121318 !important;
