@@ -231,7 +231,7 @@
             <h3 class="projTitle ml-1 mt-5" v-if="projectsData.length">
               Personal Projects
             </h3>
-            <h3 class="ml-1 mt-5" v-else>No Projects Created..</h3>
+            <h3 class="projTitle ml-1 mt-5" v-else>No Projects Created..</h3>
             <!-- Project Loop -->
             <div
               v-for="project in projectsData.slice().reverse()"
@@ -324,7 +324,7 @@
           <h3 class="projTitle ml-1 mt-5" v-if="invitedProjectsData.length">
             Shared Projects
           </h3>
-          <h3 class="ml-1 mt-5" v-else>No Shared Projects Added..</h3>
+          <h3 class="projTitle ml-1 mt-5" v-else>No Shared Projects Added..</h3>
           <div
             v-for="project in invitedProjectsData.slice().reverse()"
             :key="project.key"

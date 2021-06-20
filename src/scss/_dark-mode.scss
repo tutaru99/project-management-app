@@ -1,13 +1,17 @@
 body {
-    &.dark-mode {
-        background-color: $dark;
-        .flex {
-            h1 {
-                color: #fff;
-            }
-        }
-        .el-row--flex.is-justify-center{
-             background-color: $dark !important; /* background */
-        }
+  &.dark-mode {
+    background-color: $dark;
+    .flex {
+      h1 {
+        color: #fff;
+      }
     }
+    .el-row--flex.is-justify-center {
+      background-color: $dark !important; /* background */
+    }
+    .projTitle {
+      color: $light !important;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+  }
 }
