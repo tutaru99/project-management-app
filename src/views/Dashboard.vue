@@ -221,6 +221,7 @@
                 </div>
               </div>
               <!-- End of the Slider -->
+              <p style="color: red">{{ darkMode }}</p>
             </el-row>
           </el-col>
         </el-row>
@@ -423,7 +424,7 @@ export default {
   emits: ["refreshData"],
   data() {
     return {
-      darkMode: false,
+      darkMode: this.$store.state.darkMode,
       projectsData: [],
       invitedProjectsData: [],
       fullscreenLoading: true,
@@ -454,6 +455,15 @@ export default {
     });
   },
 
+  beforeMount() {
+    /* checks whether dark or light theme is selected by the user */
+    if (this.$store.state.darkMode === false) {
+      this.light();
+    } else {
+      this.dark();
+    }
+  },
+
   methods: {
     /* Theme toggler */
     /* Change to Light theme + emmit */
@@ -466,10 +476,11 @@ export default {
     dark() {
       document.querySelector("body").classList.add("dark-mode");
       this.darkMode = true;
-      this.$emit("dark");~
+      this.$emit("dark");
     },
     /* Toggler */
     modeToggle() {
+      this.$store.commit("isDarkMode");
       if (
         this.darkMode ||
         document.querySelector("body").classList.contains("dark-mode")

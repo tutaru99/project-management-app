@@ -7,6 +7,7 @@ const vuexLocal = new VuexPersistence({
 
 export default createStore({
   state: {
+    darkMode: true,
     isCollapse: false,
     auth: {
       id: null
@@ -15,6 +16,9 @@ export default createStore({
   mutations: {
     isCollapseState() {
       this.isCollapse = !this.isCollapse
+    },
+    isDarkMode(state) {
+      state.darkMode = !state.darkMode;
     },
     logIn(state, payload){
       state.auth = payload
