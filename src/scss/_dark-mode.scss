@@ -57,6 +57,62 @@ body {
         padding-left: 7px;
         color: $light;
       }
+      p {
+        color: #d0cae5;
+        letter-spacing: 0.3px;
+        font-weight: 500;
+        word-break: break-all;
+      }
+      .textTitle {
+        color: #d0cae5;
+      }
+      .el-row--flex.is-align-middle {
+        background-color: #191a1f;
+      }
+      .mdi {
+        color: $light !important;
+      }
+    }
+    /* Project Board scss */
+    #boardTitle {
+      color: $light;
+    }
+    #bodyBoard {
+      background-color: #191a1f !important;
+    }
+    .board-layout {
+      background-color: #191a1f !important;
+      #totalTaskTime {
+        color: white;
+      }
+    }
+    .card {
+      background-color: #191a1f !important;
+      #taskName {
+        color: $light;
+      }
+    }
+    .list-title {
+      background-color: #121318;
+      .columnName {
+        color: #d0cae5;
+      }
+    }
+    * {
+      /* ScrollBar */
+      /* Firefox */
+      scrollbar-width: thin;
+      scrollbar-color: #d0cae5 #191a1f;
+      /* Chrome, Edge, and Safari */
+      *::-webkit-scrollbar {
+        height: 10px;
+        width: 10px;
+      }
+
+      *::-webkit-scrollbar-thumb {
+        background-color: #d0cae5;
+        border-radius: 20px;
+      }
     }
   }
 }

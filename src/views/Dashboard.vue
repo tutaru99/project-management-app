@@ -469,13 +469,11 @@ export default {
     light() {
       document.querySelector("body").classList.remove("dark-mode");
       this.darkMode = false;
-      this.$emit("light");
     },
     /* Change to Dark theme + emmit */
     dark() {
       document.querySelector("body").classList.add("dark-mode");
       this.darkMode = true;
-      this.$emit("dark");
     },
     /* Toggler */
     modeToggle() {
@@ -748,8 +746,6 @@ export default {
 <style lang="scss" scoped>
 .template {
   height: 100vh;
-  /* move this later */
-  /*  background-color: #191a1f; */
 
   .projTitle {
     font-size: 22px;
@@ -765,9 +761,6 @@ export default {
     }
   }
 
-  .el-row--flex.is-align-middle {
-    background-color: #191a1f;
-  }
   .el-avatar {
     background: #8112ea;
     width: 35px;
@@ -781,15 +774,7 @@ export default {
     background-color: #121318 !important;
     border: none;
   }
-  p {
-    color: #d0cae5;
-    letter-spacing: 0.3px;
-    font-weight: 500;
-    word-break: break-all;
-  }
-  .textTitle {
-    color: #d0cae5;
-  }
+
   h3 {
     color: white;
   }

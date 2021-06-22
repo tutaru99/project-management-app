@@ -1,10 +1,20 @@
 body {
+  /* Dashboard scss */
   background-color: $light;
   color: $dark;
   transition: background-color 0.3s ease, color 0.3s ease;
   .projTitle {
     color: $dark !important;
     transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .el-collapse {
+    border-top: red !important;
+
+    .el-collapse-item__header {
+      color: $dark !important;
+      font-weight: 600 !important;
+      letter-spacing: 1px;
+    }
   }
   .projectsWrapper {
     border-radius: 4px;
@@ -21,19 +31,75 @@ body {
       font-weight: 600;
     }
     #inProgress {
-      color: yellow;
+      color: rgb(204, 204, 0);
       font-weight: 600;
     }
     #projCompleted {
-      color: #d0cae5;
+      color: $dark;
     }
     #dateCreated {
       font-size: 13px;
-      color: #d0cae5;
+      color: $dark;
     }
     .users {
       padding-left: 7px;
       color: $dark;
+    }
+    p {
+      color: $dark;
+      letter-spacing: 0.3px;
+      font-weight: 500;
+      word-break: break-all;
+    }
+    .textTitle {
+      color: $dark;
+    }
+    #loaderContainer {
+      background-color: $light !important;
+    }
+    .mdi {
+      color: $dark !important;
+    }
+  }
+  /* Project Board scss */
+  #boardTitle {
+    color: $dark;
+  }
+  #bodyBoard {
+    background-color: $board-bg-light !important;
+  }
+  .board-layout {
+    background-color: $board-bg-light !important;
+    #totalTaskTime {
+      color: $dark;
+    }
+  }
+  .card {
+    background-color: lighten($dark, 70) !important;
+    #taskName {
+      color: $dark;
+    }
+  }
+  .list-title {
+    background-color: $light;
+    .columnName {
+      color: $dark;
+    }
+  }
+  * {
+    /* ScrollBar */
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #d0cae5 #191a1f;
+    /* Chrome, Edge, and Safari */
+    *::-webkit-scrollbar {
+      height: 10px;
+      width: 10px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background-color: #d0cae5;
+      border-radius: 20px;
     }
   }
 }

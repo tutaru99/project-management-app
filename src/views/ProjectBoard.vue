@@ -1,5 +1,5 @@
 <template>
-  <div class="template">
+  <div class="template" id="bodyBoard">
     <!-- v-if acts as a loader otherwise data doesnt show -->
     <el-row
       v-if="loading"
@@ -546,7 +546,14 @@ export default {
       ownerObj: null,
     };
   },
-
+  beforeMount() {
+    /* checks whether dark or light theme is selected by the user */
+    if (this.$store.state.darkMode === false) {
+      this.light();
+    } else {
+      this.dark();
+    }
+  },
   created() {
     this.loading = true;
     this.getProject().then(() => {
@@ -617,6 +624,14 @@ export default {
   },
 
   methods: {
+    /* Change to Light theme + emmit */
+    light() {
+      document.querySelector("body").classList.remove("dark-mode");
+    },
+    /* Change to Dark theme + emmit */
+    dark() {
+      document.querySelector("body").classList.add("dark-mode");
+    },
     getOwner() {
       axios
         .post(`${process.env.VUE_APP_BASE_URL_API}/api/user/info`, [
@@ -673,10 +688,10 @@ export default {
       });
     },
 
-    usersAddedToTask: function (element) {
+    usersAddedToTask: function(element) {
       const arr = [];
       element.asignee.forEach((asignee) => {
-        const filteredArr = this.projectData.users.filter(function (user) {
+        const filteredArr = this.projectData.users.filter(function(user) {
           return user.id === asignee;
         });
         if (filteredArr.length) {
@@ -935,14 +950,12 @@ export default {
   height: 100vh;
   background-color: #191a1f;
   #boardTitle {
-    color: #fff;
     padding: 0 0 5px 0;
   }
 }
 
 .board-layout {
   height: 97vh;
-  background-color: #191a1f;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 15px;
   display: grid;
@@ -952,7 +965,6 @@ export default {
   overflow-y: auto !important;
 
   #totalTaskTime {
-    color: white;
     font-weight: 600;
   }
   .board-text {
@@ -987,7 +999,6 @@ export default {
 }
 
 .card {
-  background-color: #121318;
   border-radius: 7px;
   box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
   padding: 10px;
@@ -996,7 +1007,6 @@ export default {
   #taskName {
     font-size: 14px;
     font-weight: 600;
-    color: #d0cae5;
     word-break: break-all;
   }
   .flag {
@@ -1031,7 +1041,6 @@ export default {
   }
   .list-title {
     padding: 10px 10px !important;
-    background-color: #121318;
     border-radius: 3px;
     border-top: 1px solid #8112ea;
     box-shadow: 0 1px 3px #8112ea;
@@ -1047,9 +1056,6 @@ export default {
 
     .hide {
       display: none;
-    }
-    .columnName {
-      color: #d0cae5;
     }
     .delete {
       position: -webkit-sticky; /* Safari */
@@ -1069,23 +1075,5 @@ ul li:nth-child(n + 2) {
 .addNewTask {
   width: 100%;
   margin-bottom: 7px;
-}
-* {
-  /* ScrollBar */
-  /* Firefox */
-  scrollbar-width: thin;
-  scrollbar-color: #d0cae5 #191a1f;
-  /* Chrome, Edge, and Safari */
-  *::-webkit-scrollbar {
-    width: 12px;
-  }
-  *::-webkit-scrollbar-track {
-    background: #191a1f;
-  }
-  *::-webkit-scrollbar-thumb {
-    background-color: #d0cae5;
-    border-radius: 20px;
-    border: 5px solid #191a1f;
-  }
 }
 </style>
