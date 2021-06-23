@@ -226,185 +226,200 @@
         </el-row>
       </el-affix>
       <el-row type="flex" justify="center">
-        <el-col :sm="24" :md="8">
-          <div>
-            <h3 class="projTitle ml-1 mt-5" v-if="projectsData.length">
-              Personal Projects
-            </h3>
-            <h3 class="projTitle ml-1 mt-5" v-else>No Projects Created..</h3>
-            <!-- Project Loop -->
-            <div
-              v-for="project in projectsData.slice().reverse()"
-              :key="project.key"
-            >
-              <div class="projectsWrapper">
-                <el-row type="flex" justify="space-between">
-                  <h3 class="textTitle">{{ project.title }}</h3>
-                  <el-tooltip
-                    class="item"
-                    effect="dark"
-                    content="Delete Project"
-                    placement="top"
-                  >
-                    <el-button
-                      class="leaveProject"
-                      type="primary"
-                      size="mini"
-                      @click="deleteProject(project._id)"
-                      circle
+        <el-row>
+      <h3 class="projTitle ml-1 mt-5" v-if="projectsData.length">
+        Personal Projects ( {{ projectsData.length }} )
+      </h3>
+      <h3 class="projTitle ml-1 mt-5" v-else>No Projects Created..</h3>
+          <el-col :sm="24" :md="24">
+            <div class="ownProjects">
+              <!-- Project Loop -->
+              <div
+                v-for="project in projectsData.slice().reverse()"
+                :key="project.key"
+              >
+                <div class="projectsWrapper ownProjectContainer">
+                  <el-row type="flex" justify="space-between">
+                    <h3 class="textTitle">{{ project.title }}</h3>
+                    <el-tooltip
+                      class="item"
+                      effect="dark"
+                      content="Delete Project"
+                      placement="top"
                     >
-                      <i
-                        class="mdi mdi-trash-can-outline"
-                        style="color: white"
-                      ></i>
-                    </el-button>
-                  </el-tooltip>
-                </el-row>
-                <p id="completed" v-if="project.completed == true">
-                  <span id="projCompleted">Project is set as</span> Completed
-                </p>
-                <p id="inProgress" v-else>
-                  <span id="projCompleted">Project is set as</span> Ongoing
-                </p>
-                <el-row>
-                  <el-col :span="24">
-                    <el-collapse>
-                      <el-collapse-item title="Project Details">
-                        <p>{{ project.description }}</p>
-                        <p class="mt-1">
-                          Total time assigned to tasks:
-                          <span class="bold"> {{ addTime(project) }} </span>
-                        </p>
-                        <el-row type="flex">
-                          <p v-if="project.users.length">
-                            Users part of the project:
+                      <el-button
+                        class="leaveProject"
+                        type="primary"
+                        size="mini"
+                        @click="deleteProject(project._id)"
+                        circle
+                      >
+                        <i
+                          class="mdi mdi-trash-can-outline"
+                          style="color: white"
+                        ></i>
+                      </el-button>
+                    </el-tooltip>
+                  </el-row>
+                  <p id="completed" v-if="project.completed == true">
+                    Completed
+                  </p>
+                  <p id="inProgress" v-else>
+                    Ongoing
+                  </p>
+                  <el-row>
+                    <el-col :span="24">
+                      <el-collapse>
+                        <el-collapse-item title="Project Details">
+                          <p>{{ project.description }}</p>
+                          <p class="mt-1">
+                            Time assigned to tasks:
+                            <span class="bold"> {{ addTime(project) }} </span>
                           </p>
-                          <div
-                            v-for="user in project.users.slice().reverse()"
-                            :key="user.key"
-                          >
-                            <b class="users">
-                              <i class="el-icon-user"></i>
-                              {{ user.username + "\u00A0" }}</b
+                          <el-row type="flex" align="middle">
+                            <p v-if="project.users.length">
+                              <el-tag size="medium"
+                                >Members ( {{ project.users.length }} )
+                              </el-tag>
+                            </p>
+                            <div
+                              v-for="user in project.users.slice().reverse()"
+                              :key="user.key"
                             >
-                          </div>
-                        </el-row>
-                        <p class="bold mt-1">Project Status</p>
-                        <el-switch
-                          active-color="#13ce66"
-                          inactive-color="#8112EA"
-                          v-model="project.completed"
-                          active-text="Completed"
-                          inactive-text="Ongoing"
-                          @click="projectState(project._id, project.completed)"
-                        >
-                        </el-switch>
-                      </el-collapse-item>
-                    </el-collapse>
-                  </el-col>
-                </el-row>
-                <el-row type="flex" justify="end">
-                  <router-link :to="{ path: '/projectboard/' + project._id }"
-                    ><el-button class="mt-1" id="linkProject" type="primary"
-                      >Open Project</el-button
-                    ></router-link
-                  >
-                </el-row>
-                <el-row type="flex" justify="end">
-                  <span id="dateCreated"
-                    >Created: {{ project.createdAt.split("T").shift() }}</span
-                  >
-                </el-row>
-                <el-row> </el-row>
+                              <b class="users">
+                                <i class="el-icon-user"></i>
+                                {{ user.username + "\u00A0" }}</b
+                              >
+                            </div>
+                          </el-row>
+                          <p class="bold mt-1">Project Status</p>
+                          <el-switch
+                            active-color="#13ce66"
+                            inactive-color="#8112EA"
+                            v-model="project.completed"
+                            active-text="Completed"
+                            inactive-text="Ongoing"
+                            @click="
+                              projectState(project._id, project.completed)
+                            "
+                          >
+                          </el-switch>
+                        </el-collapse-item>
+                      </el-collapse>
+                    </el-col>
+                  </el-row>
+                  <el-row type="flex" justify="end">
+                    <router-link :to="{ path: '/projectboard/' + project._id }"
+                      ><el-button class="mt-1" id="linkProject" type="primary"
+                        >Open Project</el-button
+                      ></router-link
+                    >
+                  </el-row>
+                  <el-row type="flex" justify="end">
+                    <span id="dateCreated"
+                      >Created: {{ project.createdAt.split("T").shift() }}</span
+                    >
+                  </el-row>
+                </div>
               </div>
             </div>
-          </div>
-        </el-col>
-        <el-col :sm="24" :md="8" :offset="1">
-          <h3 class="projTitle ml-1 mt-5" v-if="invitedProjectsData.length">
-            Shared Projects
-          </h3>
-          <h3 class="projTitle ml-1 mt-5" v-else>No Shared Projects Added..</h3>
-          <div
-            v-for="project in invitedProjectsData.slice().reverse()"
-            :key="project.key"
-          >
-            <div class="projectsWrapper">
-              <el-row type="flex" justify="space-between">
-                <h3 class="textTitle">{{ project.title }}</h3>
-                <el-tooltip
-                  class="item"
-                  effect="dark"
-                  content="Leave Project"
-                  placement="top"
-                >
-                  <el-button
-                    class="leaveProject"
-                    type="primary"
-                    size="mini"
-                    circle
-                    @click="leaveProject($store.state.auth.email, project._id)"
-                  >
-                    <i class="mdi mdi-logout" style="color: white"></i>
-                  </el-button>
-                </el-tooltip>
-              </el-row>
-              <p id="completed" v-if="project.completed == true">
-                <span id="projCompleted">Project is set as</span> Completed
-              </p>
-              <p id="inProgress" v-else>
-                <span id="projCompleted">Project is set as</span> Ongoing
-              </p>
-              <el-row>
-                <el-col :span="24">
-                  <el-collapse>
-                    <el-collapse-item title="Project Details">
-                      <p>{{ project.description }}</p>
-                      <p class="mt-1">
-                        Total time assigned to tasks:
-                        <span class="bold"> {{ addTime(project) }} </span>
-                      </p>
-                      <el-row type="flex">
-                        <p>Users part of the project:</p>
-                        <div
-                          v-for="user in project.users.slice().reverse()"
-                          :key="user.key"
-                        >
-                          <b class="users"
-                            ><i class="el-icon-user"></i>
-                            {{ user.username + "\u00A0" }}</b
-                          >
-                        </div>
-                      </el-row>
-                      <p class="bold mt-1">Project Status</p>
-                      <el-switch
-                        active-color="#13ce66"
-                        inactive-color="#8112EA"
-                        v-model="project.completed"
-                        active-text="Completed"
-                        inactive-text="Ongoing"
-                        @click="projectState(project._id, project.completed)"
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :sm="24" :md="24">
+            <h3 class="projTitle ml-1 mt-5" v-if="invitedProjectsData.length">
+              Shared Projects ( {{ invitedProjectsData.length }} )
+            </h3>
+            <h3 class="projTitle ml-1 mt-5" v-else>
+              No Shared Projects Added..
+            </h3>
+            <div class="ownProjects">
+              <div
+                v-for="project in invitedProjectsData.slice().reverse()"
+                :key="project.key"
+              >
+                <div class="projectsWrapper ownProjectContainer">
+                  <el-row type="flex" justify="space-between">
+                    <h3 class="textTitle">{{ project.title }}</h3>
+                    <el-tooltip
+                      class="item"
+                      effect="dark"
+                      content="Leave Project"
+                      placement="top"
+                    >
+                      <el-button
+                        class="leaveProject"
+                        type="primary"
+                        size="mini"
+                        circle
+                        @click="
+                          leaveProject($store.state.auth.email, project._id)
+                        "
                       >
-                      </el-switch>
-                    </el-collapse-item>
-                  </el-collapse>
-                </el-col>
-              </el-row>
-              <el-row type="flex" justify="end">
-                <router-link :to="{ path: '/projectboard/' + project._id }"
-                  ><el-button class="mt-1" id="linkProject" type="primary"
-                    >Open Project</el-button
-                  ></router-link
-                >
-              </el-row>
-              <el-row type="flex" justify="end">
-                <span id="dateCreated"
-                  >Created: {{ project.createdAt.split("T").shift() }}</span
-                >
-              </el-row>
+                        <i class="mdi mdi-logout" style="color: white"></i>
+                      </el-button>
+                    </el-tooltip>
+                  </el-row>
+                  <p id="completed" v-if="project.completed == true">
+                    Completed
+                  </p>
+                  <p id="inProgress" v-else>
+                    Ongoing
+                  </p>
+                  <el-row>
+                    <el-col :span="24">
+                      <el-collapse>
+                        <el-collapse-item title="Project Details">
+                          <p>{{ project.description }}</p>
+                          <p class="mt-1">
+                            Total time assigned to tasks:
+                            <span class="bold"> {{ addTime(project) }} </span>
+                          </p>
+                          <el-row type="flex">
+                            <p>Users part of the project:</p>
+                            <div
+                              v-for="user in project.users.slice().reverse()"
+                              :key="user.key"
+                            >
+                              <b class="users"
+                                ><i class="el-icon-user"></i>
+                                {{ user.username + "\u00A0" }}</b
+                              >
+                            </div>
+                          </el-row>
+                          <p class="bold mt-1">Project Status</p>
+                          <el-switch
+                            active-color="#13ce66"
+                            inactive-color="#8112EA"
+                            v-model="project.completed"
+                            active-text="Completed"
+                            inactive-text="Ongoing"
+                            @click="
+                              projectState(project._id, project.completed)
+                            "
+                          >
+                          </el-switch>
+                        </el-collapse-item>
+                      </el-collapse>
+                    </el-col>
+                  </el-row>
+                  <el-row type="flex" justify="end">
+                    <router-link :to="{ path: '/projectboard/' + project._id }"
+                      ><el-button class="mt-1" id="linkProject" type="primary"
+                        >Open Project</el-button
+                      ></router-link
+                    >
+                  </el-row>
+                  <el-row type="flex" justify="end">
+                    <span id="dateCreated"
+                      >Created: {{ project.createdAt.split("T").shift() }}</span
+                    >
+                  </el-row>
+                </div>
+              </div>
             </div>
-          </div>
-        </el-col>
+          </el-col>
+        </el-row>
       </el-row>
     </el-main>
   </div>
@@ -798,5 +813,13 @@ export default {
   padding: 5px !important;
   background-color: #8212ea00;
   border: none;
+}
+.ownProjects {
+  display: flex;
+  flex-wrap: wrap;
+}
+.ownProjectContainer {
+  width: 570px;
+  min-height: 170px;
 }
 </style>
