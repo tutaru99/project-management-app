@@ -325,6 +325,7 @@
             </div>
           </el-col>
         </el-row>
+          <!-- Shared Projects -->
         <el-row>
           <el-col :sm="24" :md="24">
             <h3 class="projTitle ml-1 mt-5" v-if="invitedProjectsData.length">
