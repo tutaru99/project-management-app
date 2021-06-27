@@ -227,10 +227,11 @@
       </el-affix>
       <el-row type="flex" justify="center">
         <el-row>
-      <h3 class="projTitle ml-1 mt-5" v-if="projectsData.length">
-        Personal Projects ( {{ projectsData.length }} )
-      </h3>
-      <h3 class="projTitle ml-1 mt-5" v-else>No Projects Created..</h3>
+          <h3 class="projTitle ml-1 mt-5" v-if="projectsData.length">
+            Personal Projects ( {{ projectsData.length }} )
+          </h3>
+          <h3 class="projTitle ml-1 mt-5" v-else>No Projects Created..</h3>
+          </el-row>
           <el-col :sm="24" :md="24">
             <div class="ownProjects">
               <!-- Project Loop -->
@@ -324,8 +325,7 @@
               </div>
             </div>
           </el-col>
-        </el-row>
-          <!-- Shared Projects -->
+        <!-- Shared Projects -->
         <el-row>
           <el-col :sm="24" :md="24">
             <h3 class="projTitle ml-1 mt-5" v-if="invitedProjectsData.length">
@@ -377,7 +377,11 @@
                             <span class="bold"> {{ addTime(project) }} </span>
                           </p>
                           <el-row type="flex">
-                            <p>Users part of the project:</p>
+                            <p v-if="project.users.length">
+                              <el-tag size="medium"
+                                >Members ( {{ project.users.length }} )
+                              </el-tag>
+                            </p>
                             <div
                               v-for="user in project.users.slice().reverse()"
                               :key="user.key"
